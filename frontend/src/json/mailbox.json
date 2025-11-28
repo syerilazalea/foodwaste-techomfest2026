@@ -1,6 +1,5 @@
 {
-    "inbox": [
-        {
+    "inbox": [{
             "id": 1,
             "from": "Olli Hawkins",
             "title": "Recent Project Update",
@@ -10,15 +9,12 @@
             "starred": true,
             "important": true,
             "unread": true,
-            "tags": [
-                {
-                    "title": "Project",
-                    "badge": "bg-outline-primary",
-                    "text": "text-primary"
-                }
-            ],
-            "emails": [
-                {
+            "tags": [{
+                "title": "Project",
+                "badge": "bg-outline-primary",
+                "text": "text-primary"
+            }],
+            "emails": [{
                     "name": "Joisse Kaycee",
                     "address": "joissekaycee@gmail.com",
                     "thumb": "img/profile/profile-1.webp",
@@ -69,16 +65,20 @@
                     "thumb": "img/profile/profile-5.webp",
                     "date": "25 Nov 2020",
                     "time": "22:45",
-                    "attachments": [
-                        {
+                    "attachments": [{
                             "title": "cake.webp",
                             "size": "346 KB",
-                            "source": "img/product/small/product-1.webp"
+                            "source": "" {
+                                { asset('img/product/small/product-1.webp') }
+                            }
+                            ""
                         },
                         {
                             "title": "bread.webp",
                             "size": "511 KB",
-                            "source": "img/product/small/product-2.webp"
+                            "source": "" {
+                                { asset('img/product/small/product-2.webp') } }
+                            ""
                         }
                     ],
                     "content": "Hey Joisse, <br/><br/>Marzipan pudding danish gummies. Dragée liquorice jelly beans jelly jelly sesame snaps brownie. Liquorice gummi bears cake donut chocolate lollipop gummi bears. <br/><br/>Best Regards, <br/>Olli Hawkins"
@@ -95,15 +95,12 @@
             "starred": true,
             "important": false,
             "unread": true,
-            "tags": [
-                {
-                    "title": "Personal",
-                    "badge": "bg-outline-warning",
-                    "text": "text-warning"
-                }
-            ],
-            "emails": [
-                {
+            "tags": [{
+                "title": "Personal",
+                "badge": "bg-outline-warning",
+                "text": "text-warning"
+            }],
+            "emails": [{
                     "name": "Winry Rockbell",
                     "address": "winryrockbell@gmail.com",
                     "thumb": "img/profile/profile-3.webp",
@@ -142,24 +139,20 @@
             "starred": false,
             "important": false,
             "unread": false,
-            "tags": [
-                {
-                    "title": "Urgent",
-                    "badge": "bg-outline-danger",
-                    "text": "text-danger"
-                }
-            ],
-            "emails": [
-                {
-                    "name": "Cherish Kerr",
-                    "address": "cherishkerr@aol.com",
-                    "thumb": "img/profile/profile-4.webp",
-                    "date": "22 Nov 2020",
-                    "time": "10:05",
-                    "attachments": [],
-                    "content": "Hi Joisse, <br/><br/>Sweet roll chupa chups marshmallow muffin liquorice chupa chups soufflé bonbon. Liquorice gummi bears cake donut chocolate lollipop gummi bears. Cotton candy cupcake ice cream gummies dessert muffin chocolate jelly. Danish brownie chocolate bar lollipop cookie tootsie roll candy canes. Jujubes lollipop cheesecake gummi bears cheesecake. Cake jujubes soufflé. <br/><br/> Cake chocolate bar biscuit sweet roll liquorice jelly jujubes. Gingerbread icing macaroon bear claw jelly toffee. Chocolate cake marshmallow muffin wafer. Pastry cake tart apple pie bear claw sweet. Apple pie macaroon sesame snaps cotton candy jelly pudding lollipop caramels marshmallow. Powder halvah dessert ice cream. Carrot cake gingerbread chocolate cake tootsie roll.<br/><br/>Kind Regards, <br/>Cherish Kerr"
-                }
-            ]
+            "tags": [{
+                "title": "Urgent",
+                "badge": "bg-outline-danger",
+                "text": "text-danger"
+            }],
+            "emails": [{
+                "name": "Cherish Kerr",
+                "address": "cherishkerr@aol.com",
+                "thumb": "img/profile/profile-4.webp",
+                "date": "22 Nov 2020",
+                "time": "10:05",
+                "attachments": [],
+                "content": "Hi Joisse, <br/><br/>Sweet roll chupa chups marshmallow muffin liquorice chupa chups soufflé bonbon. Liquorice gummi bears cake donut chocolate lollipop gummi bears. Cotton candy cupcake ice cream gummies dessert muffin chocolate jelly. Danish brownie chocolate bar lollipop cookie tootsie roll candy canes. Jujubes lollipop cheesecake gummi bears cheesecake. Cake jujubes soufflé. <br/><br/> Cake chocolate bar biscuit sweet roll liquorice jelly jujubes. Gingerbread icing macaroon bear claw jelly toffee. Chocolate cake marshmallow muffin wafer. Pastry cake tart apple pie bear claw sweet. Apple pie macaroon sesame snaps cotton candy jelly pudding lollipop caramels marshmallow. Powder halvah dessert ice cream. Carrot cake gingerbread chocolate cake tootsie roll.<br/><br/>Kind Regards, <br/>Cherish Kerr"
+            }]
         },
         {
             "id": 4,
@@ -171,24 +164,20 @@
             "starred": true,
             "important": true,
             "unread": true,
-            "tags": [
-                {
-                    "title": "Urgent",
-                    "badge": "bg-outline-danger",
-                    "text": "text-danger"
-                }
-            ],
-            "emails": [
-                {
-                    "name": "Zayn Hartley",
-                    "address": "zaynhartley@yahoo.com",
-                    "thumb": "img/profile/profile-5.webp",
-                    "date": "21 Nov 2020",
-                    "time": "11:45",
-                    "attachments": [],
-                    "content": "Hi Joisse, <br/><br/>Cake chocolate bar biscuit sweet roll liquorice jelly jujubes. Gingerbread icing macaroon bear claw jelly toffee. Chocolate cake marshmallow muffin wafer.<br/><br/>Regards, <br/>Zayn"
-                }
-            ]
+            "tags": [{
+                "title": "Urgent",
+                "badge": "bg-outline-danger",
+                "text": "text-danger"
+            }],
+            "emails": [{
+                "name": "Zayn Hartley",
+                "address": "zaynhartley@yahoo.com",
+                "thumb": "img/profile/profile-5.webp",
+                "date": "21 Nov 2020",
+                "time": "11:45",
+                "attachments": [],
+                "content": "Hi Joisse, <br/><br/>Cake chocolate bar biscuit sweet roll liquorice jelly jujubes. Gingerbread icing macaroon bear claw jelly toffee. Chocolate cake marshmallow muffin wafer.<br/><br/>Regards, <br/>Zayn"
+            }]
         },
         {
             "id": 5,
@@ -201,8 +190,7 @@
             "important": true,
             "unread": false,
             "tags": [],
-            "emails": [
-                {
+            "emails": [{
                     "name": "Esperanza Lodge",
                     "address": "esperanzalodge@yahoo.com",
                     "thumb": "img/profile/profile-8.webp",
@@ -232,15 +220,12 @@
             "starred": true,
             "important": false,
             "unread": false,
-            "tags": [
-                {
-                    "title": "Personal",
-                    "badge": "bg-outline-warning",
-                    "text": "text-warning"
-                }
-            ],
-            "emails": [
-                {
+            "tags": [{
+                "title": "Personal",
+                "badge": "bg-outline-warning",
+                "text": "text-warning"
+            }],
+            "emails": [{
                     "name": "Kathryn Mengel",
                     "address": "kathrynmengel@yahoo.com",
                     "thumb": "img/profile/profile-5.webp",
@@ -270,15 +255,12 @@
             "starred": true,
             "important": false,
             "unread": false,
-            "tags": [
-                {
-                    "title": "Project",
-                    "badge": "bg-outline-primary",
-                    "text": "text-primary"
-                }
-            ],
-            "emails": [
-                {
+            "tags": [{
+                "title": "Project",
+                "badge": "bg-outline-primary",
+                "text": "text-primary"
+            }],
+            "emails": [{
                     "name": "Daisy Hartley",
                     "address": "daisyhartley@msn.com",
                     "thumb": "img/profile/profile-2.webp",
@@ -309,17 +291,15 @@
             "important": false,
             "unread": false,
             "tags": [],
-            "emails": [
-                {
-                    "name": "Emilia Antoine",
-                    "address": "emiliaantoine@gmail.com",
-                    "thumb": "img/profile/profile-8.webp",
-                    "date": "10 Nov 2020",
-                    "time": "19:45",
-                    "attachments": [],
-                    "content": "Hello, <br/><br/>Tiramisu bear claw jelly-o marshmallow topping jelly beans ice cream candy canes cake. Soufflé cheesecake dessert halvah lemon drops liquorice topping soufflé. Dragée bear claw halvah. Ice cream chocolate cotton candy cotton candy biscuit chocolate bar powder. Sugar plum cookie cake. Tart apple pie sesame snaps cake biscuit cookie candy croissant. Biscuit tiramisu bonbon lemon drops croissant.<br/><br/>Regards"
-                }
-            ]
+            "emails": [{
+                "name": "Emilia Antoine",
+                "address": "emiliaantoine@gmail.com",
+                "thumb": "img/profile/profile-8.webp",
+                "date": "10 Nov 2020",
+                "time": "19:45",
+                "attachments": [],
+                "content": "Hello, <br/><br/>Tiramisu bear claw jelly-o marshmallow topping jelly beans ice cream candy canes cake. Soufflé cheesecake dessert halvah lemon drops liquorice topping soufflé. Dragée bear claw halvah. Ice cream chocolate cotton candy cotton candy biscuit chocolate bar powder. Sugar plum cookie cake. Tart apple pie sesame snaps cake biscuit cookie candy croissant. Biscuit tiramisu bonbon lemon drops croissant.<br/><br/>Regards"
+            }]
         },
         {
             "id": 9,
@@ -332,8 +312,7 @@
             "important": false,
             "unread": false,
             "tags": [],
-            "emails": [
-                {
+            "emails": [{
                     "name": "Elsie Pernilla",
                     "address": "elsiepernilla@hotmail.com",
                     "thumb": "img/profile/profile-8.webp",
@@ -364,17 +343,15 @@
             "important": false,
             "unread": false,
             "tags": [],
-            "emails": [
-                {
-                    "name": "Kathleen Bertha",
-                    "address": "kathleenbertha@msn.com",
-                    "thumb": "img/profile/profile-9.webp",
-                    "date": "08 Nov 2020",
-                    "time": "19:45",
-                    "attachments": [],
-                    "content": "Hello, <br/><br/>Tiramisu bear claw jelly-o marshmallow topping jelly beans ice cream candy canes cake. Soufflé cheesecake dessert halvah lemon drops liquorice topping soufflé. Dragée bear claw halvah. Ice cream chocolate cotton candy cotton candy biscuit chocolate bar powder. Sugar plum cookie cake. Tart apple pie sesame snaps cake biscuit cookie candy croissant. Biscuit tiramisu bonbon lemon drops croissant.<br/><br/>Regards"
-                }
-            ]
+            "emails": [{
+                "name": "Kathleen Bertha",
+                "address": "kathleenbertha@msn.com",
+                "thumb": "img/profile/profile-9.webp",
+                "date": "08 Nov 2020",
+                "time": "19:45",
+                "attachments": [],
+                "content": "Hello, <br/><br/>Tiramisu bear claw jelly-o marshmallow topping jelly beans ice cream candy canes cake. Soufflé cheesecake dessert halvah lemon drops liquorice topping soufflé. Dragée bear claw halvah. Ice cream chocolate cotton candy cotton candy biscuit chocolate bar powder. Sugar plum cookie cake. Tart apple pie sesame snaps cake biscuit cookie candy croissant. Biscuit tiramisu bonbon lemon drops croissant.<br/><br/>Regards"
+            }]
         },
         {
             "id": 11,
@@ -386,24 +363,20 @@
             "starred": false,
             "important": false,
             "unread": false,
-            "tags": [
-                {
-                    "title": "Urgent",
-                    "badge": "bg-outline-danger",
-                    "text": "text-danger"
-                }
-            ],
-            "emails": [
-                {
-                    "name": "Cherish Kerr",
-                    "address": "cherishkerr@aol.com",
-                    "thumb": "img/profile/profile-4.webp",
-                    "date": "22 Nov 2020",
-                    "time": "10:05",
-                    "attachments": [],
-                    "content": "Hi Joisse, <br/><br/>Sweet roll chupa chups marshmallow muffin liquorice chupa chups soufflé bonbon. Liquorice gummi bears cake donut chocolate lollipop gummi bears. Cotton candy cupcake ice cream gummies dessert muffin chocolate jelly. Danish brownie chocolate bar lollipop cookie tootsie roll candy canes. Jujubes lollipop cheesecake gummi bears cheesecake. Cake jujubes soufflé. <br/><br/> Cake chocolate bar biscuit sweet roll liquorice jelly jujubes. Gingerbread icing macaroon bear claw jelly toffee. Chocolate cake marshmallow muffin wafer. Pastry cake tart apple pie bear claw sweet. Apple pie macaroon sesame snaps cotton candy jelly pudding lollipop caramels marshmallow. Powder halvah dessert ice cream. Carrot cake gingerbread chocolate cake tootsie roll.<br/><br/>Kind Regards, <br/>Cherish Kerr"
-                }
-            ]
+            "tags": [{
+                "title": "Urgent",
+                "badge": "bg-outline-danger",
+                "text": "text-danger"
+            }],
+            "emails": [{
+                "name": "Cherish Kerr",
+                "address": "cherishkerr@aol.com",
+                "thumb": "img/profile/profile-4.webp",
+                "date": "22 Nov 2020",
+                "time": "10:05",
+                "attachments": [],
+                "content": "Hi Joisse, <br/><br/>Sweet roll chupa chups marshmallow muffin liquorice chupa chups soufflé bonbon. Liquorice gummi bears cake donut chocolate lollipop gummi bears. Cotton candy cupcake ice cream gummies dessert muffin chocolate jelly. Danish brownie chocolate bar lollipop cookie tootsie roll candy canes. Jujubes lollipop cheesecake gummi bears cheesecake. Cake jujubes soufflé. <br/><br/> Cake chocolate bar biscuit sweet roll liquorice jelly jujubes. Gingerbread icing macaroon bear claw jelly toffee. Chocolate cake marshmallow muffin wafer. Pastry cake tart apple pie bear claw sweet. Apple pie macaroon sesame snaps cotton candy jelly pudding lollipop caramels marshmallow. Powder halvah dessert ice cream. Carrot cake gingerbread chocolate cake tootsie roll.<br/><br/>Kind Regards, <br/>Cherish Kerr"
+            }]
         },
         {
             "id": 12,
@@ -416,17 +389,15 @@
             "important": false,
             "unread": false,
             "tags": [],
-            "emails": [
-                {
-                    "name": "Sixte Tera",
-                    "address": "sixtetera@gmail.com",
-                    "thumb": "img/profile/profile-4.webp",
-                    "date": "06 Nov 2020",
-                    "time": "10:05",
-                    "attachments": [],
-                    "content": "Hello, <br/><br/>Tiramisu bear claw jelly-o marshmallow topping jelly beans ice cream candy canes cake. Soufflé cheesecake dessert halvah lemon drops liquorice topping soufflé. Dragée bear claw halvah. Ice cream chocolate cotton candy cotton candy biscuit chocolate bar powder. Sugar plum cookie cake. Tart apple pie sesame snaps cake biscuit cookie candy croissant. Biscuit tiramisu bonbon lemon drops croissant.<br/><br/>Regards"
-                }
-            ]
+            "emails": [{
+                "name": "Sixte Tera",
+                "address": "sixtetera@gmail.com",
+                "thumb": "img/profile/profile-4.webp",
+                "date": "06 Nov 2020",
+                "time": "10:05",
+                "attachments": [],
+                "content": "Hello, <br/><br/>Tiramisu bear claw jelly-o marshmallow topping jelly beans ice cream candy canes cake. Soufflé cheesecake dessert halvah lemon drops liquorice topping soufflé. Dragée bear claw halvah. Ice cream chocolate cotton candy cotton candy biscuit chocolate bar powder. Sugar plum cookie cake. Tart apple pie sesame snaps cake biscuit cookie candy croissant. Biscuit tiramisu bonbon lemon drops croissant.<br/><br/>Regards"
+            }]
         },
         {
             "id": 13,
@@ -439,17 +410,15 @@
             "important": false,
             "unread": false,
             "tags": [],
-            "emails": [
-                {
-                    "name": "Gresham Jeanette",
-                    "address": "greshamjeanette@aol.com",
-                    "thumb": "img/profile/profile-7.webp",
-                    "date": "05 Nov 2020",
-                    "time": "12:45",
-                    "attachments": [],
-                    "content": "Hello, <br/><br/>Tiramisu bear claw jelly-o marshmallow topping jelly beans ice cream candy canes cake. Soufflé cheesecake dessert halvah lemon drops liquorice topping soufflé. Dragée bear claw halvah. Ice cream chocolate cotton candy cotton candy biscuit chocolate bar powder. Sugar plum cookie cake. Tart apple pie sesame snaps cake biscuit cookie candy croissant. Biscuit tiramisu bonbon lemon drops croissant.<br/><br/>Regards"
-                }
-            ]
+            "emails": [{
+                "name": "Gresham Jeanette",
+                "address": "greshamjeanette@aol.com",
+                "thumb": "img/profile/profile-7.webp",
+                "date": "05 Nov 2020",
+                "time": "12:45",
+                "attachments": [],
+                "content": "Hello, <br/><br/>Tiramisu bear claw jelly-o marshmallow topping jelly beans ice cream candy canes cake. Soufflé cheesecake dessert halvah lemon drops liquorice topping soufflé. Dragée bear claw halvah. Ice cream chocolate cotton candy cotton candy biscuit chocolate bar powder. Sugar plum cookie cake. Tart apple pie sesame snaps cake biscuit cookie candy croissant. Biscuit tiramisu bonbon lemon drops croissant.<br/><br/>Regards"
+            }]
         },
         {
             "id": 14,
@@ -462,17 +431,15 @@
             "important": false,
             "unread": false,
             "tags": [],
-            "emails": [
-                {
-                    "name": "Vanna Mariano",
-                    "address": "vannamariano@gmail.com",
-                    "thumb": "img/profile/profile-5.webp",
-                    "date": "05 Nov 2020",
-                    "time": "19:45",
-                    "attachments": [],
-                    "content": "Hello, <br/><br/>Tiramisu bear claw jelly-o marshmallow topping jelly beans ice cream candy canes cake. Soufflé cheesecake dessert halvah lemon drops liquorice topping soufflé. Dragée bear claw halvah. Ice cream chocolate cotton candy cotton candy biscuit chocolate bar powder. Sugar plum cookie cake. Tart apple pie sesame snaps cake biscuit cookie candy croissant. Biscuit tiramisu bonbon lemon drops croissant.<br/><br/>Regards"
-                }
-            ]
+            "emails": [{
+                "name": "Vanna Mariano",
+                "address": "vannamariano@gmail.com",
+                "thumb": "img/profile/profile-5.webp",
+                "date": "05 Nov 2020",
+                "time": "19:45",
+                "attachments": [],
+                "content": "Hello, <br/><br/>Tiramisu bear claw jelly-o marshmallow topping jelly beans ice cream candy canes cake. Soufflé cheesecake dessert halvah lemon drops liquorice topping soufflé. Dragée bear claw halvah. Ice cream chocolate cotton candy cotton candy biscuit chocolate bar powder. Sugar plum cookie cake. Tart apple pie sesame snaps cake biscuit cookie candy croissant. Biscuit tiramisu bonbon lemon drops croissant.<br/><br/>Regards"
+            }]
         },
         {
             "id": 15,
@@ -485,17 +452,15 @@
             "important": false,
             "unread": false,
             "tags": [],
-            "emails": [
-                {
-                    "name": "Harshad Willihad",
-                    "address": "harshadwillihad@hotmail.com",
-                    "thumb": "img/profile/profile-3.webp",
-                    "date": "05 Nov 2020",
-                    "time": "08:35",
-                    "attachments": [],
-                    "content": "Hello, <br/><br/>Tiramisu bear claw jelly-o marshmallow topping jelly beans ice cream candy canes cake. Soufflé cheesecake dessert halvah lemon drops liquorice topping soufflé. Dragée bear claw halvah. Ice cream chocolate cotton candy cotton candy biscuit chocolate bar powder. Sugar plum cookie cake. Tart apple pie sesame snaps cake biscuit cookie candy croissant. Biscuit tiramisu bonbon lemon drops croissant.<br/><br/>Regards"
-                }
-            ]
+            "emails": [{
+                "name": "Harshad Willihad",
+                "address": "harshadwillihad@hotmail.com",
+                "thumb": "img/profile/profile-3.webp",
+                "date": "05 Nov 2020",
+                "time": "08:35",
+                "attachments": [],
+                "content": "Hello, <br/><br/>Tiramisu bear claw jelly-o marshmallow topping jelly beans ice cream candy canes cake. Soufflé cheesecake dessert halvah lemon drops liquorice topping soufflé. Dragée bear claw halvah. Ice cream chocolate cotton candy cotton candy biscuit chocolate bar powder. Sugar plum cookie cake. Tart apple pie sesame snaps cake biscuit cookie candy croissant. Biscuit tiramisu bonbon lemon drops croissant.<br/><br/>Regards"
+            }]
         },
         {
             "id": 16,
@@ -508,21 +473,18 @@
             "important": false,
             "unread": false,
             "tags": [],
-            "emails": [
-                {
-                    "name": "Edan Tahnee",
-                    "address": "edantahnee@msn.com",
-                    "thumb": "img/profile/profile-6.webp",
-                    "date": "03 Nov 2020",
-                    "time": "11:20",
-                    "attachments": [],
-                    "content": "Hello, <br/><br/>Tiramisu bear claw jelly-o marshmallow topping jelly beans ice cream candy canes cake. Soufflé cheesecake dessert halvah lemon drops liquorice topping soufflé. Dragée bear claw halvah. Ice cream chocolate cotton candy cotton candy biscuit chocolate bar powder. Sugar plum cookie cake. Tart apple pie sesame snaps cake biscuit cookie candy croissant. Biscuit tiramisu bonbon lemon drops croissant.<br/><br/>Regards"
-                }
-            ]
+            "emails": [{
+                "name": "Edan Tahnee",
+                "address": "edantahnee@msn.com",
+                "thumb": "img/profile/profile-6.webp",
+                "date": "03 Nov 2020",
+                "time": "11:20",
+                "attachments": [],
+                "content": "Hello, <br/><br/>Tiramisu bear claw jelly-o marshmallow topping jelly beans ice cream candy canes cake. Soufflé cheesecake dessert halvah lemon drops liquorice topping soufflé. Dragée bear claw halvah. Ice cream chocolate cotton candy cotton candy biscuit chocolate bar powder. Sugar plum cookie cake. Tart apple pie sesame snaps cake biscuit cookie candy croissant. Biscuit tiramisu bonbon lemon drops croissant.<br/><br/>Regards"
+            }]
         }
     ],
-    "sent": [
-        {
+    "sent": [{
             "id": 17,
             "from": "Joisse Kaycee",
             "title": "Meeting with the new design team",
@@ -533,17 +495,15 @@
             "important": false,
             "unread": false,
             "tags": [],
-            "emails": [
-                {
-                    "name": "Joisse Kaycee",
-                    "address": "joissekaycee@gmail.com",
-                    "thumb": "img/profile/profile-1.webp",
-                    "date": "10 Nov 2020",
-                    "time": "11:15",
-                    "attachments": [],
-                    "content": "Dear Daisy, <br/><br/>Gingerbread icing macaroon bear claw jelly toffee. Chocolate cake marshmallow muffin wafer. Pastry cake tart apple pie bear claw sweet. Apple pie macaroon sesame snaps cotton candy jelly pudding lollipop caramels marshmallow. Powder halvah dessert ice cream. Carrot cake gingerbread chocolate cake tootsie roll. Oat cake jujubes jelly-o jelly chupa chups lollipop jelly wafer soufflé. <br/><br/> Jelly-o jelly oat cake cheesecake halvah. Cupcake sweet roll donut.<br/><br/>Best Regards, <br/>Joisse Kaycee"
-                }
-            ]
+            "emails": [{
+                "name": "Joisse Kaycee",
+                "address": "joissekaycee@gmail.com",
+                "thumb": "img/profile/profile-1.webp",
+                "date": "10 Nov 2020",
+                "time": "11:15",
+                "attachments": [],
+                "content": "Dear Daisy, <br/><br/>Gingerbread icing macaroon bear claw jelly toffee. Chocolate cake marshmallow muffin wafer. Pastry cake tart apple pie bear claw sweet. Apple pie macaroon sesame snaps cotton candy jelly pudding lollipop caramels marshmallow. Powder halvah dessert ice cream. Carrot cake gingerbread chocolate cake tootsie roll. Oat cake jujubes jelly-o jelly chupa chups lollipop jelly wafer soufflé. <br/><br/> Jelly-o jelly oat cake cheesecake halvah. Cupcake sweet roll donut.<br/><br/>Best Regards, <br/>Joisse Kaycee"
+            }]
         },
         {
             "id": 18,
@@ -555,28 +515,23 @@
             "starred": true,
             "important": false,
             "unread": false,
-            "tags": [
-                {
-                    "title": "Project",
-                    "badge": "bg-outline-primary",
-                    "text": "text-primary"
-                }
-            ],
-            "emails": [
-                {
-                    "name": "Joisse Kaycee",
-                    "address": "joissekaycee@gmail.com",
-                    "thumb": "img/profile/profile-1.webp",
-                    "date": "14 Nov 2020",
-                    "time": "11:15",
-                    "attachments": [],
-                    "content": "Dear Daisy, <br/><br/>Gingerbread icing macaroon bear claw jelly toffee. Chocolate cake marshmallow muffin wafer. Pastry cake tart apple pie bear claw sweet. Apple pie macaroon sesame snaps cotton candy jelly pudding lollipop caramels marshmallow. Powder halvah dessert ice cream. Carrot cake gingerbread chocolate cake tootsie roll. Oat cake jujubes jelly-o jelly chupa chups lollipop jelly wafer soufflé. <br/><br/> Jelly-o jelly oat cake cheesecake halvah. Cupcake sweet roll donut.<br/><br/>Best Regards, <br/>Joisse Kaycee"
-                }
-            ]
+            "tags": [{
+                "title": "Project",
+                "badge": "bg-outline-primary",
+                "text": "text-primary"
+            }],
+            "emails": [{
+                "name": "Joisse Kaycee",
+                "address": "joissekaycee@gmail.com",
+                "thumb": "img/profile/profile-1.webp",
+                "date": "14 Nov 2020",
+                "time": "11:15",
+                "attachments": [],
+                "content": "Dear Daisy, <br/><br/>Gingerbread icing macaroon bear claw jelly toffee. Chocolate cake marshmallow muffin wafer. Pastry cake tart apple pie bear claw sweet. Apple pie macaroon sesame snaps cotton candy jelly pudding lollipop caramels marshmallow. Powder halvah dessert ice cream. Carrot cake gingerbread chocolate cake tootsie roll. Oat cake jujubes jelly-o jelly chupa chups lollipop jelly wafer soufflé. <br/><br/> Jelly-o jelly oat cake cheesecake halvah. Cupcake sweet roll donut.<br/><br/>Best Regards, <br/>Joisse Kaycee"
+            }]
         }
     ],
-    "spam": [
-        {
+    "spam": [{
             "id": 19,
             "from": "Cheesy Company",
             "title": "Download All the Movies",
@@ -587,17 +542,15 @@
             "important": false,
             "unread": false,
             "tags": [],
-            "emails": [
-                {
-                    "name": "Cheesy Company",
-                    "address": "deamon-2342223-@fast-daemon-222444.com",
-                    "thumb": "img/profile/profile-11.webp",
-                    "date": "14 Nov 2020",
-                    "time": "11:15",
-                    "attachments": [],
-                    "content": "Hello, <br/><br/>Gingerbread icing macaroon bear claw jelly toffee. Chocolate cake marshmallow muffin wafer. Pastry cake tart apple pie bear claw sweet. Apple pie macaroon sesame snaps cotton candy jelly pudding lollipop caramels marshmallow. Powder halvah dessert ice cream. Carrot cake gingerbread chocolate cake tootsie roll. Oat cake jujubes jelly-o jelly chupa chups lollipop jelly wafer soufflé. <br/><br/> Jelly-o jelly oat cake cheesecake halvah. Cupcake sweet roll donut."
-                }
-            ]
+            "emails": [{
+                "name": "Cheesy Company",
+                "address": "deamon-2342223-@fast-daemon-222444.com",
+                "thumb": "img/profile/profile-11.webp",
+                "date": "14 Nov 2020",
+                "time": "11:15",
+                "attachments": [],
+                "content": "Hello, <br/><br/>Gingerbread icing macaroon bear claw jelly toffee. Chocolate cake marshmallow muffin wafer. Pastry cake tart apple pie bear claw sweet. Apple pie macaroon sesame snaps cotton candy jelly pudding lollipop caramels marshmallow. Powder halvah dessert ice cream. Carrot cake gingerbread chocolate cake tootsie roll. Oat cake jujubes jelly-o jelly chupa chups lollipop jelly wafer soufflé. <br/><br/> Jelly-o jelly oat cake cheesecake halvah. Cupcake sweet roll donut."
+            }]
         },
         {
             "id": 20,
@@ -610,21 +563,18 @@
             "important": false,
             "unread": false,
             "tags": [],
-            "emails": [
-                {
-                    "name": "Sneaker Man",
-                    "address": "best-sneaker-for-you@fsssm333.com",
-                    "thumb": "img/profile/profile-11.webp",
-                    "date": "14 Nov 2020",
-                    "time": "11:15",
-                    "attachments": [],
-                    "content": "Hello, <br/><br/>Dessert sweet chocolate fruitcake. Toffee candy cake. Pie gummies dessert oat cake sweet roll powder jelly pastry chocolate cake. Gummi bears cake icing gummies marzipan croissant lemon drops soufflé. Jujubes pudding donut icing topping. Soufflé oat cake tiramisu cake lollipop jelly. Chocolate chupa chups liquorice macaroon toffee jelly tiramisu cake sugar plum. Soufflé bonbon macaroon biscuit halvah sweet carrot cake bear claw chocolate. Lollipop chocolate bar icing marzipan donut powder gummi bears."
-                }
-            ]
+            "emails": [{
+                "name": "Sneaker Man",
+                "address": "best-sneaker-for-you@fsssm333.com",
+                "thumb": "img/profile/profile-11.webp",
+                "date": "14 Nov 2020",
+                "time": "11:15",
+                "attachments": [],
+                "content": "Hello, <br/><br/>Dessert sweet chocolate fruitcake. Toffee candy cake. Pie gummies dessert oat cake sweet roll powder jelly pastry chocolate cake. Gummi bears cake icing gummies marzipan croissant lemon drops soufflé. Jujubes pudding donut icing topping. Soufflé oat cake tiramisu cake lollipop jelly. Chocolate chupa chups liquorice macaroon toffee jelly tiramisu cake sugar plum. Soufflé bonbon macaroon biscuit halvah sweet carrot cake bear claw chocolate. Lollipop chocolate bar icing marzipan donut powder gummi bears."
+            }]
         }
     ],
-    "trash": [
-        {
+    "trash": [{
             "id": 21,
             "from": "Kathleen Bertha",
             "title": "Dough for the Molds",
@@ -635,8 +585,7 @@
             "important": false,
             "unread": false,
             "tags": [],
-            "emails": [
-                {
+            "emails": [{
                     "name": "Kathleen Bertha",
                     "address": "kathleenbertha@msn.com",
                     "thumb": "img/profile/profile-9.webp",
@@ -667,17 +616,15 @@
             "important": false,
             "unread": false,
             "tags": [],
-            "emails": [
-                {
-                    "name": "Cheesy Company",
-                    "address": "noellejayanthi@aol.com",
-                    "thumb": "img/profile/profile-5.webp",
-                    "date": "14 Nov 2020",
-                    "time": "11:15",
-                    "attachments": [],
-                    "content": "Hello, <br/><br/>Dessert sweet chocolate fruitcake. Toffee candy cake. Pie gummies dessert oat cake sweet roll powder jelly pastry chocolate cake. Gummi bears cake icing gummies marzipan croissant lemon drops soufflé. Jujubes pudding donut icing topping. Soufflé oat cake tiramisu cake lollipop jelly. Chocolate chupa chups liquorice macaroon toffee jelly tiramisu cake sugar plum. Soufflé bonbon macaroon biscuit halvah sweet carrot cake bear claw chocolate. Lollipop chocolate bar icing marzipan donut powder gummi bears."
-                }
-            ]
+            "emails": [{
+                "name": "Cheesy Company",
+                "address": "noellejayanthi@aol.com",
+                "thumb": "img/profile/profile-5.webp",
+                "date": "14 Nov 2020",
+                "time": "11:15",
+                "attachments": [],
+                "content": "Hello, <br/><br/>Dessert sweet chocolate fruitcake. Toffee candy cake. Pie gummies dessert oat cake sweet roll powder jelly pastry chocolate cake. Gummi bears cake icing gummies marzipan croissant lemon drops soufflé. Jujubes pudding donut icing topping. Soufflé oat cake tiramisu cake lollipop jelly. Chocolate chupa chups liquorice macaroon toffee jelly tiramisu cake sugar plum. Soufflé bonbon macaroon biscuit halvah sweet carrot cake bear claw chocolate. Lollipop chocolate bar icing marzipan donut powder gummi bears."
+            }]
         }
     ]
 }
