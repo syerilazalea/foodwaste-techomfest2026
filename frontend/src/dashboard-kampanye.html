@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en" data-footer="true">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>Food Cycle - Dashboard Kampanye</title>
+
+    <!-- Favicon -->
+    <link rel="icon" href="img/favicon/favicon-32.png" type="image/png">
+    <link rel="icon" sizes="192x192" href="img/favicon/favicon-192.png">
+    <link rel="apple-touch-icon" href="img/favicon/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.json">
+    <!-- Favicon -->
+
+    <!-- Font Tags Start -->
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="font/CS-Interface/style.css" />
+    <!-- Font Tags End -->
+
+    <link rel="stylesheet" href="css/vendor/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/vendor/OverlayScrollbars.min.css" />
+    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="stylesheet" href="css/main.css" />
+    <script src="js/base/loader.js"></script>
+</head>
+
+<body>
+    <div id="root">
+        <div id="nav" class="nav-container d-flex">
+            <div class="nav-content d-flex">
+                <div class="logo position-relative">
+                    <a href="Dashboards.Default.html">
+                        <div class="img"></div>
+                    </a>
+                </div>
+                <!-- User Menu Start -->
+                <div class="user-container d-flex">
+                    <a href="#" class="d-flex user position-relative" data-bs-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false">
+                        <img class="profile" alt="profile" src="img/profile/profile-9.webp" />
+                        <div class="name">User</div>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-end user-menu wide">
+                        <div class="row mb-1 ms-0 me-0">
+                            <div class="col-6 pe-1 ps-1">
+                                <ul class="list-unstyled">
+                                    <li>
+                                        <a href="#">
+                                            <i data-acorn-icon="gear" class="me-2" data-acorn-size="17"></i>
+                                            <span class="align-middle">Settings</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">
+                                            <i data-acorn-icon="logout" class="me-2" data-acorn-size="17"></i>
+                                            <span class="align-middle">Logout</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Icons Menu Start -->
+                <ul class="list-unstyled list-inline text-center menu-icons">
+                    <li class="list-inline-item">
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#searchPagesModal">
+                            <i data-acorn-icon="search" data-acorn-size="18"></i>
+                        </a>
+                    </li>
+                    <!-- <li class="list-inline-item">
+              <a href="#" id="colorButton">
+                <i data-acorn-icon="light-on" class="light" data-acorn-size="18"></i>
+                <i data-acorn-icon="light-off" class="dark" data-acorn-size="18"></i>
+              </a>
+            </li> -->
+                </ul>
+                <!-- Icons Menu End -->
+
+                <!-- Menu Start -->
+                <div class="menu-container flex-grow-1">
+                    <ul id="menu" class="menu">
+                        <li>
+                            <a href="dashboard-user.html">
+                                <i data-acorn-icon="home" class="icon" data-acorn-size="18"></i>
+                                <span class="label">Dashboard</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#menu-katalog" data-bs-toggle="collapse" class="dropdown-toggle">
+                                <i data-acorn-icon="layout-2" class="icon" data-acorn-size="18"></i>
+                                <span class="label">Katalog</span>
+                            </a>
+                            <ul id="menu-katalog" class="collapse">
+                                <li><a href="katalog-makanan.html"><span class="label">Makanan</span></a></li>
+                                <li><a href="katalog-daur-ulang.html"><span class="label">Daur Ulang</span></a></li>
+                            </ul>
+                        </li>
+
+                        <li>
+                            <a href="kampanye.html">
+                                <i data-acorn-icon="menu-bookmark" class="icon" data-acorn-size="18"></i>
+                                <span class="label">Kampanye</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="tentang-kami.html">
+                                <i data-acorn-icon="support" class="icon" data-acorn-size="18"></i>
+                                <span class="label">Tentang Kami</span>
+                            </a>
+                        </li>
+
+                    </ul>
+                </div>
+                <!-- Menu End -->
+
+                <!-- Mobile Buttons Start -->
+                <div class="mobile-buttons-container">
+                    <!-- Scrollspy Mobile Button Start -->
+                    <a href="#" id="scrollSpyButton" class="spy-button" data-bs-toggle="dropdown">
+                        <i data-acorn-icon="menu-dropdown"></i>
+                    </a>
+                    <!-- Scrollspy Mobile Button End -->
+
+                    <!-- Scrollspy Mobile Dropdown Start -->
+                    <div class="dropdown-menu dropdown-menu-end" id="scrollSpyDropdown"></div>
+                    <!-- Scrollspy Mobile Dropdown End -->
+
+                    <!-- Menu Button Start -->
+                    <a href="#" id="mobileMenuButton" class="menu-button">
+                        <i data-acorn-icon="menu"></i>
+                    </a>
+                    <!-- Menu Button End -->
+                </div>
+                <!-- Mobile Buttons End -->
+            </div>
+            <div class="nav-shadow"></div>
+        </div>
+
+        <main>
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="page-title-container">
+                            <h1 class="mb-0 pb-0 display-4" id="title">Dashboard Kampanye</h1>
+                            <p class="mb-0 text-muted">Kelola artikel edukasi dan agenda kegiatan lingkungan</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-5">
+                    <!-- STATISTIK (KIRI) -->
+                    <div class="col-12 col-lg-6">
+                        <h2 class="small-title">Statistik Kampanye</h2>
+                        <div class="row g-2">
+                            <!-- Total Artikel -->
+                            <div class="col-12 col-sm-6">
+                                <div class="card hover-scale-up sh-19">
+                                    <div
+                                        class="h-100 d-flex flex-column justify-content-between card-body align-items-center">
+                                        <div
+                                            class="bg-gradient-light sh-5 sw-5 rounded-xl d-flex justify-content-center align-items-center mb-2">
+                                            <i data-acorn-icon="file-text" class="text-white"></i>
+                                        </div>
+                                        <div class="heading text-center lh-1">Total Artikel</div>
+                                        <div class="text-small text-primary">24 ARTIKEL</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Total Artikel & Agenda -->
+                            <div class="col-12 col-sm-6">
+                                <div class="card hover-scale-up sh-19">
+                                    <div
+                                        class="h-100 d-flex flex-column justify-content-between card-body align-items-center">
+                                        <div
+                                            class="bg-gradient-light sh-5 sw-5 rounded-xl d-flex justify-content-center align-items-center mb-2">
+                                            <i data-acorn-icon="eye" class="text-white"></i>
+                                        </div>
+                                        <div class="heading text-center lh-1">Total Artikel & Agenda</div>
+                                        <div class="text-small text-primary">121</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- QUICK ACTIONS (KANAN) -->
+                    <div class="col-12 col-lg-6">
+                        <h2 class="small-title">Quick Actions</h2>
+                        <div class="row g-2">
+                            <!-- Buat Artikel -->
+                            <div class="col-12 col-sm-6">
+                                <a href="kelola-artikel.html" class="text-decoration-none">
+                                    <div class="card hover-scale-up cursor-pointer sh-19">
+                                        <div
+                                            class="h-100 d-flex flex-column justify-content-between card-body align-items-center">
+                                            <div
+                                                class="bg-gradient-light sh-5 sw-5 rounded-xl d-flex justify-content-center align-items-center mb-2">
+                                                <i data-acorn-icon="clipboard" class="text-white"></i>
+                                            </div>
+                                            <div class="heading text-center lh-1">Buat Artikel</div>
+                                            <div class="text-small text-primary">Tulis artikel</div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+
+                            <!-- Buat Agenda -->
+                            <div class="col-12 col-sm-6">
+                                <a href="kelola-agenda.html" class="text-decoration-none">
+                                    <div class="card hover-scale-up cursor-pointer sh-19">
+                                        <div
+                                            class="h-100 d-flex flex-column justify-content-between card-body align-items-center">
+                                            <div
+                                                class="bg-gradient-light sh-5 sw-5 rounded-xl d-flex justify-content-center align-items-center mb-2">
+                                                <i data-acorn-icon="content" class="text-white"></i>
+                                            </div>
+                                            <div class="heading text-center lh-1">Buat Agenda</div>
+                                            <div class="text-small text-primary">Rencanakan agenda</div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Artikel Terbaru -->
+                <div class="row">
+                    <div class="col-12 col-xl-6 mb-5">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h2 class="small-title mb-0">Artikel Terbaru</h2>
+                            <a href="kelola-artikel.html" class="btn btn-sm btn-outline-primary">Lihat Semua</a>
+                        </div>
+                        <div class="scroll-out">
+                            <div class="scroll-by-count" data-count="4">
+                                <div class="card mb-2">
+                                    <div class="row g-0 sh-12">
+                                        <div class="col-auto">
+                                            <span
+                                                class="badge rounded-pill bg-success me-1 position-absolute s-n2 t-2 z-index-1 t-1">Published</span>
+                                            <img src="img/product/small/product-1.webp" alt="Artikel"
+                                                class="card-img card-img-horizontal sw-13 sw-lg-15" />
+                                        </div>
+                                        <div class="col">
+                                            <div class="card-body pt-0 pb-0 h-100">
+                                                <div class="row g-0 h-100 align-content-center">
+                                                    <div class="col-12 col-md-7 d-flex flex-column mb-2 mb-md-0">
+                                                        <span class="fw-bold">Cara Membuat Kompos dari Sampah
+                                                            Dapur</span>
+                                                        <div class="text-small text-muted">
+                                                            <i data-acorn-icon="clock" class="me-1"></i> Dibuat: 2 hari
+                                                            lalu
+                                                        </div>
+                                                    </div>
+                                                    <div
+                                                        class="col-12 col-md-5 d-flex align-items-center justify-content-md-end">
+                                                        <button
+                                                            class="btn btn-sm btn-icon btn-icon-only btn-outline-primary mb-1"
+                                                            type="button" data-bs-toggle="modal"
+                                                            data-bs-target="#modalEditArtikel"
+                                                            onclick="setEditArtikel(6)">
+                                                            <i data-acorn-icon="edit"></i>
+                                                        </button>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card mb-2">
+                                    <div class="row g-0 sh-12">
+                                        <div class="col-auto">
+                                            <span
+                                                class="badge rounded-pill bg-warning me-1 position-absolute s-n2 t-2 z-index-1 t-1">Draft</span>
+                                            <img src="img/product/small/product-1.webp" alt="Artikel"
+                                                class="card-img card-img-horizontal sw-13 sw-lg-15" />
+                                        </div>
+                                        <div class="col">
+                                            <div class="card-body pt-0 pb-0 h-100">
+                                                <div class="row g-0 h-100 align-content-center">
+                                                    <div class="col-12 col-md-7 d-flex flex-column mb-2 mb-md-0">
+                                                        <span class="fw-bold">Manfaat Daur Ulang Plastik</span>
+                                                        <div class="text-small text-muted">
+                                                            <i data-acorn-icon="clock" class="me-1"></i> Draft
+                                                        </div>
+                                                    </div>
+                                                    <div
+                                                        class="col-12 col-md-5 d-flex align-items-center justify-content-md-end">
+                                                        <button
+                                                            class="btn btn-sm btn-icon btn-icon-only btn-outline-primary mb-1"
+                                                            type="button" data-bs-toggle="modal"
+                                                            data-bs-target="#modalEditArtikel"
+                                                            onclick="setEditArtikel(6)">
+                                                            <i data-acorn-icon="edit"></i>
+                                                        </button>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card mb-2">
+                                    <div class="row g-0 sh-12">
+                                        <div class="col-auto">
+                                            <span
+                                                class="badge rounded-pill bg-success me-1 position-absolute s-n2 t-2 z-index-1 t-1">Published</span>
+                                            <img src="img/product/small/product-1.webp" alt="Artikel"
+                                                class="card-img card-img-horizontal sw-13 sw-lg-15" />
+                                        </div>
+                                        <div class="col">
+                                            <div class="card-body pt-0 pb-0 h-100">
+                                                <div class="row g-0 h-100 align-content-center">
+                                                    <div class="col-12 col-md-7 d-flex flex-column mb-2 mb-md-0">
+                                                        <span class="fw-bold">Teknik Urban Farming Modern</span>
+                                                        <div class="text-small text-muted">
+                                                            <i data-acorn-icon="clock" class="me-1"></i> Dibuat: 1
+                                                            minggu lalu
+                                                        </div>
+                                                    </div>
+                                                    <div
+                                                        class="col-12 col-md-5 d-flex align-items-center justify-content-md-end">
+                                                        <button
+                                                            class="btn btn-sm btn-icon btn-icon-only btn-outline-primary mb-1"
+                                                            type="button" data-bs-toggle="modal"
+                                                            data-bs-target="#modalEditArtikel"
+                                                            onclick="setEditArtikel(6)">
+                                                            <i data-acorn-icon="edit"></i>
+                                                        </button>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Agenda Mendatang -->
+                    <div class="col-12 col-xl-6 mb-5">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h2 class="small-title mb-0">Agenda Mendatang</h2>
+                            <a href="kelola-agenda.html" class="btn btn-sm btn-outline-primary">Lihat Semua</a>
+                        </div>
+                        <div class="scroll-out">
+                            <div class="scroll-by-count" data-count="4">
+                                <div class="card mb-2">
+                                    <div class="row g-0 sh-12">
+                                        <div class="col-auto">
+                                            <span
+                                                class="badge rounded-pill bg-info me-1 position-absolute s-n2 t-2 z-index-1 t-1">Aktif</span>
+                                            <img src="img/product/small/product-1.webp" alt="Agenda"
+                                                class="card-img card-img-horizontal sw-13 sw-lg-15" />
+                                        </div>
+                                        <div class="col">
+                                            <div class="card-body pt-0 pb-0 h-100">
+                                                <div class="row g-0 h-100 align-content-center">
+                                                    <div class="col-12 col-md-7 d-flex flex-column mb-2 mb-md-0">
+                                                        <span class="fw-bold">Workshop Daur Ulang</span>
+                                                        <div class="text-small text-muted">
+                                                            <i data-acorn-icon="clock" class="me-1"></i> 15 Des 2024
+                                                        </div>
+                                                    </div>
+                                                    <div
+                                                        class="col-12 col-md-5 d-flex align-items-center justify-content-md-end">
+                                                        <button
+                                                            class="btn btn-sm btn-icon btn-icon-only btn-outline-primary mb-1"
+                                                            type="button" data-bs-toggle="modal"
+                                                            data-bs-target="#modalEditArtikel"
+                                                            onclick="setEditArtikel(6)">
+                                                            <i data-acorn-icon="edit"></i>
+                                                        </button>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card mb-2">
+                                    <div class="row g-0 sh-12">
+                                        <div class="col-auto">
+                                            <span
+                                                class="badge rounded-pill bg-info me-1 position-absolute s-n2 t-2 z-index-1 t-1">Aktif</span>
+                                            <img src="img/product/small/product-1.webp" alt="Agenda"
+                                                class="card-img card-img-horizontal sw-13 sw-lg-15" />
+                                        </div>
+                                        <div class="col">
+                                            <div class="card-body pt-0 pb-0 h-100">
+                                                <div class="row g-0 h-100 align-content-center">
+                                                    <div class="col-12 col-md-7 d-flex flex-column mb-2 mb-md-0">
+                                                        <span class="fw-bold">Tanam Pohon Bersama</span>
+                                                        <div class="text-small text-muted">
+                                                            <i data-acorn-icon="clock" class="me-1"></i> 20 Des 2024
+                                                        </div>
+                                                    </div>
+                                                    <div
+                                                        class="col-12 col-md-5 d-flex align-items-center justify-content-md-end">
+                                                        <button
+                                                            class="btn btn-sm btn-icon btn-icon-only btn-outline-primary mb-1"
+                                                            type="button" data-bs-toggle="modal"
+                                                            data-bs-target="#modalEditArtikel"
+                                                            onclick="setEditArtikel(6)">
+                                                            <i data-acorn-icon="edit"></i>
+                                                        </button>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card mb-2">
+                                    <div class="row g-0 sh-12">
+                                        <div class="col-auto">
+                                            <span
+                                                class="badge rounded-pill bg-primary me-1 position-absolute s-n2 t-2 z-index-1 t-1">Selesai</span>
+                                            <img src="img/product/small/product-1.webp" alt="Agenda"
+                                                class="card-img card-img-horizontal sw-13 sw-lg-15" />
+                                        </div>
+                                        <div class="col">
+                                            <div class="card-body pt-0 pb-0 h-100">
+                                                <div class="row g-0 h-100 align-content-center">
+                                                    <div class="col-12 col-md-7 d-flex flex-column mb-2 mb-md-0">
+                                                        <span class="fw-bold">Webinar Zero Waste</span>
+                                                        <div class="text-small text-muted">
+                                                            <i data-acorn-icon="clock" class="me-1"></i> 5 Des 2024
+                                                        </div>
+                                                    </div>
+                                                    <div
+                                                        class="col-12 col-md-5 d-flex align-items-center justify-content-md-end">
+                                                        <button
+                                                            class="btn btn-sm btn-icon btn-icon-only btn-outline-primary mb-1"
+                                                            type="button" data-bs-toggle="modal"
+                                                            data-bs-target="#modalEditArtikel"
+                                                            onclick="setEditArtikel(6)">
+                                                            <i data-acorn-icon="edit"></i>
+                                                        </button>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal Buat Artikel -->
+    <div class="modal fade" id="buatArtikel" tabindex="-1" aria-labelledby="buatArtikelLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="buatArtikelLabel">Buat Artikel Baru</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label class="form-label">Judul Artikel</label>
+                            <input type="text" class="form-control" placeholder="Masukkan judul artikel">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Konten Artikel</label>
+                            <textarea class="form-control" rows="6"
+                                placeholder="Tulis konten artikel di sini..."></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Gambar Utama</label>
+                            <input type="file" class="form-control" accept="image/*">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Kategori</label>
+                            <select class="form-select">
+                                <option value="">Pilih kategori</option>
+                                <option value="education">Edukasi</option>
+                                <option value="tips">Tips & Trik</option>
+                                <option value="news">Berita</option>
+                                <option value="tutorial">Tutorial</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Status</label>
+                            <div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="statusArtikel" id="draft"
+                                        value="draft" checked>
+                                    <label class="form-check-label" for="draft">Draft</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="statusArtikel" id="publish"
+                                        value="publish">
+                                    <label class="form-check-label" for="publish">Publish</label>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-primary">Simpan Artikel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Buat Agenda -->
+    <div class="modal fade" id="buatAgenda" tabindex="-1" aria-labelledby="buatAgendaLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="buatAgendaLabel">Buat Agenda Baru</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label class="form-label">Nama Kegiatan</label>
+                            <input type="text" class="form-control" placeholder="Masukkan nama kegiatan">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Deskripsi</label>
+                            <textarea class="form-control" rows="4" placeholder="Deskripsikan kegiatan..."></textarea>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Tanggal Mulai</label>
+                                <input type="datetime-local" class="form-control">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Tanggal Selesai</label>
+                                <input type="datetime-local" class="form-control">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Lokasi</label>
+                            <input type="text" class="form-control" placeholder="Masukkan lokasi kegiatan">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Gambar</label>
+                            <input type="file" class="form-control" accept="image/*">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Kuota Peserta</label>
+                            <input type="number" class="form-control" placeholder="Masukkan kuota peserta">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-success">Simpan Agenda</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Edit Artikel -->
+    <div class="modal fade" id="modalEditArtikel" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Artikel</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="mb-3">
+                            <label class="form-label">Judul Artikel</label>
+                            <input type="text" class="form-control" value="Cara Membuat Kompos dari Sampah Dapur">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Konten Artikel</label>
+                            <textarea class="form-control"
+                                rows="6">Panduan lengkap membuat kompos dari sampah organik rumah tangga...</textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Gambar Utama</label>
+                            <input type="file" class="form-control" accept="image/*">
+                            <div class="form-text">Gambar saat ini: <img src="img/product/small/product-1.webp"
+                                    class="rounded sw-4 sh-4 ms-2"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Kategori</label>
+                            <select class="form-select">
+                                <option value="education" selected>Edukasi</option>
+                                <option value="tips">Tips & Trik</option>
+                                <option value="news">Berita</option>
+                                <option value="tutorial">Tutorial</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Status</label>
+                            <div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="editStatusArtikel" id="editDraft"
+                                        value="draft">
+                                    <label class="form-check-label" for="editDraft">Draft</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="editStatusArtikel"
+                                        id="editPublish" value="publish" checked>
+                                    <label class="form-check-label" for="editPublish">Publish</label>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-primary">Update Artikel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 col-sm-6">
+                        <p class="mb-0 text-muted text-medium">Food Cycle &copy; 2024 - Kelola Kampanye Lingkungan</p>
+                    </div>
+                    <div class="col-sm-6 d-none d-sm-block">
+                        <ul class="breadcrumb pt-0 pe-0 mb-0 float-end">
+                            <li class="breadcrumb-item mb-0 text-medium">
+                                <a href="#" class="btn-link">Bantuan</a>
+                            </li>
+                            <li class="breadcrumb-item mb-0 text-medium">
+                                <a href="#" class="btn-link">Kebijakan</a>
+                            </li>
+                            <li class="breadcrumb-item mb-0 text-medium">
+                                <a href="#" class="btn-link">Kontak</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Vendor Scripts -->
+    <script src="js/vendor/jquery-3.5.1.min.js"></script>
+    <script src="js/vendor/bootstrap.bundle.min.js"></script>
+    <script src="js/vendor/OverlayScrollbars.min.js"></script>
+    <script src="js/vendor/autoComplete.min.js"></script>
+    <script src="js/vendor/clamp.min.js"></script>
+
+    <script src="icon/acorn-icons.js"></script>
+    <script src="icon/acorn-icons-interface.js"></script>
+
+    <!-- Template Base Scripts -->
+    <script src="js/base/helpers.js"></script>
+    <script src="js/base/globals.js"></script>
+    <script src="js/base/nav.js"></script>
+    <script src="js/base/search.js"></script>
+    <script src="js/base/settings.js"></script>
+
+    <!-- Page Specific Scripts -->
+    <script src="js/common.js"></script>
+    <script src="js/scripts.js"></script>
+
+</body>
+
+</html>
