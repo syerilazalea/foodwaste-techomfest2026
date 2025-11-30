@@ -1,0 +1,173 @@
+<div class="col-12 col-sm-6 col-lg-3">
+    <div class="card hover-scale-up cursor-pointer sh-19">
+        <div class="h-100 d-flex flex-column justify-content-between card-body align-items-center">
+            <div class="bg-gradient-light sh-5 sw-5 rounded-xl d-flex justify-content-center align-items-center mb-2">
+                <i data-acorn-icon="gift" class="text-white"></i>
+            </div>
+            <div class="heading text-center mb-0 d-flex align-items-center lh-1">
+                Disumbangkan</div>
+            <div class="text-small text-primary">14 ITEM</div>
+        </div>
+    </div>
+</div>
+
+<div class="col-12 col-sm-6 col-lg-3">
+    <div class="card hover-scale-up cursor-pointer sh-19">
+        <div class="h-100 d-flex flex-column justify-content-between card-body align-items-center">
+            <div class="bg-gradient-light sh-5 sw-5 rounded-xl d-flex justify-content-center align-items-center mb-2">
+                <i data-acorn-icon="clock" class="text-white"></i>
+            </div>
+            <div class="heading text-center mb-0 d-flex align-items-center lh-1">Menunggu Diambil
+            </div>
+            <div class="text-small text-primary">8 ITEM</div>
+        </div>
+    </div>
+</div>
+
+<div class="col-12 col-sm-6 col-lg-3">
+    <div class="card hover-scale-up cursor-pointer sh-19">
+        <div class="h-100 d-flex flex-column justify-content-between card-body align-items-center">
+            <div class="bg-gradient-light sh-5 sw-5 rounded-xl d-flex justify-content-center align-items-center mb-2">
+                <i data-acorn-icon="check-circle" class="text-white"></i>
+            </div>
+            <div class="heading text-center mb-0 d-flex align-items-center lh-1">Telah Diterima
+            </div>
+            <div class="text-small text-primary">21 ITEM</div>
+        </div>
+    </div>
+</div>
+
+<div class="col-12 col-sm-6 col-lg-3">
+    <div class="card hover-scale-up cursor-pointer sh-19">
+        <div class="h-100 d-flex flex-column justify-content-between card-body align-items-center">
+            <div class="bg-gradient-light sh-5 sw-5 rounded-xl d-flex justify-content-center align-items-center mb-2">
+                <i data-acorn-icon="slash" class="text-white"></i>
+            </div>
+            <div class="heading text-center mb-0 d-flex align-items-center lh-1">Expired
+            </div>
+            <div class="text-small text-primary">21 ITEM</div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Makanan yang dipesan -->
+<div class="col-12 col-xl-6 mb-5">
+    <div class="d-flex justify-content-between">
+        <h2 class="small-title">Makanan</h2>
+        <button class="btn btn-icon btn-icon-only btn-sm btn-background-alternate mt-n2 shadow" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">
+                        <i data-acorn-icon="more-horizontal" data-acorn-size="15"></i>
+                    </button>
+        <div class="dropdown-menu dropdown-menu-sm dropdown-menu-end shadow">
+            <a class="dropdown-item" href="#">Semua</a>
+            <a class="dropdown-item" href="#">Belum Diambil</a>
+            <a class="dropdown-item" href="#">Sudah Diambil</a>
+        </div>
+    </div>
+
+    <div class="scroll-out">
+        <div class="scroll-by-count" data-count="4">
+            @foreach($dipesanMakanan as $item) @if($item->makanan)
+            <div class="card mb-2">
+                <div class="row g-0 sh-12">
+                    <div class="col-auto position-relative">
+                        <span class="badge rounded-pill
+                                @if($item->status == 'diterima') bg-primary
+                                @elseif($item->status == 'perjalanan') bg-info
+                                @elseif($item->status == 'menunggu') bg-warning
+                                @endif
+                                me-1 position-absolute s-n2 t-2 z-index-1 t-1">
+                                        {{ ucfirst($item->status) }}
+                                    </span>
+                        <img src="{{ asset($item->makanan->gambar ?? 'default.png') }}" alt="{{ $item->makanan->nama ?? '-' }}" class="card-img card-img-horizontal sw-13 sw-lg-15" />
+                    </div>
+
+                    <div class="col">
+                        <div class="card-body pt-0 pb-0 h-100">
+                            <div class="row g-0 h-100 align-content-center">
+                                <div class="col-12 col-md-7 d-flex flex-column mb-2 mb-md-0">
+                                    <span class="fw-bold">{{ $item->makanan->nama ?? '-' }}</span>
+                                    <div class="text-muted small">
+                                        penyedia - @if ($item->makanan->user && $item->makanan->user->role === 'aktivis') {{ $item->makanan->user->organisasi }} @elseif($item->makanan->user) {{ $item->makanan->user->name }} @else - @endif
+                                    </div>
+                                    <div class="text-small text-primary">
+                                        Batas Pengambilan: {{ $item->makanan->batas_waktu ? \Carbon\Carbon::parse($item->makanan->batas_waktu)->format('H:i') : '-' }} WIB
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-md-5 d-flex align-items-center justify-content-md-end">
+                                    <button class="btn btn-sm btn-outline-primary ms-1" data-bs-toggle="modal" data-bs-target="#modalMakanan{{ $item->id }}">
+                                                    Detail
+                                                </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            @endif @endforeach
+        </div>
+    </div>
+</div>
+
+<!-- Produk Daur Ulang yang dipesan -->
+<div class="col-12 col-xl-6 mb-5">
+    <div class="d-flex justify-content-between">
+        <h2 class="small-title">Makanan</h2>
+        <button class="btn btn-icon btn-icon-only btn-sm btn-background-alternate mt-n2 shadow" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">
+                        <i data-acorn-icon="more-horizontal" data-acorn-size="15"></i>
+                    </button>
+        <div class="dropdown-menu dropdown-menu-sm dropdown-menu-end shadow">
+            <a class="dropdown-item" href="#">Semua</a>
+            <a class="dropdown-item" href="#">Belum Diambil</a>
+            <a class="dropdown-item" href="#">Sudah Diambil</a>
+        </div>
+    </div>
+
+    <div class="scroll-out">
+        <div class="scroll-by-count" data-count="4">
+            @foreach($dipesanDaurUlang as $item) @if($item->daurUlang)
+            <div class="card mb-2">
+                <div class="row g-0 sh-12">
+                    <div class="col-auto position-relative">
+                        <span class="badge rounded-pill
+                                @if($item->status == 'diterima') bg-primary
+                                @elseif($item->status == 'perjalanan') bg-info
+                                @elseif($item->status == 'menunggu') bg-warning
+                                @endif
+                                me-1 position-absolute s-n2 t-2 z-index-1 t-1">
+                                        {{ ucfirst($item->status) }}
+                                    </span>
+                        <img src="{{ asset($item->daurUlang->gambar ?? 'default.png') }}" alt="{{ $item->daurUlang->nama ?? '-' }}" class="card-img card-img-horizontal sw-13 sw-lg-15" />
+                    </div>
+
+                    <div class="col">
+                        <div class="card-body pt-0 pb-0 h-100">
+                            <div class="row g-0 h-100 align-content-center">
+                                <div class="col-12 col-md-7 d-flex flex-column mb-2 mb-md-0">
+                                    <span class="fw-bold">{{ $item->daurUlang->nama ?? '-' }}</span>
+                                    <div class="text-muted small">
+                                        penyedia - @if ($item->daurUlang->user && $item->daurUlang->user->role === 'aktivis') {{ $item->daurUlang->user->organisasi }} @elseif($item->daurUlang->user) {{ $item->daurUlang->user->name }} @else - @endif
+                                    </div>
+                                    <div class="text-small text-primary">
+                                        Batas Pengambilan: {{ $item->daurUlang->batas_waktu ? \Carbon\Carbon::parse($item->daurUlang->batas_waktu)->format('H:i') : '-' }} WIB
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-md-5 d-flex align-items-center justify-content-md-end">
+                                    <button class="btn btn-sm btn-outline-primary ms-1" data-bs-toggle="modal" data-bs-target="#modalDaurUlang{{ $item->id }}">
+                                                    Detail
+                                                </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            @endif @endforeach
+        </div>
+    </div>
+</div>

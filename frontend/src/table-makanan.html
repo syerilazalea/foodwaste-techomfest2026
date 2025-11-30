@@ -32,23 +32,22 @@
         <div id="nav" class="nav-container d-flex">
             <div class="nav-content d-flex">
                 <div class="logo position-relative">
-                    <a href="home.html">
+                    <a href="Dashboards.Default.html">
                         <div class="img"></div>
                     </a>
                 </div>
                 <!-- User Menu Start -->
                 <div class="user-container d-flex">
-                    <a href="#" class="d-flex user position-relative" data-bs-toggle="dropdown" aria-haspopup="true"
-                        aria-expanded="false">
+                    <a href="#" class="d-flex user position-relative" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <img class="profile" alt="profile" src="img/profile/profile-9.webp" />
-                        <div class="name">User Penyedia</div>
+                        <div class="name">User</div>
                     </a>
                     <div class="dropdown-menu dropdown-menu-end user-menu wide">
                         <div class="row mb-1 ms-0 me-0">
                             <div class="col-6 pe-1 ps-1">
                                 <ul class="list-unstyled">
                                     <li>
-                                        <a href="#">
+                                        <a href="setting.html">
                                             <i data-acorn-icon="gear" class="me-2" data-acorn-size="17"></i>
                                             <span class="align-middle">Settings</span>
                                         </a>
@@ -85,14 +84,14 @@
                 <div class="menu-container flex-grow-1">
                     <ul id="menu" class="menu">
                         <li>
-                            <a href="dashboard-penyedia.html">
+                            <a href="dashboard-user.html">
                                 <i data-acorn-icon="home" class="icon" data-acorn-size="18"></i>
                                 <span class="label">Dashboard</span>
                             </a>
                         </li>
-                         <li>
+                        <li>
                             <a href="#data-item" data-bs-toggle="collapse" class="dropdown-toggle">
-                                <i data-acorn-icon="home" class="icon" data-acorn-size="18"></i>
+                                <i data-acorn-icon="list" class="icon" data-acorn-size="18"></i>
                                 <span class="label">Data Item</span>
                             </a>
                             <ul id="data-item" class="collapse">
@@ -111,7 +110,7 @@
 
                         <li>
                             <a href="#menu-katalog" data-bs-toggle="collapse" class="dropdown-toggle">
-                                <i data-acorn-icon="home" class="icon" data-acorn-size="18"></i>
+                                <i data-acorn-icon="layout-2" class="icon" data-acorn-size="18"></i>
                                 <span class="label">Katalog</span>
                             </a>
                             <ul id="menu-katalog" class="collapse">
@@ -122,34 +121,41 @@
 
                         <li>
                             <a href="kampanye.html">
-                                <i data-acorn-icon="home" class="icon" data-acorn-size="18"></i>
+                                <i data-acorn-icon="menu-bookmark" class="icon" data-acorn-size="18"></i>
                                 <span class="label">Kampanye</span>
                             </a>
                         </li>
 
                         <li>
                             <a href="tentang-kami.html">
-                                <i data-acorn-icon="home" class="icon" data-acorn-size="18"></i>
+                                <i data-acorn-icon="support" class="icon" data-acorn-size="18"></i>
                                 <span class="label">Tentang Kami</span>
                             </a>
                         </li>
 
                     </ul>
                 </div>
-
                 <!-- Menu End -->
 
-                <!-- Mobile Buttons -->
+                <!-- Mobile Buttons Start -->
                 <div class="mobile-buttons-container">
+                    <!-- Scrollspy Mobile Button Start -->
                     <a href="#" id="scrollSpyButton" class="spy-button" data-bs-toggle="dropdown">
                         <i data-acorn-icon="menu-dropdown"></i>
                     </a>
+                    <!-- Scrollspy Mobile Button End -->
+
+                    <!-- Scrollspy Mobile Dropdown Start -->
                     <div class="dropdown-menu dropdown-menu-end" id="scrollSpyDropdown"></div>
+                    <!-- Scrollspy Mobile Dropdown End -->
+
+                    <!-- Menu Button Start -->
                     <a href="#" id="mobileMenuButton" class="menu-button">
                         <i data-acorn-icon="menu"></i>
                     </a>
+                    <!-- Menu Button End -->
                 </div>
-                <!-- Mobile Buttons -->
+                <!-- Mobile Buttons End -->
             </div>
             <div class="nav-shadow"></div>
         </div>
@@ -169,8 +175,7 @@
                             <div class="card-body">
                                 <div class="d-flex justify-content-between align-items-center mb-3">
                                     <h5 class="mb-0 fw-bold">Daftar Makanan</h5>
-                                    <button class="btn btn-icon btn-icon-end btn-primary mb-1" data-bs-toggle="modal"
-                                        data-bs-target="#modalInput" type="button">
+                                    <button class="btn btn-icon btn-icon-end btn-primary mb-1" data-bs-toggle="modal" data-bs-target="#modalInput" type="button">
                                         <span>Tambahkan Item</span>
                                         <i data-acorn-icon="plus"></i>
                                     </button>
@@ -194,8 +199,7 @@
                                         <tbody id="tableBody">
                                             <tr>
                                                 <td>
-                                                    <img src="img/product/small/product-1.webp"
-                                                        class="rounded sw-5 sh-5">
+                                                    <img src="img/product/small/product-1.webp" class="rounded sw-5 sh-5">
                                                 </td>
                                                 <td>Nasi Kotak</td>
                                                 <td>RM Sederhana</td>
@@ -204,23 +208,17 @@
                                                 <td>35</td>
                                                 <td>14:00 WIB</td>
                                                 <td class="text-nowrap">
-                                                    <button
-                                                        class="btn btn-sm btn-icon btn-icon-only btn-outline-secondary me-1"
-                                                        data-bs-toggle="modal" data-bs-target="#modalInput"
-                                                        onclick="setEdit(1)">
+                                                    <button class="btn btn-sm btn-icon btn-icon-only btn-outline-secondary me-1" data-bs-toggle="modal" data-bs-target="#modalInput" onclick="setEdit(1)">
                                                         <i data-acorn-icon="pen"></i>
                                                     </button>
-                                                    <button class="btn btn-sm btn-icon btn-icon-only btn-outline-danger"
-                                                        data-bs-toggle="modal" data-bs-target="#modalDelete"
-                                                        onclick="setDeleteId(1)">
+                                                    <button class="btn btn-sm btn-icon btn-icon-only btn-outline-danger" data-bs-toggle="modal" data-bs-target="#modalDelete" onclick="setDeleteId(1)">
                                                         <i data-acorn-icon="bin"></i>
                                                     </button>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td>
-                                                    <img src="img/product/small/product-1.webp"
-                                                        class="rounded sw-5 sh-5">
+                                                    <img src="img/product/small/product-1.webp" class="rounded sw-5 sh-5">
                                                 </td>
                                                 <td>Nasi Kotak</td>
                                                 <td>RM Sederhana</td>
@@ -229,23 +227,17 @@
                                                 <td>35</td>
                                                 <td>14:00 WIB</td>
                                                 <td class="text-nowrap">
-                                                    <button
-                                                        class="btn btn-sm btn-icon btn-icon-only btn-outline-secondary me-1"
-                                                        data-bs-toggle="modal" data-bs-target="#modalInput"
-                                                        onclick="setEdit(1)">
+                                                    <button class="btn btn-sm btn-icon btn-icon-only btn-outline-secondary me-1" data-bs-toggle="modal" data-bs-target="#modalInput" onclick="setEdit(1)">
                                                         <i data-acorn-icon="pen"></i>
                                                     </button>
-                                                    <button class="btn btn-sm btn-icon btn-icon-only btn-outline-danger"
-                                                        data-bs-toggle="modal" data-bs-target="#modalDelete"
-                                                        onclick="setDeleteId(1)">
+                                                    <button class="btn btn-sm btn-icon btn-icon-only btn-outline-danger" data-bs-toggle="modal" data-bs-target="#modalDelete" onclick="setDeleteId(1)">
                                                         <i data-acorn-icon="bin"></i>
                                                     </button>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td>
-                                                    <img src="img/product/small/product-1.webp"
-                                                        class="rounded sw-5 sh-5">
+                                                    <img src="img/product/small/product-1.webp" class="rounded sw-5 sh-5">
                                                 </td>
                                                 <td>Nasi Kotak</td>
                                                 <td>RM Sederhana</td>
@@ -254,23 +246,17 @@
                                                 <td>35</td>
                                                 <td>14:00 WIB</td>
                                                 <td class="text-nowrap">
-                                                    <button
-                                                        class="btn btn-sm btn-icon btn-icon-only btn-outline-secondary me-1"
-                                                        data-bs-toggle="modal" data-bs-target="#modalInput"
-                                                        onclick="setEdit(1)">
+                                                    <button class="btn btn-sm btn-icon btn-icon-only btn-outline-secondary me-1" data-bs-toggle="modal" data-bs-target="#modalInput" onclick="setEdit(1)">
                                                         <i data-acorn-icon="pen"></i>
                                                     </button>
-                                                    <button class="btn btn-sm btn-icon btn-icon-only btn-outline-danger"
-                                                        data-bs-toggle="modal" data-bs-target="#modalDelete"
-                                                        onclick="setDeleteId(1)">
+                                                    <button class="btn btn-sm btn-icon btn-icon-only btn-outline-danger" data-bs-toggle="modal" data-bs-target="#modalDelete" onclick="setDeleteId(1)">
                                                         <i data-acorn-icon="bin"></i>
                                                     </button>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td>
-                                                    <img src="img/product/small/product-1.webp"
-                                                        class="rounded sw-5 sh-5">
+                                                    <img src="img/product/small/product-1.webp" class="rounded sw-5 sh-5">
                                                 </td>
                                                 <td>Nasi Kotak</td>
                                                 <td>RM Sederhana</td>
@@ -279,23 +265,17 @@
                                                 <td>35</td>
                                                 <td>14:00 WIB</td>
                                                 <td class="text-nowrap">
-                                                    <button
-                                                        class="btn btn-sm btn-icon btn-icon-only btn-outline-secondary me-1"
-                                                        data-bs-toggle="modal" data-bs-target="#modalInput"
-                                                        onclick="setEdit(1)">
+                                                    <button class="btn btn-sm btn-icon btn-icon-only btn-outline-secondary me-1" data-bs-toggle="modal" data-bs-target="#modalInput" onclick="setEdit(1)">
                                                         <i data-acorn-icon="pen"></i>
                                                     </button>
-                                                    <button class="btn btn-sm btn-icon btn-icon-only btn-outline-danger"
-                                                        data-bs-toggle="modal" data-bs-target="#modalDelete"
-                                                        onclick="setDeleteId(1)">
+                                                    <button class="btn btn-sm btn-icon btn-icon-only btn-outline-danger" data-bs-toggle="modal" data-bs-target="#modalDelete" onclick="setDeleteId(1)">
                                                         <i data-acorn-icon="bin"></i>
                                                     </button>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td>
-                                                    <img src="img/product/small/product-1.webp"
-                                                        class="rounded sw-5 sh-5">
+                                                    <img src="img/product/small/product-1.webp" class="rounded sw-5 sh-5">
                                                 </td>
                                                 <td>Nasi Kotak</td>
                                                 <td>RM Sederhana</td>
@@ -304,23 +284,17 @@
                                                 <td>35</td>
                                                 <td>14:00 WIB</td>
                                                 <td class="text-nowrap">
-                                                    <button
-                                                        class="btn btn-sm btn-icon btn-icon-only btn-outline-secondary me-1"
-                                                        data-bs-toggle="modal" data-bs-target="#modalInput"
-                                                        onclick="setEdit(1)">
+                                                    <button class="btn btn-sm btn-icon btn-icon-only btn-outline-secondary me-1" data-bs-toggle="modal" data-bs-target="#modalInput" onclick="setEdit(1)">
                                                         <i data-acorn-icon="pen"></i>
                                                     </button>
-                                                    <button class="btn btn-sm btn-icon btn-icon-only btn-outline-danger"
-                                                        data-bs-toggle="modal" data-bs-target="#modalDelete"
-                                                        onclick="setDeleteId(1)">
+                                                    <button class="btn btn-sm btn-icon btn-icon-only btn-outline-danger" data-bs-toggle="modal" data-bs-target="#modalDelete" onclick="setDeleteId(1)">
                                                         <i data-acorn-icon="bin"></i>
                                                     </button>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td>
-                                                    <img src="img/product/small/product-1.webp"
-                                                        class="rounded sw-5 sh-5">
+                                                    <img src="img/product/small/product-1.webp" class="rounded sw-5 sh-5">
                                                 </td>
                                                 <td>Nasi Kotak</td>
                                                 <td>RM Sederhana</td>
@@ -329,23 +303,17 @@
                                                 <td>35</td>
                                                 <td>14:00 WIB</td>
                                                 <td class="text-nowrap">
-                                                    <button
-                                                        class="btn btn-sm btn-icon btn-icon-only btn-outline-secondary me-1"
-                                                        data-bs-toggle="modal" data-bs-target="#modalInput"
-                                                        onclick="setEdit(1)">
+                                                    <button class="btn btn-sm btn-icon btn-icon-only btn-outline-secondary me-1" data-bs-toggle="modal" data-bs-target="#modalInput" onclick="setEdit(1)">
                                                         <i data-acorn-icon="pen"></i>
                                                     </button>
-                                                    <button class="btn btn-sm btn-icon btn-icon-only btn-outline-danger"
-                                                        data-bs-toggle="modal" data-bs-target="#modalDelete"
-                                                        onclick="setDeleteId(1)">
+                                                    <button class="btn btn-sm btn-icon btn-icon-only btn-outline-danger" data-bs-toggle="modal" data-bs-target="#modalDelete" onclick="setDeleteId(1)">
                                                         <i data-acorn-icon="bin"></i>
                                                     </button>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td>
-                                                    <img src="img/product/small/product-1.webp"
-                                                        class="rounded sw-5 sh-5">
+                                                    <img src="img/product/small/product-1.webp" class="rounded sw-5 sh-5">
                                                 </td>
                                                 <td>Nasi Kotak</td>
                                                 <td>RM Sederhana</td>
@@ -354,23 +322,17 @@
                                                 <td>35</td>
                                                 <td>14:00 WIB</td>
                                                 <td class="text-nowrap">
-                                                    <button
-                                                        class="btn btn-sm btn-icon btn-icon-only btn-outline-secondary me-1"
-                                                        data-bs-toggle="modal" data-bs-target="#modalInput"
-                                                        onclick="setEdit(1)">
+                                                    <button class="btn btn-sm btn-icon btn-icon-only btn-outline-secondary me-1" data-bs-toggle="modal" data-bs-target="#modalInput" onclick="setEdit(1)">
                                                         <i data-acorn-icon="pen"></i>
                                                     </button>
-                                                    <button class="btn btn-sm btn-icon btn-icon-only btn-outline-danger"
-                                                        data-bs-toggle="modal" data-bs-target="#modalDelete"
-                                                        onclick="setDeleteId(1)">
+                                                    <button class="btn btn-sm btn-icon btn-icon-only btn-outline-danger" data-bs-toggle="modal" data-bs-target="#modalDelete" onclick="setDeleteId(1)">
                                                         <i data-acorn-icon="bin"></i>
                                                     </button>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td>
-                                                    <img src="img/product/small/product-1.webp"
-                                                        class="rounded sw-5 sh-5">
+                                                    <img src="img/product/small/product-1.webp" class="rounded sw-5 sh-5">
                                                 </td>
                                                 <td>Nasi Kotak</td>
                                                 <td>RM Sederhana</td>
@@ -379,23 +341,17 @@
                                                 <td>35</td>
                                                 <td>14:00 WIB</td>
                                                 <td class="text-nowrap">
-                                                    <button
-                                                        class="btn btn-sm btn-icon btn-icon-only btn-outline-secondary me-1"
-                                                        data-bs-toggle="modal" data-bs-target="#modalInput"
-                                                        onclick="setEdit(1)">
+                                                    <button class="btn btn-sm btn-icon btn-icon-only btn-outline-secondary me-1" data-bs-toggle="modal" data-bs-target="#modalInput" onclick="setEdit(1)">
                                                         <i data-acorn-icon="pen"></i>
                                                     </button>
-                                                    <button class="btn btn-sm btn-icon btn-icon-only btn-outline-danger"
-                                                        data-bs-toggle="modal" data-bs-target="#modalDelete"
-                                                        onclick="setDeleteId(1)">
+                                                    <button class="btn btn-sm btn-icon btn-icon-only btn-outline-danger" data-bs-toggle="modal" data-bs-target="#modalDelete" onclick="setDeleteId(1)">
                                                         <i data-acorn-icon="bin"></i>
                                                     </button>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td>
-                                                    <img src="img/product/small/product-1.webp"
-                                                        class="rounded sw-5 sh-5">
+                                                    <img src="img/product/small/product-1.webp" class="rounded sw-5 sh-5">
                                                 </td>
                                                 <td>Nasi Kotak</td>
                                                 <td>RM Sederhana</td>
@@ -404,15 +360,10 @@
                                                 <td>35</td>
                                                 <td>14:00 WIB</td>
                                                 <td class="text-nowrap">
-                                                    <button
-                                                        class="btn btn-sm btn-icon btn-icon-only btn-outline-secondary me-1"
-                                                        data-bs-toggle="modal" data-bs-target="#modalInput"
-                                                        onclick="setEdit(1)">
+                                                    <button class="btn btn-sm btn-icon btn-icon-only btn-outline-secondary me-1" data-bs-toggle="modal" data-bs-target="#modalInput" onclick="setEdit(1)">
                                                         <i data-acorn-icon="pen"></i>
                                                     </button>
-                                                    <button class="btn btn-sm btn-icon btn-icon-only btn-outline-danger"
-                                                        data-bs-toggle="modal" data-bs-target="#modalDelete"
-                                                        onclicak="setDeleteId(1)">
+                                                    <button class="btn btn-sm btn-icon btn-icon-only btn-outline-danger" data-bs-toggle="modal" data-bs-target="#modalDelete" onclicak="setDeleteId(1)">
                                                         <i data-acorn-icon="bin"></i>
                                                     </button>
                                                 </td>
@@ -488,6 +439,28 @@
 
                 <div class="modal-body">
                     <form id="formInputMakanan">
+                        <!-- Bagian Upload Foto -->
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <label class="form-label fw-semibold">Foto Makanan</label>
+                                <div class="image-preview-container" id="imagePreviewContainer">
+                                    <input type="file" class="file-input" id="fileInput" accept="image/*">
+                                    <i class="bi bi-cloud-upload upload-icon"></i>
+                                    <p class="upload-text">Klik untuk mengunggah foto makanan</p>
+                                    <p class="text-muted small mt-2">Format: JPG, PNG, atau GIF (Maks. 5MB)</p>
+                                    <img class="image-preview" id="imagePreview" alt="Preview gambar makanan">
+                                    <div class="image-actions">
+                                        <button type="button" class="btn btn-sm btn-outline-secondary" id="changeImageBtn">
+                                            <i class="bi bi-arrow-repeat"></i> Ganti Foto
+                                        </button>
+                                        <button type="button" class="btn btn-sm btn-outline-danger" id="removeImageBtn">
+                                            <i class="bi bi-trash"></i> Hapus
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="row g-4">
                             <div class="col-md-6">
                                 <div class="mb-3">
@@ -496,13 +469,11 @@
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label fw-semibold">Nama Penyedia / Instansi</label>
-                                    <input type="text" class="form-control"
-                                        placeholder="Contoh: RM Sederhana, Hotel Kenanga, Ibu Sari" required>
+                                    <input type="text" class="form-control" placeholder="Contoh: RM Sederhana, Hotel Kenanga, Ibu Sari" required>
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label fw-semibold">Alamat</label>
-                                    <input type="text" class="form-control" placeholder="Alamat lengkap penyedia"
-                                        required>
+                                    <input type="text" class="form-control" placeholder="Alamat lengkap penyedia" required>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -510,13 +481,11 @@
                                     <label class="form-label fw-semibold">Kategori Penyedia</label>
                                     <div class="d-flex gap-3 flex-wrap">
                                         <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="penyedia" value="UMKM"
-                                                required>
+                                            <input class="form-check-input" type="radio" name="penyedia" value="UMKM" required>
                                             <label class="form-check-label">UMKM</label>
                                         </div>
                                         <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="penyedia"
-                                                value="Restoran">
+                                            <input class="form-check-input" type="radio" name="penyedia" value="Restoran">
                                             <label class="form-check-label">Restoran</label>
                                         </div>
                                         <div class="form-check">
@@ -524,9 +493,12 @@
                                             <label class="form-check-label">Hotel</label>
                                         </div>
                                         <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="penyedia"
-                                                value="Rumah Tangga">
+                                            <input class="form-check-input" type="radio" name="penyedia" value="Rumah Tangga">
                                             <label class="form-check-label">Rumah Tangga</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="penyedia" value="Rumah Tangga">
+                                            <label class="form-check-label">Lainnya</label>
                                         </div>
                                     </div>
                                 </div>
@@ -551,18 +523,14 @@
     </div>
 
     <!-- Search Modal Start -->
-    <div class="modal fade modal-under-nav modal-search modal-close-out" id="searchPagesModal" tabindex="-1"
-        role="dialog" aria-hidden="true">
+    <div class="modal fade modal-under-nav modal-search modal-close-out" id="searchPagesModal" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header border-0 p-0">
-                    <button type="button" class="btn-close btn btn-icon btn-icon-only btn-foreground"
-                        data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close btn btn-icon btn-icon-only btn-foreground" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body ps-5 pe-5 pb-0 border-0">
-                    <input id="searchPagesInput"
-                        class="form-control form-control-xl borderless ps-0 pe-0 mb-1 auto-complete" type="text"
-                        autocomplete="off" />
+                    <input id="searchPagesInput" class="form-control form-control-xl borderless ps-0 pe-0 mb-1 auto-complete" type="text" autocomplete="off" />
                 </div>
                 <div class="modal-footer border-top justify-content-start ps-5 pe-5 pb-3 pt-3 border-0">
                     <span class="text-alternate d-inline-block m-0 me-3">
@@ -586,21 +554,14 @@
         <div class="footer-content">
             <div class="container">
                 <div class="row">
+                    <!-- Bagian kiri -->
                     <div class="col-12 col-sm-6">
-                        <p class="mb-0 text-muted text-medium">Lorem ipsum dolor sit amet consectetur.</p>
+                        <p class="mb-0 text-muted text-medium fw-bold">FoodCycle</p>
                     </div>
-                    <div class="col-sm-6 d-none d-sm-block">
-                        <ul class="breadcrumb pt-0 pe-0 mb-0 float-end">
-                            <li class="breadcrumb-item mb-0 text-medium">
-                                <a href="" target="_blank" class="btn-link">lorem</a>
-                            </li>
-                            <li class="breadcrumb-item mb-0 text-medium">
-                                <a href="" target="_blank" class="btn-link">lorem</a>
-                            </li>
-                            <li class="breadcrumb-item mb-0 text-medium">
-                                <a href="" target="_blank" class="btn-link">lorem</a>
-                            </li>
-                        </ul>
+
+                    <!-- Bagian kanan -->
+                    <div class="col-sm-6 d-none d-sm-block text-end">
+                        <p class="mb-0 text-muted text-medium fst-italic">Eat fresh, live sustainably</p>
                     </div>
                 </div>
             </div>
@@ -632,31 +593,68 @@
     <script src="js/common.js"></script>
     <script src="js/scripts.js"></script>
 
-    <!-- script input form -->
-    <script>
-        const radioJenis = document.querySelectorAll('input[name="jenis"]');
-        const fieldMakanan = document.getElementById("fieldMakanan");
-        const fieldKompos = document.getElementById("fieldKompos");
+    <!-- sc -->
 
-        radioJenis.forEach(radio => {
-            radio.addEventListener("change", function () {
-                if (this.value === "makanan") {
-                    fieldMakanan.classList.remove("d-none");
-                    fieldKompos.classList.add("d-none");
-                } else {
-                    fieldMakanan.classList.add("d-none");
-                    fieldKompos.classList.remove("d-none");
+    <!-- script input form -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const fileInput = document.getElementById('fileInput');
+            const imagePreviewContainer = document.getElementById('imagePreviewContainer');
+            const imagePreview = document.getElementById('imagePreview');
+            const changeImageBtn = document.getElementById('changeImageBtn');
+            const removeImageBtn = document.getElementById('removeImageBtn');
+
+            // Fungsi untuk menampilkan preview gambar
+            function showImagePreview(file) {
+                if (file && file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+
+                    reader.onload = function(e) {
+                        imagePreview.src = e.target.result;
+                        imagePreview.style.display = 'block';
+                        imagePreviewContainer.classList.add('has-image');
+                    };
+
+                    reader.readAsDataURL(file);
                 }
+            }
+
+            imagePreviewContainer.addEventListener('click', function() {
+                fileInput.click();
+            });
+
+            fileInput.addEventListener('change', function() {
+                if (this.files && this.files[0]) {
+                    if (this.files[0].size > 5 * 1024 * 1024) {
+                        alert('Ukuran file terlalu besar. Maksimal 5MB.');
+                        return;
+                    }
+
+                    showImagePreview(this.files[0]);
+                }
+            });
+
+            changeImageBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                fileInput.click();
+            });
+
+            removeImageBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                fileInput.value = '';
+                imagePreview.style.display = 'none';
+                imagePreviewContainer.classList.remove('has-image');
             });
         });
     </script>
     <style>
-  .table-scroll {
-    max-height: 400px;
-    overflow-y: auto;
-    display: block;
-  }
-</style>
+        .table-scroll {
+            max-height: 400px;
+            overflow-y: auto;
+            display: block;
+        }
+    </style>
 
 
     <!-- Page Specific Scripts End -->

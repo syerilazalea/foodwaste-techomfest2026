@@ -16,7 +16,12 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
+            $table->string('phone')->nullable();
             $table->string('password');
+            $table->enum('role', ['user', 'aktivis'])->default('user');
+            $table->string('alamat')->nullable();
+            $table->string('organisasi')->nullable();
+            $table->string('gambar')->default('default.png'); // Tambahan gambar
             $table->rememberToken();
             $table->timestamps();
         });

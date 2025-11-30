@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" data-footer="true">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
@@ -31,7 +32,7 @@
         <div id="nav" class="nav-container d-flex">
             <div class="nav-content d-flex">
                 <div class="logo position-relative">
-                    <a href="home.html">
+                    <a href="Dashboards.Default.html">
                         <div class="img"></div>
                     </a>
                 </div>
@@ -40,14 +41,14 @@
                     <a href="#" class="d-flex user position-relative" data-bs-toggle="dropdown" aria-haspopup="true"
                         aria-expanded="false">
                         <img class="profile" alt="profile" src="img/profile/profile-9.webp" />
-                        <div class="name">User Penyedia</div>
+                        <div class="name">User</div>
                     </a>
                     <div class="dropdown-menu dropdown-menu-end user-menu wide">
                         <div class="row mb-1 ms-0 me-0">
                             <div class="col-6 pe-1 ps-1">
                                 <ul class="list-unstyled">
                                     <li>
-                                        <a href="#">
+                                        <a href="setting.html">
                                             <i data-acorn-icon="gear" class="me-2" data-acorn-size="17"></i>
                                             <span class="align-middle">Settings</span>
                                         </a>
@@ -84,14 +85,14 @@
                 <div class="menu-container flex-grow-1">
                     <ul id="menu" class="menu">
                         <li>
-                            <a href="dashboard-penyedia.html">
+                            <a href="dashboard-user.html">
                                 <i data-acorn-icon="home" class="icon" data-acorn-size="18"></i>
                                 <span class="label">Dashboard</span>
                             </a>
                         </li>
-                         <li>
+                        <li>
                             <a href="#data-item" data-bs-toggle="collapse" class="dropdown-toggle">
-                                <i data-acorn-icon="home" class="icon" data-acorn-size="18"></i>
+                                <i data-acorn-icon="list" class="icon" data-acorn-size="18"></i>
                                 <span class="label">Data Item</span>
                             </a>
                             <ul id="data-item" class="collapse">
@@ -110,7 +111,7 @@
 
                         <li>
                             <a href="#menu-katalog" data-bs-toggle="collapse" class="dropdown-toggle">
-                                <i data-acorn-icon="home" class="icon" data-acorn-size="18"></i>
+                                <i data-acorn-icon="layout-2" class="icon" data-acorn-size="18"></i>
                                 <span class="label">Katalog</span>
                             </a>
                             <ul id="menu-katalog" class="collapse">
@@ -121,34 +122,41 @@
 
                         <li>
                             <a href="kampanye.html">
-                                <i data-acorn-icon="home" class="icon" data-acorn-size="18"></i>
+                                <i data-acorn-icon="menu-bookmark" class="icon" data-acorn-size="18"></i>
                                 <span class="label">Kampanye</span>
                             </a>
                         </li>
 
                         <li>
                             <a href="tentang-kami.html">
-                                <i data-acorn-icon="home" class="icon" data-acorn-size="18"></i>
+                                <i data-acorn-icon="support" class="icon" data-acorn-size="18"></i>
                                 <span class="label">Tentang Kami</span>
                             </a>
                         </li>
 
                     </ul>
                 </div>
-
                 <!-- Menu End -->
 
-                <!-- Mobile Buttons -->
+                <!-- Mobile Buttons Start -->
                 <div class="mobile-buttons-container">
+                    <!-- Scrollspy Mobile Button Start -->
                     <a href="#" id="scrollSpyButton" class="spy-button" data-bs-toggle="dropdown">
                         <i data-acorn-icon="menu-dropdown"></i>
                     </a>
+                    <!-- Scrollspy Mobile Button End -->
+
+                    <!-- Scrollspy Mobile Dropdown Start -->
                     <div class="dropdown-menu dropdown-menu-end" id="scrollSpyDropdown"></div>
+                    <!-- Scrollspy Mobile Dropdown End -->
+
+                    <!-- Menu Button Start -->
                     <a href="#" id="mobileMenuButton" class="menu-button">
                         <i data-acorn-icon="menu"></i>
                     </a>
+                    <!-- Menu Button End -->
                 </div>
-                <!-- Mobile Buttons -->
+                <!-- Mobile Buttons End -->
             </div>
             <div class="nav-shadow"></div>
         </div>
@@ -158,140 +166,9 @@
                 <div class="row">
                     <section class="scroll-section" id="basicItems">
                         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4">
-                             <div class="col mb-5">
-                                <div class="card shadow-sm" style="border-radius: 14px; overflow: hidden;" data-bs-toggle="modal" data-bs-target="#modalDetail1">
-                                    <img src="img/product/small/product-1.webp" class="card-img-top"
-                                        style="height: 160px; object-fit: cover;" alt="card image" />
-
-                                    <div class="card-body p-3">
-                                        <h5 class="heading mb-3">
-                                            <a href="#" class="body-link stretched-link">Nasi Kotak Ayam</a>
-                                        </h5>
-                                        <div class="d-flex align-items-center text-muted small mb-2" style="gap: 16px;">
-                                            <div class="d-flex align-items-center">
-                                                <i data-acorn-icon="user" class="me-1"></i>
-                                                <span class="text-primary">35 Porsi</span>
-                                            </div>
-                                            <div class="d-flex align-items-center">
-                                                <i data-acorn-icon="clock" class="me-1"></i>
-                                                <span class="text-primary">14:00 WIB</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                             <div class="col mb-5">
-                                <div class="card shadow-sm" style="border-radius: 14px; overflow: hidden;" data-bs-toggle="modal" data-bs-target="#modalDetail1">
-                                    <img src="img/product/small/product-1.webp" class="card-img-top"
-                                        style="height: 160px; object-fit: cover;" alt="card image" />
-
-                                    <div class="card-body p-3">
-                                        <h5 class="heading mb-3">
-                                            <a href="#" class="body-link stretched-link">Nasi Kotak Ayam</a>
-                                        </h5>
-                                        <div class="d-flex align-items-center text-muted small mb-2" style="gap: 16px;">
-                                            <div class="d-flex align-items-center">
-                                                <i data-acorn-icon="user" class="me-1"></i>
-                                                <span class="text-primary">35 Porsi</span>
-                                            </div>
-                                            <div class="d-flex align-items-center">
-                                                <i data-acorn-icon="clock" class="me-1"></i>
-                                                <span class="text-primary">14:00 WIB</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                             <div class="col mb-5">
-                                <div class="card shadow-sm" style="border-radius: 14px; overflow: hidden;" data-bs-toggle="modal" data-bs-target="#modalDetail1">
-                                    <img src="img/product/small/product-1.webp" class="card-img-top"
-                                        style="height: 160px; object-fit: cover;" alt="card image" />
-
-                                    <div class="card-body p-3">
-                                        <h5 class="heading mb-3">
-                                            <a href="#" class="body-link stretched-link">Nasi Kotak Ayam</a>
-                                        </h5>
-                                        <div class="d-flex align-items-center text-muted small mb-2" style="gap: 16px;">
-                                            <div class="d-flex align-items-center">
-                                                <i data-acorn-icon="user" class="me-1"></i>
-                                                <span class="text-primary">35 Porsi</span>
-                                            </div>
-                                            <div class="d-flex align-items-center">
-                                                <i data-acorn-icon="clock" class="me-1"></i>
-                                                <span class="text-primary">14:00 WIB</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                             <div class="col mb-5">
-                                <div class="card shadow-sm" style="border-radius: 14px; overflow: hidden;" data-bs-toggle="modal" data-bs-target="#modalDetail1">
-                                    <img src="img/product/small/product-1.webp" class="card-img-top"
-                                        style="height: 160px; object-fit: cover;" alt="card image" />
-
-                                    <div class="card-body p-3">
-                                        <h5 class="heading mb-3">
-                                            <a href="#" class="body-link stretched-link">Nasi Kotak Ayam</a>
-                                        </h5>
-                                        <div class="d-flex align-items-center text-muted small mb-2" style="gap: 16px;">
-                                            <div class="d-flex align-items-center">
-                                                <i data-acorn-icon="user" class="me-1"></i>
-                                                <span class="text-primary">35 Porsi</span>
-                                            </div>
-                                            <div class="d-flex align-items-center">
-                                                <i data-acorn-icon="clock" class="me-1"></i>
-                                                <span class="text-primary">14:00 WIB</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                             <div class="col mb-5">
-                                <div class="card shadow-sm" style="border-radius: 14px; overflow: hidden;" data-bs-toggle="modal" data-bs-target="#modalDetail1">
-                                    <img src="img/product/small/product-1.webp" class="card-img-top"
-                                        style="height: 160px; object-fit: cover;" alt="card image" />
-
-                                    <div class="card-body p-3">
-                                        <h5 class="heading mb-3">
-                                            <a href="#" class="body-link stretched-link">Nasi Kotak Ayam</a>
-                                        </h5>
-                                        <div class="d-flex align-items-center text-muted small mb-2" style="gap: 16px;">
-                                            <div class="d-flex align-items-center">
-                                                <i data-acorn-icon="user" class="me-1"></i>
-                                                <span class="text-primary">35 Porsi</span>
-                                            </div>
-                                            <div class="d-flex align-items-center">
-                                                <i data-acorn-icon="clock" class="me-1"></i>
-                                                <span class="text-primary">14:00 WIB</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                             <div class="col mb-5">
-                                <div class="card shadow-sm" style="border-radius: 14px; overflow: hidden;" data-bs-toggle="modal" data-bs-target="#modalDetail1">
-                                    <img src="img/product/small/product-1.webp" class="card-img-top"
-                                        style="height: 160px; object-fit: cover;" alt="card image" />
-
-                                    <div class="card-body p-3">
-                                        <h5 class="heading mb-3">
-                                            <a href="#" class="body-link stretched-link">Nasi Kotak Ayam</a>
-                                        </h5>
-                                        <div class="d-flex align-items-center text-muted small mb-2" style="gap: 16px;">
-                                            <div class="d-flex align-items-center">
-                                                <i data-acorn-icon="user" class="me-1"></i>
-                                                <span class="text-primary">35 Porsi</span>
-                                            </div>
-                                            <div class="d-flex align-items-center">
-                                                <i data-acorn-icon="clock" class="me-1"></i>
-                                                <span class="text-primary">14:00 WIB</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                             <div class="col mb-5">
-                                <div class="card shadow-sm" style="border-radius: 14px; overflow: hidden;" data-bs-toggle="modal" data-bs-target="#modalDetail1">
+                            <div class="col mb-5">
+                                <div class="card shadow-sm" style="border-radius: 14px; overflow: hidden;"
+                                    data-bs-toggle="modal" data-bs-target="#modalDetail1">
                                     <img src="img/product/small/product-1.webp" class="card-img-top"
                                         style="height: 160px; object-fit: cover;" alt="card image" />
 
@@ -313,7 +190,146 @@
                                 </div>
                             </div>
                             <div class="col mb-5">
-                                <div class="card shadow-sm" style="border-radius: 14px; overflow: hidden;" data-bs-toggle="modal" data-bs-target="#modalDetail1">
+                                <div class="card shadow-sm" style="border-radius: 14px; overflow: hidden;"
+                                    data-bs-toggle="modal" data-bs-target="#modalDetail1">
+                                    <img src="img/product/small/product-1.webp" class="card-img-top"
+                                        style="height: 160px; object-fit: cover;" alt="card image" />
+
+                                    <div class="card-body p-3">
+                                        <h5 class="heading mb-3">
+                                            <a href="#" class="body-link stretched-link">Nasi Kotak Ayam</a>
+                                        </h5>
+                                        <div class="d-flex align-items-center text-muted small mb-2" style="gap: 16px;">
+                                            <div class="d-flex align-items-center">
+                                                <i data-acorn-icon="user" class="me-1"></i>
+                                                <span class="text-primary">35 Porsi</span>
+                                            </div>
+                                            <div class="d-flex align-items-center">
+                                                <i data-acorn-icon="clock" class="me-1"></i>
+                                                <span class="text-primary">14:00 WIB</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col mb-5">
+                                <div class="card shadow-sm" style="border-radius: 14px; overflow: hidden;"
+                                    data-bs-toggle="modal" data-bs-target="#modalDetail1">
+                                    <img src="img/product/small/product-1.webp" class="card-img-top"
+                                        style="height: 160px; object-fit: cover;" alt="card image" />
+
+                                    <div class="card-body p-3">
+                                        <h5 class="heading mb-3">
+                                            <a href="#" class="body-link stretched-link">Nasi Kotak Ayam</a>
+                                        </h5>
+                                        <div class="d-flex align-items-center text-muted small mb-2" style="gap: 16px;">
+                                            <div class="d-flex align-items-center">
+                                                <i data-acorn-icon="user" class="me-1"></i>
+                                                <span class="text-primary">35 Porsi</span>
+                                            </div>
+                                            <div class="d-flex align-items-center">
+                                                <i data-acorn-icon="clock" class="me-1"></i>
+                                                <span class="text-primary">14:00 WIB</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col mb-5">
+                                <div class="card shadow-sm" style="border-radius: 14px; overflow: hidden;"
+                                    data-bs-toggle="modal" data-bs-target="#modalDetail1">
+                                    <img src="img/product/small/product-1.webp" class="card-img-top"
+                                        style="height: 160px; object-fit: cover;" alt="card image" />
+
+                                    <div class="card-body p-3">
+                                        <h5 class="heading mb-3">
+                                            <a href="#" class="body-link stretched-link">Nasi Kotak Ayam</a>
+                                        </h5>
+                                        <div class="d-flex align-items-center text-muted small mb-2" style="gap: 16px;">
+                                            <div class="d-flex align-items-center">
+                                                <i data-acorn-icon="user" class="me-1"></i>
+                                                <span class="text-primary">35 Porsi</span>
+                                            </div>
+                                            <div class="d-flex align-items-center">
+                                                <i data-acorn-icon="clock" class="me-1"></i>
+                                                <span class="text-primary">14:00 WIB</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col mb-5">
+                                <div class="card shadow-sm" style="border-radius: 14px; overflow: hidden;"
+                                    data-bs-toggle="modal" data-bs-target="#modalDetail1">
+                                    <img src="img/product/small/product-1.webp" class="card-img-top"
+                                        style="height: 160px; object-fit: cover;" alt="card image" />
+
+                                    <div class="card-body p-3">
+                                        <h5 class="heading mb-3">
+                                            <a href="#" class="body-link stretched-link">Nasi Kotak Ayam</a>
+                                        </h5>
+                                        <div class="d-flex align-items-center text-muted small mb-2" style="gap: 16px;">
+                                            <div class="d-flex align-items-center">
+                                                <i data-acorn-icon="user" class="me-1"></i>
+                                                <span class="text-primary">35 Porsi</span>
+                                            </div>
+                                            <div class="d-flex align-items-center">
+                                                <i data-acorn-icon="clock" class="me-1"></i>
+                                                <span class="text-primary">14:00 WIB</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col mb-5">
+                                <div class="card shadow-sm" style="border-radius: 14px; overflow: hidden;"
+                                    data-bs-toggle="modal" data-bs-target="#modalDetail1">
+                                    <img src="img/product/small/product-1.webp" class="card-img-top"
+                                        style="height: 160px; object-fit: cover;" alt="card image" />
+
+                                    <div class="card-body p-3">
+                                        <h5 class="heading mb-3">
+                                            <a href="#" class="body-link stretched-link">Nasi Kotak Ayam</a>
+                                        </h5>
+                                        <div class="d-flex align-items-center text-muted small mb-2" style="gap: 16px;">
+                                            <div class="d-flex align-items-center">
+                                                <i data-acorn-icon="user" class="me-1"></i>
+                                                <span class="text-primary">35 Porsi</span>
+                                            </div>
+                                            <div class="d-flex align-items-center">
+                                                <i data-acorn-icon="clock" class="me-1"></i>
+                                                <span class="text-primary">14:00 WIB</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col mb-5">
+                                <div class="card shadow-sm" style="border-radius: 14px; overflow: hidden;"
+                                    data-bs-toggle="modal" data-bs-target="#modalDetail1">
+                                    <img src="img/product/small/product-1.webp" class="card-img-top"
+                                        style="height: 160px; object-fit: cover;" alt="card image" />
+
+                                    <div class="card-body p-3">
+                                        <h5 class="heading mb-3">
+                                            <a href="#" class="body-link stretched-link">Nasi Kotak Ayam</a>
+                                        </h5>
+                                        <div class="d-flex align-items-center text-muted small mb-2" style="gap: 16px;">
+                                            <div class="d-flex align-items-center">
+                                                <i data-acorn-icon="user" class="me-1"></i>
+                                                <span class="text-primary">35 Porsi</span>
+                                            </div>
+                                            <div class="d-flex align-items-center">
+                                                <i data-acorn-icon="clock" class="me-1"></i>
+                                                <span class="text-primary">14:00 WIB</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col mb-5">
+                                <div class="card shadow-sm" style="border-radius: 14px; overflow: hidden;"
+                                    data-bs-toggle="modal" data-bs-target="#modalDetail1">
                                     <img src="img/product/small/product-1.webp" class="card-img-top"
                                         style="height: 160px; object-fit: cover;" alt="card image" />
 
@@ -424,21 +440,14 @@
         <div class="footer-content">
             <div class="container">
                 <div class="row">
+                    <!-- Bagian kiri -->
                     <div class="col-12 col-sm-6">
-                        <p class="mb-0 text-muted text-medium">Lorem ipsum dolor sit amet consectetur.</p>
+                        <p class="mb-0 text-muted text-medium fw-bold">FoodCycle</p>
                     </div>
-                    <div class="col-sm-6 d-none d-sm-block">
-                        <ul class="breadcrumb pt-0 pe-0 mb-0 float-end">
-                            <li class="breadcrumb-item mb-0 text-medium">
-                                <a href="" target="_blank" class="btn-link">lorem</a>
-                            </li>
-                            <li class="breadcrumb-item mb-0 text-medium">
-                                <a href="" target="_blank" class="btn-link">lorem</a>
-                            </li>
-                            <li class="breadcrumb-item mb-0 text-medium">
-                                <a href="" target="_blank" class="btn-link">lorem</a>
-                            </li>
-                        </ul>
+
+                    <!-- Bagian kanan -->
+                    <div class="col-sm-6 d-none d-sm-block text-end">
+                        <p class="mb-0 text-muted text-medium fst-italic">Eat fresh, live sustainably</p>
                     </div>
                 </div>
             </div>

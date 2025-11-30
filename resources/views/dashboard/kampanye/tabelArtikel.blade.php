@@ -1,0 +1,311 @@
+@extends('dashboard.layouts.app')
+
+@push('styles')
+
+<style>
+    .table-scroll {
+        max-height: 600px;
+        overflow-y: auto;
+        display: block;
+    }
+
+    .badge.bg-outline-primary {
+        background-color: transparent;
+        border: 1px solid var(--bs-primary);
+        color: var(--bs-primary);
+    }
+
+    .badge.bg-outline-info {
+        background-color: transparent;
+        border: 1px solid var(--bs-info);
+        color: var(--bs-info);
+    }
+
+    .badge.bg-outline-success {
+        background-color: transparent;
+        border: 1px solid var(--bs-success);
+        color: var(--bs-success);
+    }
+</style>
+
+@endpush
+
+@section('content')
+
+<main>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-container">
+                    <h1 class="mb-0 pb-0 display-4" id="title">Kelola Artikel</h1>
+                    <p class="mb-0 text-muted">Kelola semua artikel edukasi lingkungan</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabel Artikel -->
+        <div class="row">
+            <section class="scroll-section" id="alwaysResponsive">
+                <div class="card mb-5">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h5 class="mb-0 fw-bold">Daftar Artikel</h5>
+                            <div class="d-flex gap-2">
+                                <div class="input-group" style="width: 250px;">
+                                    <input type="text" class="form-control" placeholder="Cari artikel...">
+                                    <button class="btn btn-outline-secondary" type="button">
+                                        <i data-acorn-icon="search"></i>
+                                    </button>
+                                </div>
+                                <select class="form-select" style="width: 150px;">
+                                    <option value="">Semua Status</option>
+                                    <option value="published">Published</option>
+                                    <option value="draft">Draft</option>
+                                </select>
+                                <button class="btn btn-primary d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#buatArtikel">
+                                    <i data-acorn-icon="plus"></i>
+                                    <span>Buat Artikel</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="table-responsive table-scroll">
+                            <table class="table align-middle" id="dataTable">
+                                <thead>
+                                    <tr>
+                                        <th>Gambar</th>
+                                        <th>Judul Artikel</th>
+                                        <th>Kategori</th>
+                                        <th>Status</th>
+                                        <th>Tanggal Dibuat</th>
+                                        <th>Aksi</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody id="tableBody">
+                                    @foreach($artikels as $artikel)
+                                    <tr>
+                                        <td>
+                                            @if($artikel->gambar && file_exists(public_path($artikel->gambar)))
+                                            <img src="{{ asset($artikel->gambar) }}" class="rounded sw-8 sh-8">
+                                            @else
+                                            <span class="text-muted">Tidak ada gambar</span>
+                                            @endif
+                                        </td>
+                                        <td>
+                                            <div class="fw-bold">{{ $artikel->judul }}</div>
+                                            <div class="text-muted small">{{ Str::limit(strip_tags($artikel->deskripsi), 80) }}</div>
+                                        </td>
+                                        <td>
+                                            <span class="badge bg-outline-primary">{{ ucfirst($artikel->kategori) }}</span>
+                                        </td>
+                                        <td>
+                                            @if($artikel->status == 'Published')
+                                            <span class="badge bg-success">{{ $artikel->status }}</span>
+                                            @else
+                                            <span class="badge bg-secondary">{{ $artikel->status }}</span>
+                                            @endif
+                                        </td>
+                                        <td>{{ $artikel->created_at->translatedFormat('d M Y') }}</td>
+                                        <td class="text-nowrap">
+                                            <button class="btn btn-sm btn-icon btn-icon-only btn-outline-secondary me-1"
+                                                data-bs-toggle="modal" data-bs-target="#modalEditArtikel{{ $artikel->id }}">
+                                                <i data-acorn-icon="pen"></i>
+                                            </button>
+                                            <button class="btn btn-sm btn-icon btn-icon-only btn-outline-danger btnDelete"
+                                                data-slug="{{ $artikel->slug }}"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#modalDelete">
+                                                <i data-acorn-icon="bin"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <!-- Modal Edit Artikel -->
+                                    <div class="modal fade" id="modalEditArtikel{{ $artikel->id }}" tabindex="-1" aria-hidden="true">
+                                        <div class="modal-dialog modal-lg">
+                                            <div class="modal-content">
+                                                <form action="{{ route('dashboard.artikel.update', $artikel->slug) }}" method="POST" enctype="multipart/form-data">
+                                                    @csrf
+                                                    @method('PUT')
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title">Edit Artikel</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="mb-3">
+                                                            <label class="form-label">Judul Artikel</label>
+                                                            <input type="text" class="form-control" name="judul" value="{{ $artikel->judul }}">
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <label class="form-label">Konten Artikel</label>
+                                                            <textarea class="form-control" name="deskripsi" rows="6">{{ $artikel->deskripsi }}</textarea>
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <label class="form-label">Gambar Utama</label>
+                                                            <input type="file" name="gambar" class="form-control" accept="image/*">
+                                                            @if($artikel->gambar)
+                                                            <div class="form-text mt-1">
+                                                                Gambar saat ini:
+                                                                <img src="{{ asset($artikel->gambar) }}" class="rounded sw-4 sh-4 ms-2">
+                                                            </div>
+                                                            @endif
+                                                        </div>
+                                                        <div class="mb-3">
+                                                            <label class="form-label">Kategori</label>
+                                                            <select class="form-select" name="kategori">
+                                                                <option value="edukasi" {{ $artikel->kategori == 'edukasi' ? 'selected' : '' }}>Edukasi</option>
+                                                                <option value="tips & trik" {{ $artikel->kategori == 'tips & trik' ? 'selected' : '' }}>Tips & Trik</option>
+                                                                <option value="berita" {{ $artikel->kategori == 'berita' ? 'selected' : '' }}>Berita</option>
+                                                                <option value="tutorial" {{ $artikel->kategori == 'tutorial' ? 'selected' : '' }}>Tutorial</option>
+                                                            </select>
+                                                        </div>
+                                                        @php
+                                                        $statusOptions = ['Draft', 'Published']; // enum values
+                                                        @endphp
+
+                                                        <div class="mb-3">
+                                                            <label class="form-label">Status</label>
+                                                            <div>
+                                                                @php
+                                                                $statusOptions = ['Draft', 'Published'];
+                                                                @endphp
+                                                                @foreach($statusOptions as $status)
+                                                                <div class="form-check form-check-inline">
+                                                                    <input class="form-check-input" type="radio"
+                                                                        name="status"
+                                                                        id="status_{{ $status }}_{{ $artikel->id }}"
+                                                                        value="{{ $status }}"
+                                                                        {{ $artikel->status == $status ? 'checked' : '' }}>
+                                                                    <label class="form-check-label" for="status_{{ $status }}_{{ $artikel->id }}">{{ $status }}</label>
+                                                                </div>
+                                                                @endforeach
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                                                        <button type="submit" class="btn btn-primary">Update Artikel</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Pagination -->
+                        <nav class="mt-3">
+                            <div class="d-flex justify-content-end mt-3">
+                                <div class="d-flex justify-content-end mt-3">
+                                    {{ $artikels->links('vendor.pagination.bootstrap-5') }}
+                                </div>
+                            </div>
+                        </nav>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</main>
+
+<!-- Modal Buat Artikel -->
+<div class="modal fade" id="buatArtikel" tabindex="-1" aria-labelledby="buatArtikelLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form action="{{ route('dashboard.artikel.store') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <div class="modal-header">
+                    <h5 class="modal-title" id="buatArtikelLabel">Buat Artikel Baru</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Judul Artikel</label>
+                        <input type="text" name="judul" class="form-control" placeholder="Masukkan judul artikel" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Konten Artikel</label>
+                        <textarea name="deskripsi" class="form-control" rows="6" placeholder="Tulis konten artikel di sini..." required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Gambar Utama</label>
+                        <input type="file" name="gambar" class="form-control" accept="image/*">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Kategori</label>
+                        <select name="kategori" class="form-select" required>
+                            <option value="">Pilih kategori</option>
+                            <option value="education">Edukasi</option>
+                            <option value="tips">Tips & Trik</option>
+                            <option value="news">Berita</option>
+                            <option value="tutorial">Tutorial</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Status</label>
+                        <div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="status" id="draft" value="Draft" checked>
+                                <label class="form-check-label" for="draft">Draft</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="status" id="publish" value="Published">
+                                <label class="form-check-label" for="publish">Publish</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-primary">Simpan Artikel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Delete -->
+<div class="modal fade" id="modalDelete" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow">
+            <div class="modal-header">
+                <h5 class="modal-title fw-bold">Hapus Agenda</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body text-center py-4">
+                <i data-acorn-icon="bin" data-acorn-size="40" class="text-danger mb-3"></i>
+                <h6 class="fw-semibold">Apakah Anda yakin ingin menghapus ini?</h6>
+                <p class="text-muted mb-0">Tindakan ini tidak dapat dibatalkan.</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline-primary" data-bs-dismiss="modal">Batal</button>
+                <form id="deleteForm" method="POST" class="d-inline">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-primary">Hapus</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@endsection
+
+@push('scripts')
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const deleteButtons = document.querySelectorAll('.btnDelete');
+        const deleteForm = document.getElementById('deleteForm');
+
+        deleteButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const slug = this.getAttribute('data-slug');
+                deleteForm.action = `/dashboard/tabel-artikel/${slug}`; // route destroy
+            });
+        });
+    });
+</script>
+
+@endpush
