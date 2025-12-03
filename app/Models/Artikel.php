@@ -14,6 +14,7 @@ class Artikel extends Model
     use HasFactory;
 
     protected $fillable = [
+        'user_id',
         'gambar',
         'judul',
         'deskripsi',

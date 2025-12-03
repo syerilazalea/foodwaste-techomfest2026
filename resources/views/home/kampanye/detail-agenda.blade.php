@@ -29,7 +29,7 @@
                         </p>
                     </div>
 
-                    <p>{!! nl2br(e($agenda->deskripsi)) !!}</p>
+                    <p>{!! $agenda->deskripsi !!}</p>
 
                     @if($agenda->dresscode)
                     <h6 class="mb-3 mt-5 text-alternate">Dresscode</h6>

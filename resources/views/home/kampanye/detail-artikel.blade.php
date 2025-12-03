@@ -29,7 +29,7 @@
                 <div class="card-body pt-3">
                     <h4 class="mb-3">{{ $artikel->judul }}</h4>
 
-                    {{ $artikel->deskripsi }}
+                    {!! $artikel->deskripsi !!}
 
                 </div>
             </div>

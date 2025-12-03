@@ -96,7 +96,7 @@
                                                 <h5 class="heading text-white mb-1">{{ $agenda->nama_kegiatan }}</h5>
                                             </a>
                                             <div class="d-inline-block">
-                                                <div class="text-white text-muted">{{ Str::limit($agenda->deskripsi, 50) }}</div>
+                                                <div class="text-white text-muted">{{ Str::limit(strip_tags($agenda->deskripsi), 80) }}</div>
                                             </div>
                                         </div>
                                     </div>

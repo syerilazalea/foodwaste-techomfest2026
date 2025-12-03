@@ -84,7 +84,7 @@ Route::prefix('dashboard')->name('dashboard.')->middleware(AuthCheck::class)->gr
     Route::get('/tabel-agenda', [DashboardAgendaController::class, 'index'])->name('agenda.index'); // untuk load tabel
     Route::get('/agenda/search', [DashboardAgendaController::class, 'search'])->name('agenda.search');
     Route::post('/agenda/store', [DashboardAgendaController::class, 'store'])->name('agenda.store'); // create
-    Route::put('/agenda/{slug}', [DashboardAgendaController::class, 'update'])->name('agenda.update'); // edit
+    Route::put('/agenda/{id}', [DashboardAgendaController::class, 'update'])->name('agenda.update'); // edit
     Route::delete('/tabel-agenda/{slug}', [DashboardAgendaController::class, 'destroy'])->name('agenda.destroy');
 
     //tabel Artikel

@@ -96,7 +96,7 @@
                                         </td>
                                         <td>
                                             <div class="fw-bold">{{ $agenda->nama_kegiatan }}</div>
-                                            <div class="text-muted small">{{ Str::limit($agenda->deskripsi, 80) }}</div>
+                                            <div class="text-muted small">{{ Str::limit(strip_tags($agenda->deskripsi), 80) }}</div>
                                         </td>
                                         <td>
                                             <div>{{ \Carbon\Carbon::parse($agenda->tanggal)->format('d M Y') }}</div>
@@ -117,7 +117,7 @@
 
                                             <!-- Tombol Delete -->
                                             <button class="btn btn-sm btn-icon btn-icon-only btn-outline-danger btnDelete"
-                                                data-slug="{{ $agenda->slug }}"
+                                                data-slug="{{ $agenda->id }}"
                                                 data-bs-toggle="modal"
                                                 data-bs-target="#modalDelete">
                                                 <i data-acorn-icon="bin"></i>
@@ -128,7 +128,7 @@
                                     <div class="modal fade" id="modalEditAgenda{{ $agenda->id }}" tabindex="-1" aria-hidden="true">
                                         <div class="modal-dialog modal-lg">
                                             <div class="modal-content">
-                                                <form action="{{ route('dashboard.agenda.update', $agenda->slug) }}" method="POST" enctype="multipart/form-data">
+                                                <form action="{{ route('dashboard.agenda.update', $agenda->id) }}" method="POST" enctype="multipart/form-data">
                                                     @csrf
                                                     @method('PUT')
                                                     <div class="modal-header">
@@ -142,18 +142,22 @@
                                                         </div>
                                                         <div class="mb-3">
                                                             <label class="form-label">Konten Agenda</label>
-                                                            <textarea name="deskripsi" class="form-control" rows="6">{{ $agenda->deskripsi }}</textarea>
+                                                            <textarea name="deskripsi" id="editor-edit" class="form-control" rows="6">{!! $agenda->deskripsi !!}</textarea>
                                                         </div>
-                                                        <div class="mb-3">
-                                                            <label class="form-label">Gambar Utama</label>
-                                                            <input type="file" name="gambar" class="form-control" accept="image/*">
-                                                            @if($agenda->gambar)
-                                                            <div class="form-text mt-1">
-                                                                Gambar saat ini:
-                                                                <img src="{{ asset($agenda->gambar) }}" class="rounded sw-4 sh-4 ms-2">
+                                                        <div class="mb-3 row align-items-center">
+                                                            <div class="col-md-6">
+                                                                <label class="form-label">Gambar Utama</label>
+                                                                <input type="file" name="gambar" id="dropifyInput" class="form-control"
+                                                                    data-default-file="{{ $agenda->gambar ? asset($agenda->gambar) : '' }}"
+                                                                    accept="image/*">
                                                             </div>
-                                                            @endif
+                                                            <div class="col-md-6">
+                                                                <label class="form-label d-block">&nbsp;</label>
+                                                                <img src="{{ asset($agenda->gambar) }}" class="rounded img-thumbnail"
+                                                                    style="width: 200px; height: 200px; object-fit: cover;">
+                                                            </div>
                                                         </div>
+
                                                         <div class="mb-3">
                                                             <label class="form-label">Tanggal</label>
                                                             <input type="date" name="tanggal" class="form-control" value="{{ $agenda->tanggal }}" required>
@@ -230,12 +234,12 @@
 
                     <div class="mb-3">
                         <label class="form-label">Konten Agenda</label>
-                        <textarea name="deskripsi" class="form-control" rows="6" placeholder="Tulis konten agenda di sini..."></textarea>
+                        <textarea name="deskripsi" id="editor-create" class="form-control" rows="6" placeholder="Tulis konten agenda di sini..."></textarea>
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label">Gambar Utama</label>
-                        <input type="file" name="gambar" class="form-control" accept="image/*">
+                        <label class="form-label">Gambar</label>
+                        <input type="file" class="form-control dropify" name="gambar" id="gambar" accept="image/*">
                     </div>
 
                     <div class="mb-3">
@@ -307,8 +311,6 @@
     </div>
 </div>
 
-
-
 @endsection
 
 @push('scripts')
@@ -324,6 +326,48 @@
                 deleteForm.action = `/dashboard/tabel-agenda/${slug}`; // route destroy
             });
         });
+    });
+</script>
+
+<script type="text/javascript">
+    tinymce.init({
+        selector: '#editor-create',
+        plugins: [
+            'advlist', 'autolink', 'link', 'image', 'lists', 'charmap', 'preview', 'anchor', 'pagebreak',
+            'searchreplace', 'wordcount', 'visualblocks', 'visualchars', 'code', 'fullscreen', 'insertdatetime',
+            'media', 'table', 'emoticons', 'help'
+        ],
+        toolbar: 'undo redo | styles | bold italic | alignleft aligncenter alignright alignjustify | ' +
+            'bullist numlist outdent indent | link image | print preview media fullscreen | ' +
+            'forecolor backcolor emoticons | help',
+        menu: {
+            favs: {
+                title: 'My Favorites',
+                items: 'code visualaid | searchreplace | emoticons'
+            }
+        },
+        menubar: 'favs file edit view insert format tools table help',
+    });
+</script>
+
+<script type="text/javascript">
+    tinymce.init({
+        selector: '#editor-edit',
+        plugins: [
+            'advlist', 'autolink', 'link', 'image', 'lists', 'charmap', 'preview', 'anchor', 'pagebreak',
+            'searchreplace', 'wordcount', 'visualblocks', 'visualchars', 'code', 'fullscreen', 'insertdatetime',
+            'media', 'table', 'emoticons', 'help'
+        ],
+        toolbar: 'undo redo | styles | bold italic | alignleft aligncenter alignright alignjustify | ' +
+            'bullist numlist outdent indent | link image | print preview media fullscreen | ' +
+            'forecolor backcolor emoticons | help',
+        menu: {
+            favs: {
+                title: 'My Favorites',
+                items: 'code visualaid | searchreplace | emoticons'
+            }
+        },
+        menubar: 'favs file edit view insert format tools table help',
     });
 </script>
 

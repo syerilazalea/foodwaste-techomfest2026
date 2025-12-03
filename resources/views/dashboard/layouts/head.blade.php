@@ -51,6 +51,12 @@
     <link rel="stylesheet" href="{{asset ('css/main.css')}}" />
     <script src="{{asset ('js/base/loader.js')}}"></script>
 
+    <!-- Dropify CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/css/dropify.min.css">
+
+    <!-- CKEditor5 -->
+    <link rel="stylesheet" href="{{ asset('js/ckeditor5/ckeditor5.css') }}">
+
 </head>
 
 <style>

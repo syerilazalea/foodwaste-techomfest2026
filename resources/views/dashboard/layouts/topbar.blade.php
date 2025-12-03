@@ -20,7 +20,7 @@
         @auth
         <div class="user-container d-flex">
             <a href="#" class="d-flex user position-relative" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <img class="profile" alt="profile" src="{{ asset('img/profile/profile-9.webp') }}" />
+                <img class="profile" <img src="{{ asset(auth()->user()->gambar ?: 'default.png') }}" alt="profile" />
                 <div class="name">
                     <div class="name">{{ auth()->user()->name }}</div>
                 </div>

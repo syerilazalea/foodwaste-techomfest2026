@@ -45,6 +45,41 @@
     const chatJsonUrl = "{{ asset('json/chat.json') }}";
 </script>
 
+<!-- TinyMCE API -->
+<script src="https://cdn.tiny.cloud/1/<Your_API></Your_API>/tinymce/8/tinymce.min.js" referrerpolicy="origin" crossorigin="anonymous"></script>
+
+<!-- Dropify JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js"></script>
+<script>
+    $('.dropify').dropify({
+        messages: {
+            default: 'Drag or drop your image',
+            replace: 'Drag or drop to replace',
+            remove: 'Remove image',
+            error: 'Oops, invalid file!'
+        },
+        tpl: {
+            message: `
+                <div class="dropify-message">
+                    <img src="{{ asset('img/icon/drop-file.png') }}" alt="Upload Icon" style="width: 100px; margin-bottom: 5px;">
+                    <p>Drag or drop your image</p>
+                </div>
+            `
+        }
+    });
+</script>
+
+<!-- Preview Profile -->
+<script>
+    document.getElementById('dropifyInput').addEventListener('change', function(event) {
+        let reader = new FileReader();
+        reader.onload = function(e) {
+            document.getElementById('previewImage').src = e.target.result;
+        }
+        reader.readAsDataURL(event.target.files[0]);
+    });
+</script>
+
 <!-- Laravel PWA Service Worker Registration -->
 <script type="text/javascript">
     // Initialize the service worker

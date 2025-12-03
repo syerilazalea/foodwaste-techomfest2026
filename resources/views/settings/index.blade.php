@@ -1,7 +1,6 @@
 @extends('dashboard.layouts.app')
 
 @section('content')
-
 <main>
     <div class="container">
         <div class="page-title-container">
@@ -16,8 +15,12 @@
                     <div class="card-body">
                         <div class="d-flex align-items-center flex-column mb-4">
                             <div class="d-flex align-items-center flex-column">
+                                <!-- Preview gambar -->
                                 <div class="sw-13 position-relative mb-3">
-                                    <img src="{{asset ('img/profile/profile-2.webp')}}" class="img-fluid rounded-xl" alt="thumb" />
+                                    <img src="{{ asset($user->gambar) }}"
+                                        class="img-fluid rounded-xl"
+                                        alt="{{ $user->name }}"
+                                        id="previewImage">
                                 </div>
                                 <div class="h5 mb-0">{{ $user->name }}</div>
                                 <div class="text-muted">{{ $user->role }}</div>
@@ -51,8 +54,15 @@
                     <h2 class="small-title">Profil</h2>
                     <div class="card mb-5">
                         <div class="card-body">
-                            <form action="{{ route('settings.updateProfile') }}" method="POST">
+                            <form action="{{ route('settings.updateProfile') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
+                                <div class="mb-3 row">
+                                    <label class="col-lg-2 col-md-3 col-sm-4 col-form-label">Gambar Profile</label>
+                                    <div class="col-sm-8 col-md-9 col-lg-10">
+                                        <input type="file" class="form-control dropify" name="gambar" id="dropifyInput" accept="image/*">
+                                    </div>
+                                </div>
+
                                 <div class="mb-3 row">
                                     <label class="col-lg-2 col-md-3 col-sm-4 col-form-label">Nama</label>
                                     <div class="col-sm-8 col-md-9 col-lg-10">
@@ -154,26 +164,24 @@
 
 @push('scripts')
 
+<!-- Preview Maps -->
 <script>
-document.addEventListener("DOMContentLoaded", function () {
-    const alamatInput = document.getElementById('alamatInput');
-    const mapPreview = document.getElementById('mapPreview');
+    document.addEventListener("DOMContentLoaded", function() {
+        const alamatInput = document.getElementById('alamatInput');
+        const mapPreview = document.getElementById('mapPreview');
 
-    alamatInput.addEventListener('input', function () {
-        const alamat = alamatInput.value.trim();
+        alamatInput.addEventListener('input', function() {
+            const alamat = alamatInput.value.trim();
 
-        // jika kosong → kosongkan iframe
-        if (alamat.length < 3) {
-            mapPreview.src = "";
-            return;
-        }
+            if (alamat.length < 3) {
+                mapPreview.src = "";
+                return;
+            }
 
-        const encoded = encodeURIComponent(alamat);
-
-        // update preview real-time
-        mapPreview.src = `https://www.google.com/maps?q=${encoded}&output=embed`;
+            const encoded = encodeURIComponent(alamat);
+            mapPreview.src = `https://www.google.com/maps?q=${encoded}&output=embed`;
+        });
     });
-});
 </script>
 
 @endpush

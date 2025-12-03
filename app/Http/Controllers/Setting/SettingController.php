@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 class SettingController extends Controller
 {
@@ -23,19 +25,43 @@ class SettingController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'alamat' => 'nullable|string|max:255',
+            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
         ]);
 
         $user = Auth::user();
         $user->name = $request->name;
         $user->alamat = $request->alamat;
 
-        // ==== Tambahkan pembuatan iframe maps otomatis ====
+        // ==== Update iframe maps otomatis ====
         if (!empty($request->alamat)) {
-            $encoded = urlencode($request->alamat);
-            $user->iframe_maps = "https://www.google.com/maps?q=" . $encoded . "&output=embed";
+            $user->iframe_maps = "https://www.google.com/maps?q=" . urlencode($request->alamat) . "&output=embed";
         } else {
-            $user->iframe_maps = null; // kosongkan jika alamat kosong
+            $user->iframe_maps = null;
         }
+
+        // ==== Handle gambar dengan Storage ====
+        if ($request->hasFile('gambar')) {
+            $defaultImage = 'img/user/default.png';
+
+            // Hapus file lama jika bukan default
+            if ($user->gambar && $user->gambar !== $defaultImage) {
+                // konversi URL ke path relatif storage
+                $oldPath = str_replace(url('/storage') . '/', '', $user->gambar);
+
+                if (Storage::disk('public')->exists($oldPath)) {
+                    Storage::disk('public')->delete($oldPath);
+                }
+            }
+
+            // Simpan file baru
+            $file = $request->file('gambar');
+            $filename = Str::slug($user->name) . '_' . time() . '.' . $file->getClientOriginalExtension();
+            $file->storeAs('img/user', $filename, 'public');
+
+            // Simpan URL lengkap ke database agar tetap bisa dipakai di asset()
+            $user->gambar = 'img/user/' . $filename;
+        }
+
 
         $user->save();
 

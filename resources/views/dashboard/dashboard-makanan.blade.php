@@ -229,7 +229,7 @@
                     <div class="row mb-4">
                         <div class="col-12">
                             <label class="form-label fw-semibold">Foto Makanan</label>
-                            <input type="file" class="form-control" name="gambar" id="gambar" accept="image/*">
+                            <input type="file" class="form-control dropify" name="gambar" id="gambar" accept="image/*">
                         </div>
                     </div>
 

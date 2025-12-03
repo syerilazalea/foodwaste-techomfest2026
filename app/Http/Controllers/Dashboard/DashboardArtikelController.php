@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
+use Mews\Purifier\Facades\Purifier;
 
 class DashboardArtikelController extends Controller
 {
@@ -31,19 +32,19 @@ class DashboardArtikelController extends Controller
             'status' => 'required|in:Published,Draft',
         ]);
 
-        // handle gambar
+        $path = null;
+
         if ($request->hasFile('gambar')) {
             $file = $request->file('gambar');
             $filename = Str::slug($request->judul) . '_' . time() . '.' . $file->getClientOriginalExtension();
-            $path = 'img/artikel/' . $filename;
             $file->move(public_path('img/artikel'), $filename);
-        } else {
-            $path = null;
+            $path = 'img/artikel/' . $filename;
         }
 
+        $data['deskripsi'] = Purifier::clean($request->deskripsi);
         $data['gambar'] = $path;
         $data['slug'] = Str::slug($request->judul);
-        $data['user_id'] = Auth::id(); // set user_id agar artikel terkait user yang login
+        $data['user_id'] = Auth::id();
 
         Artikel::create($data);
 
@@ -60,21 +61,36 @@ class DashboardArtikelController extends Controller
             'status' => 'required|in:Published,Draft',
         ]);
 
-        // handle gambar
+        // Default path tetap gambar lama
+        $path = $artikel->gambar;
+
+        // Debug: cek apakah file gambar dikirim
         if ($request->hasFile('gambar')) {
-            // hapus gambar lama jika ada
+            $file = $request->file('gambar');
+
+            // Debug: info file
+            info('File uploaded: ' . $file->getClientOriginalName());
+            info('File type: ' . $file->getClientMimeType());
+            info('File size: ' . $file->getSize());
+
+            // Hapus file lama jika ada
             if ($artikel->gambar && File::exists(public_path($artikel->gambar))) {
                 File::delete(public_path($artikel->gambar));
+                info('Old file deleted: ' . $artikel->gambar);
             }
 
-            $file = $request->file('gambar');
             $filename = Str::slug($request->judul) . '_' . time() . '.' . $file->getClientOriginalExtension();
-            $path = 'img/artikel/' . $filename;
             $file->move(public_path('img/artikel'), $filename);
+
+            $path = 'img/artikel/' . $filename;
+
+            // Debug: path baru
+            info('New file path: ' . $path);
         } else {
-            $path = $artikel->gambar; // tetap gambar lama
+            info('No new file uploaded');
         }
 
+        $data['deskripsi'] = Purifier::clean($request->deskripsi);
         $data['gambar'] = $path;
         $data['slug'] = Str::slug($request->judul);
 

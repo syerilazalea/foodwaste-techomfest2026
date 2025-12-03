@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class RegisterController extends Controller
 {
@@ -34,14 +35,17 @@ class RegisterController extends Controller
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        // Handle upload gambar
+        // ==== Handle gambar dengan Storage ====
         if ($request->hasFile('gambar')) {
             $file = $request->file('gambar');
             $filename = Str::slug($request->name) . '_' . time() . '.' . $file->getClientOriginalExtension();
-            $file->storeAs('public/users', $filename); // simpan di storage/app/public/users
+            // Simpan ke storage/app/public/img/user
+            $file->storeAs('public/img/user', $filename);
+            $gambar = 'img/user/' . $filename; // path untuk DB
         } else {
-            $filename = 'default.png';
+            $gambar = 'img/user/default.png'; // default image
         }
+
 
         // === Generate iframe maps untuk role USER ===
         $iframe = null;
@@ -58,7 +62,7 @@ class RegisterController extends Controller
             'role' => $request->role,
             'alamat' => $request->alamat,
             'organisasi' => $request->organisasi,
-            'gambar' => $filename,
+            'gambar' => $gambar,
             'iframe_maps' => $iframe,
         ]);
 

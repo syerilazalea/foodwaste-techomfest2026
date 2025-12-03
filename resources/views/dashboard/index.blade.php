@@ -51,7 +51,7 @@ $currentUser = Auth::user();
         </div>
 
         <div class="row">
-            <h2 class="small-title">Status Informasi Pemesanan</h2>
+            <h2 class="small-title">Status Informasi Dipesan</h2>
             <div class="mb-5">
                 <div class="row g-2">
                     <div class="col-12 col-sm-6 col-lg-3">
@@ -220,7 +220,7 @@ $currentUser = Auth::user();
 
 
         <div class="row">
-            <h2 class="small-title">Status Informasi Dipesan</h2>
+            <h2 class="small-title">Status Informasi Pemesanan</h2>
             <div class="mb-5">
                 <div class="row g-2">
                     <div class="col-12 col-sm-6 col-lg-3">
