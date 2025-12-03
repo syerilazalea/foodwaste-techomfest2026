@@ -120,6 +120,15 @@
                     </a>
                 </li>
 
+                @auth
+                <li>
+                    <a href="{{route ('dashboard.chat.index')}}">
+                        <i data-acorn-icon="message" class="icon" data-acorn-size="18"></i>
+                        <span class="label">Riwayat Pesan</span>
+                    </a>
+                </li>
+                @endauth
+
                 <li>
                     <a href="{{route ('home.tentangKami')}}">
                         <i data-acorn-icon="support" class="icon" data-acorn-size="18"></i>

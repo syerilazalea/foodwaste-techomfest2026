@@ -17,6 +17,10 @@
 <script src="{{asset ('js/vendor/select2.full.min.js')}}"></script>
 <script src="{{asset ('js/vendor/plyr.min.js')}}"></script>
 <script src="{{asset ('js/cs/responsivetab.js')}}"></script>
+<script src="{{asset ('js/vendor/baguetteBox.min.js')}}"></script>
+<script src="{{asset ('js/vendor/autosize.min.js')}}"></script>
+<script src="{{asset ('js/vendor/moment-with-locales.min.js')}}"></script>
+
 <!-- Vendor Scripts End -->
 
 <!-- Template Base Scripts Start -->
@@ -35,6 +39,11 @@
 <script src="{{asset ('js/scripts.js')}}"></script>
 <script src="{{asset ('js/plugins/carousels.js')}}"></script>
 <script src="{{asset ('js/pages/blog.detail.js')}}"></script>
+<script src="{{asset ('js/apps/chat.js')}}"></script>
+
+<script>
+    const chatJsonUrl = "{{ asset('json/chat.json') }}";
+</script>
 
 <!-- Laravel PWA Service Worker Registration -->
 <script type="text/javascript">
@@ -42,10 +51,10 @@
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('/serviceworker.js', {
             scope: '.'
-        }).then(function (registration) {
+        }).then(function(registration) {
             // Registration was successful
             console.log('Laravel PWA: ServiceWorker registration successful with scope: ', registration.scope);
-        }, function (err) {
+        }, function(err) {
             // registration failed :(
             console.log('Laravel PWA: ServiceWorker registration failed: ', err);
         });

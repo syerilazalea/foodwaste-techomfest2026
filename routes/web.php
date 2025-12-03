@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Dashboard\DashboardAgendaController;
 use App\Http\Controllers\Dashboard\DashboardArtikelController;
+use App\Http\Controllers\Dashboard\DashboardChatController;
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Dashboard\DashboardKampanyeController;
 use App\Http\Controllers\Dashboard\DataDaurUlangController;
@@ -58,6 +59,9 @@ Route::prefix('dashboard')->name('dashboard.')->middleware(AuthCheck::class)->gr
     Route::post('/pengambilanMakanan/{id}/mulai', [DashboardController::class, 'mulaiPengambilanMakanan'])->name('pengambilanMakanan.mulai');
     Route::post('/pengambilanDaurUlang/{id}/mulai', [DashboardController::class, 'mulaiPengambilanDaurUlang'])->name('pengambilanDaurUlang.mulai');
     Route::get('/topbar', [DashboardController::class, 'topbar'])->name('topbar');
+
+    //Page pesan
+    Route::get('/pesan', [DashboardChatController::class, 'index'])->name('chat.index');
 
     //tabel data daur ulang
     Route::get('/data-daur-ulang', [DataDaurUlangController::class, 'index'])->name('dataDaurUlang.index');

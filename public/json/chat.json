@@ -1,13 +1,11 @@
-[
-    {
+[{
         "id": 1,
         "name": "Blaine Cottrell",
-        "thumb": "img/profile/profile-4.webp",
+        "thumb": "/img/profile/profile-4.webp",
         "last": "Today 10:40",
         "status": "Online",
         "unread": 0,
-        "messages": [
-            {
+        "messages": [{
                 "text": "Hello there!",
                 "time": "17:20",
                 "type": "response",
@@ -30,8 +28,8 @@
                 "time": "17:21",
                 "type": "response",
                 "attachments": [
-                    "img/product/large/product-1.webp",
-                    "img/product/large/product-2.webp"
+                    "/img/product/large/product-1.webp",
+                    "/img/product/large/product-2.webp"
                 ]
             },
             {
@@ -75,7 +73,7 @@
                 "time": "19:15",
                 "type": "message",
                 "attachments": [
-                    "img/product/large/product-3.webp"
+                    "/img/product/large/product-3.webp"
                 ]
             },
             {
@@ -107,12 +105,11 @@
     {
         "id": 2,
         "name": "Cherish Kerr",
-        "thumb": "img/profile/profile-2.webp",
+        "thumb": "/img/profile/profile-2.webp",
         "last": "Today 15:20",
         "status": "Offline",
         "unread": 2,
-        "messages": [
-            {
+        "messages": [{
                 "text": "Hi!",
                 "time": "19:20",
                 "type": "response",
@@ -165,12 +162,11 @@
     {
         "id": 3,
         "name": "Kirby Peters",
-        "thumb": "img/profile/profile-3.webp",
+        "thumb": "/img/profile/profile-3.webp",
         "last": "Yesterday 12:20",
         "status": "Online",
         "unread": 0,
-        "messages": [
-            {
+        "messages": [{
                 "text": "Did you hear the good news?",
                 "time": "12:20",
                 "type": "response",
@@ -235,8 +231,8 @@
                 "time": "21:46",
                 "type": "response",
                 "attachments": [
-                    "img/product/large/product-5.webp",
-                    "img/product/large/product-6.webp"
+                    "/img/product/large/product-5.webp",
+                    "/img/product/large/product-6.webp"
                 ]
             }
         ]
@@ -244,7 +240,7 @@
     {
         "id": 4,
         "name": "Zayn Hartley",
-        "thumb": "img/profile/profile-4.webp",
+        "thumb": "/img/profile/profile-4.webp",
         "last": "Yesterday 12:20",
         "status": "Online",
         "unread": 0,
@@ -253,12 +249,11 @@
     {
         "id": 5,
         "name": "Esperanza Lodge",
-        "thumb": "img/profile/profile-5.webp",
+        "thumb": "/img/profile/profile-5.webp",
         "last": "Yesterday 12:20",
         "status": "Offline",
         "unread": 0,
-        "messages": [
-            {
+        "messages": [{
                 "text": "I really need to start eating healthier.",
                 "time": "21:45",
                 "type": "response",
@@ -311,12 +306,11 @@
     {
         "id": 6,
         "name": "Kathryn Mengel",
-        "thumb": "img/profile/profile-6.webp",
+        "thumb": "/img/profile/profile-6.webp",
         "last": "Tuesday 12:20",
         "status": "Offline",
         "unread": 0,
-        "messages": [
-            {
+        "messages": [{
                 "text": "Hi!",
                 "time": "05:20",
                 "type": "message",
@@ -375,7 +369,7 @@
     {
         "id": 7,
         "name": "Daisy Hartley",
-        "thumb": "img/profile/profile-7.webp",
+        "thumb": "/img/profile/profile-7.webp",
         "last": "Tuesday 10:20",
         "status": "Offline",
         "unread": 0,
@@ -384,7 +378,7 @@
     {
         "id": 8,
         "name": "Alicia Shannah",
-        "thumb": "img/profile/profile-8.webp",
+        "thumb": "/img/profile/profile-8.webp",
         "last": "Monday 15:50",
         "status": "Offline",
         "unread": 0,
@@ -393,7 +387,7 @@
     {
         "id": 9,
         "name": "Gresham Jeanette",
-        "thumb": "img/profile/profile-9.webp",
+        "thumb": "/img/profile/profile-9.webp",
         "last": "Monday 04:45",
         "status": "Offline",
         "unread": 0,
@@ -402,7 +396,7 @@
     {
         "id": 10,
         "name": "Mickey Fianna",
-        "thumb": "img/profile/profile-10.webp",
+        "thumb": "/img/profile/profile-10.webp",
         "last": "Monday 02:00",
         "status": "Offline",
         "unread": 0,

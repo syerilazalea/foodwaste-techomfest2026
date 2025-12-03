@@ -26,7 +26,7 @@
     <meta name="apple-mobile-web-app-title" content="Econect">
     <!-- Tile for Win8 -->
     <meta name="msapplication-TileColor" content="#ffffff">
-    <meta name="msapplication-TileImage" content="/images/icons/icon-512x512.png">
+    <meta name="msapplication-TileImage" content="{{asset ('logo/favicon-mobile.svg')}}">
 
     <!-- Font Tags Start -->
     <link rel="preconnect" href="https://fonts.gstatic.com" />
@@ -42,6 +42,7 @@
     <link rel="stylesheet" href="{{asset ('css/vendor/select2.min.css')}}" />
 
     <link rel="stylesheet" href="{{asset ('css/vendor/select2-bootstrap4.min.css')}}" />
+    <link rel="stylesheet" href="{{asset ('css/vendor/baguetteBox.min.css')}}" />
 
     <link rel="stylesheet" href="{{asset ('css/vendor/plyr.css')}}" />
     <link rel="stylesheet" href="{{asset ('css/vendor/bootstrap.min.css')}}" />

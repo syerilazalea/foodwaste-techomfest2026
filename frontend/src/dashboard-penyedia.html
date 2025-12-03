@@ -32,7 +32,7 @@
         <div id="nav" class="nav-container d-flex">
             <div class="nav-content d-flex">
                 <div class="logo position-relative">
-                    <a href="home.html">
+                    <a href="Dashboards.Default.html">
                         <div class="img"></div>
                     </a>
                 </div>
@@ -41,14 +41,14 @@
                     <a href="#" class="d-flex user position-relative" data-bs-toggle="dropdown" aria-haspopup="true"
                         aria-expanded="false">
                         <img class="profile" alt="profile" src="img/profile/profile-9.webp" />
-                        <div class="name">User Penyedia</div>
+                        <div class="name">User</div>
                     </a>
                     <div class="dropdown-menu dropdown-menu-end user-menu wide">
                         <div class="row mb-1 ms-0 me-0">
                             <div class="col-6 pe-1 ps-1">
                                 <ul class="list-unstyled">
                                     <li>
-                                        <a href="#">
+                                        <a href="setting.html">
                                             <i data-acorn-icon="gear" class="me-2" data-acorn-size="17"></i>
                                             <span class="align-middle">Settings</span>
                                         </a>
@@ -84,35 +84,15 @@
                 <!-- Menu Start -->
                 <div class="menu-container flex-grow-1">
                     <ul id="menu" class="menu">
-
                         <li>
-                            <a href="dashboard-penyedia.html">
+                            <a href="dashboard-user.html">
                                 <i data-acorn-icon="home" class="icon" data-acorn-size="18"></i>
                                 <span class="label">Dashboard</span>
                             </a>
                         </li>
                         <li>
-                            <a href="#data-item" data-bs-toggle="collapse" class="dropdown-toggle">
-                                <i data-acorn-icon="home" class="icon" data-acorn-size="18"></i>
-                                <span class="label">Data Item</span>
-                            </a>
-                            <ul id="data-item" class="collapse">
-                                <li>
-                                    <a href="table-makanan.html">
-                                        <span class="label">Makanan</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="table-daur-ulang.html">
-                                        <span class="label">Daur Ulang</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-
-                        <li>
                             <a href="#menu-katalog" data-bs-toggle="collapse" class="dropdown-toggle">
-                                <i data-acorn-icon="home" class="icon" data-acorn-size="18"></i>
+                                <i data-acorn-icon="layout-2" class="icon" data-acorn-size="18"></i>
                                 <span class="label">Katalog</span>
                             </a>
                             <ul id="menu-katalog" class="collapse">
@@ -123,34 +103,48 @@
 
                         <li>
                             <a href="kampanye.html">
-                                <i data-acorn-icon="home" class="icon" data-acorn-size="18"></i>
+                                <i data-acorn-icon="menu-bookmark" class="icon" data-acorn-size="18"></i>
                                 <span class="label">Kampanye</span>
                             </a>
                         </li>
 
                         <li>
+                            <a href="chat.html">
+                                <i data-acorn-icon="message" class="icon" data-acorn-size="18"></i>
+                                <span class="label">Riwayat Pesan</span>
+                            </a>
+                        </li>
+
+                        <li>
                             <a href="tentang-kami.html">
-                                <i data-acorn-icon="home" class="icon" data-acorn-size="18"></i>
+                                <i data-acorn-icon="support" class="icon" data-acorn-size="18"></i>
                                 <span class="label">Tentang Kami</span>
                             </a>
                         </li>
 
                     </ul>
                 </div>
-
                 <!-- Menu End -->
 
-                <!-- Mobile Buttons -->
+                <!-- Mobile Buttons Start -->
                 <div class="mobile-buttons-container">
+                    <!-- Scrollspy Mobile Button Start -->
                     <a href="#" id="scrollSpyButton" class="spy-button" data-bs-toggle="dropdown">
                         <i data-acorn-icon="menu-dropdown"></i>
                     </a>
+                    <!-- Scrollspy Mobile Button End -->
+
+                    <!-- Scrollspy Mobile Dropdown Start -->
                     <div class="dropdown-menu dropdown-menu-end" id="scrollSpyDropdown"></div>
+                    <!-- Scrollspy Mobile Dropdown End -->
+
+                    <!-- Menu Button Start -->
                     <a href="#" id="mobileMenuButton" class="menu-button">
                         <i data-acorn-icon="menu"></i>
                     </a>
+                    <!-- Menu Button End -->
                 </div>
-                <!-- Mobile Buttons -->
+                <!-- Mobile Buttons End -->
             </div>
             <div class="nav-shadow"></div>
         </div>
