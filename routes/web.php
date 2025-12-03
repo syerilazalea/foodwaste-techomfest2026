@@ -109,3 +109,20 @@ Route::prefix('settings')->middleware(AuthCheck::class)->group(function () {
     Route::post('/update-kontak', [SettingController::class, 'updateKontak'])->name('settings.updateKontak');
     Route::post('/update-password', [SettingController::class, 'updatePassword'])->name('settings.updatePassword');
 });
+
+Route::middleware(['web', 'auth'])->group(function () {
+    Route::get('/chat', function () {
+        return view('chat');
+    });
+
+    Route::post('/chat/send', function (\Illuminate\Http\Request $request) {
+        $message = \App\Models\Message::create([
+            'user_id' => auth()->id(),
+            'message' => $request->message,
+        ]);
+
+        \App\Events\MessageSent::dispatch(auth()->user(), $message);
+
+        return response()->json(['status' => 'Message Sent!']);
+    });
+});
