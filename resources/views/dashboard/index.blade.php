@@ -529,12 +529,14 @@ $currentUser = Auth::user();
                         @csrf
                         <button class="btn btn-warning w-100" type="submit">Ingin Mengambil</button>
                     </form>
+                    <a href="{{ route('dashboard.chat.index', ['start_chat' => $item->makanan->user->id]) }}" class="btn btn-outline-primary w-100">Mulai mengobrol dengan {{ $item->makanan->user->name }}</a>
                     @else
                     <button class="btn btn-warning w-100" disabled>Menunggu</button>
                     @endif
 
                     @elseif($item->status == 'perjalanan')
                     <button class="btn btn-info" disabled>Perjalanan</button>
+                    <a href="{{ route('dashboard.chat.index', ['start_chat' => $item->makanan->user->id]) }}" class="btn btn-outline-primary w-100">Mulai mengobrol dengan {{ $item->makanan->user->name }}</a>
                     @endif
                 </div>
             </div>
@@ -658,12 +660,14 @@ $currentUser = Auth::user();
                         @csrf
                         <button class="btn btn-warning w-100" type="submit">Ingin Mengambil</button>
                     </form>
+                    <a href="{{ route('dashboard.chat.index', ['start_chat' => $item->daurUlang->user->id]) }}" class="btn btn-outline-primary w-100">Mulai mengobrol dengan {{ $item->daurUlang->user->name }}</a>
                     @else
                     <button class="btn btn-warning w-100" disabled>Menunggu</button>
                     @endif
 
                     @elseif($item->status == 'perjalanan')
                     <button class="btn btn-info" disabled>Perjalanan</button>
+                    <a href="{{ route('dashboard.chat.index', ['start_chat' => $item->daurUlang->user->id]) }}" class="btn btn-outline-primary w-100">Mulai mengobrol dengan {{ $item->daurUlang->user->name }}</a>
                     @endif
                 </div>
             </div>

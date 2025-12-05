@@ -230,7 +230,11 @@
 @push('scripts')
 
 <script>
-    const chatJsonUrl = "{{ asset('json/chat.json') }}";
+    const chatContactsUrl = "{{ route('dashboard.chat.contacts') }}";
+    const chatSendUrl = "{{ route('dashboard.chat.send') }}";
+    const chatMessagesUrl = "{{ route('dashboard.chat.messages', ['id' => ':id']) }}";
+    const currentUserId = {{ auth()->id() }};
+    const targetUser = @json($targetUser ?? null);
 </script>
 
 @endpush

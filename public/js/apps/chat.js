@@ -1,9 +1,8 @@
 /**
- *
+ * 
  * Chat
- * A very basic and static implementation for the application mostly to show different layouts it has. Edit this class according to your project needs.
- * Implemented with a static data from json/chat.json file.
- *
+ * Integrated with Laravel Reverb/Echo for real-time functionality.
+ * 
  */
 
 class Chat {
@@ -33,25 +32,31 @@ class Chat {
 
         this.chatInput = document.querySelector('#chatInput');
         this.currentChatData = null;
-        Helpers.FetchJSON(chatJsonUrl, (data) => {
-            this.chatData = data.map((d) => {
-                const r = {...d, thumb: Helpers.UrlFix(d.thumb) };
-                if (r.messages) {
-                    r.messages = r.messages.map((m) => {
-                        if (m.attachments) {
-                            return {
-                                ...m,
-                                attachments: m.attachments.map((a) => Helpers.UrlFix(a)),
-                            };
-                        } else {
-                            return m;
-                        }
-                    });
+        this.csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+        this._loadData();
+    }
+
+    _loadData() {
+        fetch(chatContactsUrl)
+            .then(response => response.json())
+            .then(data => {
+                this.chatData = data.map((d) => {
+                    // Ensure correct URL formatting if needed
+                    return {...d };
+                });
+
+                // Handle Start Chat Trigger
+                if (typeof targetUser !== 'undefined' && targetUser) {
+                    const exists = this.chatData.find(u => u.id === targetUser.id);
+                    if (!exists) {
+                        this.chatData.unshift(targetUser);
+                    }
                 }
-                return r;
-            });
-            this._init();
-        });
+
+                this._init();
+            })
+            .catch(error => console.error('Error loading contacts:', error));
     }
 
     _init() {
@@ -61,10 +66,97 @@ class Chat {
         this._renderContacts();
         this._initTextArea();
         this._addListeners();
-        if (this.currentView === 'desktop') {
+        this._initEcho();
+
+        // Select target user if triggered
+        if (typeof targetUser !== 'undefined' && targetUser) {
+            this._renderChatMessagesById(targetUser.id);
+            // If mobile, show chat view
+            if (this.currentView === 'mobile') {
+                this._updateView();
+            }
+        } else if (this.currentView === 'desktop' && this.chatData.length > 0) {
             this._renderChatMessagesById(this.chatData[0].id);
         }
+        
         this._updateChatScrollDelayed();
+    }
+
+    _initEcho() {
+        if (typeof Echo !== 'undefined') {
+            Echo.private('chat.' + currentUserId)
+                .listen('MessageSent', (e) => {
+                    console.log('Message received:', e);
+                    this._handleIncomingMessage(e.message, e.user);
+                });
+        } else {
+            console.warn('Laravel Echo not defined.');
+        }
+    }
+
+    _handleIncomingMessage(message, sender) {
+        // Find if contact exists
+        let contact = this.chatData.find(u => u.id === sender.id);
+        
+        // If contact doesn't exist (new conversation), add them
+        if (!contact) {
+            // If I am the sender (from another tab), I need to find the receiver, not sender.
+            // But wait, if I sent it to User B, the 'sender' in the event is Me.
+            // The 'message' object has 'receiver_id'.
+            // So if sender.id === currentUserId, the contact is message.receiver_id.
+            
+            let contactId = sender.id;
+            if (sender.id === currentUserId) {
+                 contactId = message.receiver_id;
+                 // We need to fetch this user's info if not in list?
+                 // For now, let's assume we only add if we receive FROM someone else.
+                 // If we are sending to a new user from Tab 1, Tab 2 might not have that user in list.
+                 // We might need to fetch user info.
+                 // But for simplicity, let's fallback to a placeholder or ignore if complex.
+                 
+                 // Actually, if I am sending to B, and B is not in Tab 2's list.
+                 // Tab 2 receives event. contactId is B.
+                 // contact is undefined.
+                 // We create a placeholder for B.
+            }
+
+            contact = {
+                id: contactId,
+                name: sender.id === currentUserId ? 'Unknown' : sender.name, // We might not have receiver name if we are sender
+                thumb: 'img/profile/profile-1.webp', 
+                last: 'Just now',
+                status: 'Online',
+                unread: 0,
+                messages: []
+            };
+            // Ideally we fetch the user info here if missing.
+            this.chatData.unshift(contact);
+            this._renderContacts();
+        }
+
+        // Format message
+        const formattedMsg = {
+            type: sender.id === currentUserId ? 'message' : 'response',
+            text: message.message,
+            time: moment(message.created_at).format('HH:mm'),
+            attachments: []
+        };
+
+        contact.messages.push(formattedMsg);
+        
+        // If this is the active chat, render it
+        if (this.currentChatData && this.currentChatData.id === contact.id) {
+             this._renderChatMessage(formattedMsg, this.chatContentContainer.querySelector('.os-content'));
+             this._updateChatScroll();
+        } else {
+            if (sender.id !== currentUserId) {
+                contact.unread++;
+            }
+            this._renderContacts(); 
+        }
+        
+        // Update last message time
+        contact.last = 'Just now';
     }
 
     // Initializing view and updating view variable
@@ -77,7 +169,7 @@ class Chat {
             newView = 'desktop';
         }
         if (newView !== this.currentView) {
-            if (this.currentView === 'mobile' && this.currentChatData === null) {
+            if (this.currentView === 'mobile' && this.currentChatData === null && this.chatData.length > 0) {
                 this._renderChatMessagesById(this.chatData[0].id);
             }
             this.currentView = newView;
@@ -246,7 +338,7 @@ class Chat {
         this.messagesListContainer.querySelector('.os-content').innerHTML = '';
         this.contactsListContainer.querySelector('.os-content').innerHTML = '';
         this.chatData.map((contact) => {
-            contact.messages.length > 0 && this._renderContact(contact, this.messagesListContainer.querySelector('.os-content'));
+            contact.messages && contact.messages.length > 0 && this._renderContact(contact, this.messagesListContainer.querySelector('.os-content'));
             this._renderContact(contact, this.contactsListContainer.querySelector('.os-content'));
         });
     }
@@ -272,7 +364,7 @@ class Chat {
     _renderContactTitle() {
         const contactTitle = document.getElementById('contactTitle');
         contactTitle.querySelector('.name').innerHTML = this.currentChatData.name;
-        contactTitle.querySelector('.last').innerHTML = this.currentChatData.last;
+        // contactTitle.querySelector('.last').innerHTML = this.currentChatData.last; // Can be dynamic
         contactTitle.querySelector('.profile').setAttribute('src', this.currentChatData.thumb);
         if (this.currentChatData.status !== 'Online') {
             contactTitle.querySelector('.status').classList.add('d-none');
@@ -301,15 +393,27 @@ class Chat {
     // Renders all the messages and responses from a clicked person
     _renderChatMessagesById(id) {
         this.currentChatData = this._getDataById(id);
-        this.chatContentContainer.querySelector('.os-content').innerHTML = '';
-        this.currentChatData.messages.map((chat) => {
-            this._renderChatMessage(chat, this.chatContentContainer.querySelector('.os-content'));
-        });
-        this._renderContactTitle();
-        baguetteBox.run('.lightbox');
-        this._updateChatScroll();
-        this._setActiveContact();
-        this._setAsRead();
+        this.chatContentContainer.querySelector('.os-content').innerHTML = '<div class="text-center p-2">Loading...</div>';
+        
+        const url = chatMessagesUrl.replace(':id', id);
+        fetch(url)
+            .then(res => res.json())
+            .then(messages => {
+                 this.currentChatData.messages = messages;
+                 this.chatContentContainer.querySelector('.os-content').innerHTML = '';
+                 messages.map((chat) => {
+                    this._renderChatMessage(chat, this.chatContentContainer.querySelector('.os-content'));
+                });
+                this._renderContactTitle();
+                baguetteBox.run('.lightbox');
+                this._updateChatScroll();
+                this._setActiveContact();
+                this._setAsRead();
+            })
+            .catch(err => {
+                console.error("Error fetching messages", err);
+                this.chatContentContainer.querySelector('.os-content').innerHTML = '<div class="text-center p-2 text-danger">Error loading messages.</div>';
+            });
     }
 
     // Renders a single chat message or response
@@ -375,29 +479,56 @@ class Chat {
         this._updateChatScroll();
     }
 
-    // Click listener for input send button, also called via enter key press. Adds the new message to the chat container and to the data array.
+    // Click listener for input send button, also called via enter key press.
     _inputSend(event) {
+        const text = this.chatInput.value;
+        if (!text.trim()) return;
+
         const message = {
             type: 'message',
-            text: this.chatInput.value,
-            time: new moment().format('hh:mm'),
+            text: text,
+            time: moment().format('HH:mm'),
             attachments: [],
         };
+
         this.chatInput.value = '';
         this.chatInput.focus();
+        
+        // Optimistic update
         this._renderChatMessage(message, this.chatContentContainer.querySelector('.os-content'));
         this._updateChatScroll();
         this._updateChatData(message);
+
+        // Send to API
+        fetch(chatSendUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': this.csrfToken
+            },
+            body: JSON.stringify({
+                receiver_id: this.currentChatData.id,
+                message: text
+            })
+        }).then(res => res.json())
+          .then(data => { 
+              console.log('Message sent', data);
+          })
+          .catch(err => console.error('Error sending message', err));
     }
 
     // Updates and changes message from tha data.
     _updateChatData(message) {
-        const messageCount = this.currentChatData.messages.length;
+        // const messageCount = this.currentChatData.messages.length;
         this.currentChatData.messages.push(message);
-        if (messageCount === 0) {
-            this._renderContacts();
-            this._setActiveContact();
+        // Move contact to top of list
+        const index = this.chatData.indexOf(this.currentChatData);
+        if (index > -1) {
+            this.chatData.splice(index, 1);
+            this.chatData.unshift(this.currentChatData);
         }
+        this._renderContacts();
+        this._setActiveContact();
     }
 
     // Attach button click listener, triggers a click on the hidden file input.
@@ -414,14 +545,17 @@ class Chat {
                 const attachment = {
                     type: 'message',
                     text: '',
-                    time: new moment().format('hh:mm'),
-                    attachments: [onLoadEvent.target.result + '#.webp'], // Adding .webp to make it work with lightbox plugin baguettebox
+                    time: moment().format('HH:mm'),
+                    attachments: [onLoadEvent.target.result + '#.webp'], 
                 };
                 this._renderChatMessage(attachment, this.chatContentContainer.querySelector('.os-content'));
                 baguetteBox.destroy();
                 baguetteBox.run('.lightbox');
                 this._updateChatScroll();
                 this._updateChatData(attachment);
+                
+                // Note: Attachment uploading logic to backend is not implemented in this snippet.
+                // You would need a FormData upload endpoint.
             };
             reader.readAsDataURL(input.files[0]);
         }
@@ -451,6 +585,7 @@ class Chat {
         const contactElement = event.target.closest('.contact-list-item');
         if (contactElement) {
             const contactId = contactElement.getAttribute('data-id');
+            // Check if we need to load
             this.currentChatData = this._getDataById(parseInt(contactId));
             this._updateView();
             this._renderChatMessagesById(parseInt(contactId));
@@ -471,7 +606,9 @@ class Chat {
 
     // Updating the chat scrollbar to make it scroll to the bottom.
     _updateChatScroll() {
-        this.chatContentScroll.scroll({ el: this.chatContentContainer.querySelector('.card-content:last-of-type'), scroll: { x: 'never' }, block: 'end' }, 0);
+        if (this.chatContentScroll) {
+             this.chatContentScroll.scroll({ el: this.chatContentContainer.querySelector('.card-content:last-of-type'), scroll: { x: 'never' }, block: 'end' }, 0);
+        }
     }
 
     // A delayed version of chat scroll update since it does not work when used without delay on the initial call.

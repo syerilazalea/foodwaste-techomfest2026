@@ -62,6 +62,10 @@ Route::prefix('dashboard')->name('dashboard.')->middleware(AuthCheck::class)->gr
 
     //Page pesan
     Route::get('/pesan', [DashboardChatController::class, 'index'])->name('chat.index');
+    Route::get('/chat/trigger', [DashboardChatController::class, 'triggerPage'])->name('chat.trigger');
+    Route::get('/chat/contacts', [DashboardChatController::class, 'getContacts'])->name('chat.contacts');
+    Route::get('/chat/messages/{id}', [DashboardChatController::class, 'getMessages'])->name('chat.messages');
+    Route::post('/chat/send', [DashboardChatController::class, 'sendMessage'])->name('chat.send');
 
     //tabel data daur ulang
     Route::get('/data-daur-ulang', [DataDaurUlangController::class, 'index'])->name('dataDaurUlang.index');
@@ -115,18 +119,5 @@ Route::prefix('settings')->middleware(AuthCheck::class)->group(function () {
 });
 
 Route::middleware(['web', 'auth'])->group(function () {
-    Route::get('/chat', function () {
-        return view('chat');
-    });
-
-    Route::post('/chat/send', function (\Illuminate\Http\Request $request) {
-        $message = \App\Models\Message::create([
-            'user_id' => auth()->id(),
-            'message' => $request->message,
-        ]);
-
-        \App\Events\MessageSent::dispatch(auth()->user(), $message);
-
-        return response()->json(['status' => 'Message Sent!']);
-    });
+    //
 });
