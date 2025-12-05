@@ -8,11 +8,22 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
+use Carbon\Carbon;
 
 class DataDaurUlangController extends Controller
 {
     public function index()
     {
+        // Hapus data 6jam
+        $expiredDaurUlang = DataDaurUlang::where('batas_waktu', '<', Carbon::now()->subHours(6))->get();
+
+        foreach ($expiredDaurUlang as $item) {
+            if ($item->gambar && File::exists(public_path($item->gambar))) {
+                File::delete(public_path($item->gambar));
+            }
+            $item->delete();
+        }
+
         $user = Auth::user();
         $dataDaurUlang = DataDaurUlang::where('user_id', $user->id)
             ->orderBy('created_at', 'desc')
