@@ -4,15 +4,35 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Models\DataMakanan;
+use App\Models\DataDaurUlang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
+use Carbon\Carbon;
 
 class DataMakananController extends Controller
 {
     public function index()
     {
+        // Saat index diakses, makanan yg expired otomatis pindah. Jadi gpke worker.
+        $expiredMakanan = DataMakanan::where('batas_waktu', '<', Carbon::now())->get();
+
+        foreach ($expiredMakanan as $makanan) {
+            DataDaurUlang::create([
+                'user_id' => $makanan->user_id,
+                'nama' => $makanan->nama,
+                'penyedia' => $makanan->penyedia,
+                'kategori' => $makanan->kategori,
+                'alamat' => $makanan->alamat,
+                'berat' => $makanan->porsi,
+                'batas_waktu' => $makanan->batas_waktu,
+                'gambar' => $makanan->gambar,
+            ]);
+
+            $makanan->delete();
+        }
+
         $user = Auth::user();
         $dataMakanan = DataMakanan::where('user_id', $user->id)
             ->orderBy('created_at', 'desc')
