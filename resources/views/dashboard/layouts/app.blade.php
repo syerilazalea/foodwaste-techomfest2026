@@ -20,7 +20,13 @@
 
     </div>
 
+    @php
+    $noScripts = $noScripts ?? false;
+    @endphp
+
+    @if(!$noScripts)
     @include('dashboard.layouts.scripts')
+    @endif
 
     @stack('scripts')
 
