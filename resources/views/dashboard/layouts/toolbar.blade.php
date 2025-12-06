@@ -1,5 +1,5 @@
 <!-- Theme Settings Modal Start -->
-<div class="modal fade modal-right scroll-out-negative" id="settings" data-bs-backdrop="true" tabindex="-1" role="dialog" aria-labelledby="settings" aria-hidden="true">
+<!-- <div class="modal fade modal-right scroll-out-negative" id="settings" data-bs-backdrop="true" tabindex="-1" role="dialog" aria-labelledby="settings" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable full" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -297,11 +297,11 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
 <!-- Theme Settings Modal End -->
 
 <!-- Niches Modal Start -->
-<div class="modal fade modal-right scroll-out-negative" id="niches" data-bs-backdrop="true" tabindex="-1" role="dialog" aria-labelledby="niches" aria-hidden="true">
+<!-- <div class="modal fade modal-right scroll-out-negative" id="niches" data-bs-backdrop="true" tabindex="-1" role="dialog" aria-labelledby="niches" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable full" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -434,11 +434,11 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
 <!-- Niches Modal End -->
 
 <!-- Theme Settings & Niches Buttons Start -->
-<div class="settings-buttons-container">
+<!-- <div class="settings-buttons-container">
     <button type="button" class="btn settings-button btn-primary p-0" data-bs-toggle="modal" data-bs-target="#settings" id="settingsButton">
         <span class="d-inline-block no-delay" data-bs-delay="0" data-bs-offset="0,3" data-bs-toggle="tooltip"
             data-bs-placement="left" title="Settings">
@@ -451,11 +451,11 @@
             <i data-acorn-icon="toy" class="position-relative"></i>
         </span>
     </button>
-</div>
+</div> -->
 <!-- Theme Settings & Niches Buttons End -->
 
 <!-- Search Modal Start -->
-<div class="modal fade modal-under-nav modal-search modal-close-out" id="searchPagesModal" tabindex="-1" role="dialog" aria-hidden="true">
+<!-- <div class="modal fade modal-under-nav modal-search modal-close-out" id="searchPagesModal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header border-0 p-0">
@@ -476,5 +476,5 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
 <!-- Search Modal End -->

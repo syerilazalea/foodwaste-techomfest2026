@@ -5,40 +5,56 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
 use App\Models\DataMakanan;
 use App\Models\DataDaurUlang;
+use App\Models\DataExpired;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\Log;
 
 class DataMakananController extends Controller
 {
     public function index()
     {
-        // Saat index diakses, makanan yg expired otomatis pindah. Jadi gpke worker.
-        $expiredMakanan = DataMakanan::where('batas_waktu', '<', Carbon::now()->format('H:i:s'))->get();
-        $currentTime = Carbon::now();
+        $now = now();
+        $nowTime = $now->format('H:i:s');
 
-        foreach ($expiredMakanan as $makanan) {
-            DataDaurUlang::create([
-                'user_id' => $makanan->user_id,
-                'nama' => $makanan->nama,
-                'penyedia' => $makanan->penyedia,
-                'kategori' => $makanan->kategori,
-                'alamat' => $makanan->alamat,
-                'berat' => $makanan->porsi,
-                'batas_waktu' => $makanan->batas_waktu,
-                'gambar' => $makanan->gambar,
-            ]);
+        // Ambil makanan yang sudah lewat batas waktu
+        $expiredMakanan = DataMakanan::whereTime('batas_waktu', '<', $nowTime)->get();
 
-            $makanan->delete();
-        }
+        DB::transaction(function () use ($expiredMakanan, $now) {
+            foreach ($expiredMakanan as $makanan) {
+                // Simpan data ke tabel daur ulang
+                DataDaurUlang::create([
+                    'user_id' => $makanan->user_id,
+                    'data_makanan_id' => $makanan->id, // tetap disimpan
+                    'nama' => $makanan->nama,
+                    'penyedia' => $makanan->penyedia,
+                    'kategori' => $makanan->kategori,
+                    'alamat' => $makanan->alamat,
+                    'berat' => $makanan->porsi,
+                    'batas_waktu' => $makanan->batas_waktu,
+                    'gambar' => $makanan->gambar,
+                ]);
 
+                // Simpan data ke tabel expired
+                DataExpired::create([
+                    'user_id' => $makanan->user_id,
+                    'data_makanan_id' => $makanan->id, // tetap disimpan
+                    'expired_at' => $now,
+                ]);
+
+                // Hapus data makanan dari tabel utama
+                $makanan->delete();
+            }
+        });
+
+        // Ambil data makanan yang masih tersisa
         $user = Auth::user();
         $dataMakanan = DataMakanan::where('user_id', $user->id)
             ->orderBy('created_at', 'desc')
             ->paginate(10);
+
         return view('dashboard.dashboard-makanan', compact('user', 'dataMakanan'));
     }
 

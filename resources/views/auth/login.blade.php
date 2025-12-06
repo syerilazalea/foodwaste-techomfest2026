@@ -10,7 +10,7 @@
                     <div>
                         <div>
                             <div class="mb-5">
-                                <h1 class="display-3 text-white">Food Cycle</h1>
+                                <h1 class="display-3 text-white">Econect</h1>
                                 <h1 class="display-6 text-white">Reduce Food Waste Together</h1>
                             </div>
                             <p class="h6 text-white lh-1-6 mb-5">
@@ -38,7 +38,7 @@
                                 @csrf
                                 <!-- Title -->
                                 <div class="mb-5 text-center">
-                                    <h2 class="display-5 fw-bold">Masuk ke Food Cycle</h2>
+                                    <h2 class="display-5 fw-bold">Masuk ke Econect</h2>
                                     <p class="text-muted mt-2">Akses akun Anda untuk melanjutkan</p>
                                 </div>
 

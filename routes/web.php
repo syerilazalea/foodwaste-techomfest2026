@@ -22,18 +22,17 @@ Route::get('/', function () {
 });
 
 Route::prefix('/')->name('home.')->group(function () {
-    
-Route::get('/home', [HomePageController::class, 'index'])->name('index');
 
-Route::get('/kampanye', [HomePageController::class, 'kampanye'])->name('kampanye');
-Route::get('/kampanye/load-more-artikel', [HomePageController::class, 'loadMoreArtikel'])->name('artikel.loadMore');
-Route::get('/kampanye/load-more-agenda', [HomePageController::class, 'loadMoreAgenda'])->name('agenda.loadMore');
+    Route::get('/home', [HomePageController::class, 'index'])->name('index');
 
-Route::get('/artikel/{slug}', [HomePageController::class, 'showArtikel'])->name('artikel.show');
-Route::get('/agenda/{slug}', [HomePageController::class, 'showAgenda'])->name('agenda.show');
+    Route::get('/kampanye', [HomePageController::class, 'kampanye'])->name('kampanye');
+    Route::get('/kampanye/load-more-artikel', [HomePageController::class, 'loadMoreArtikel'])->name('artikel.loadMore');
+    Route::get('/kampanye/load-more-agenda', [HomePageController::class, 'loadMoreAgenda'])->name('agenda.loadMore');
 
-Route::get('/tentang-kami', [HomePageController::class, 'tentangKami'])->name('tentangKami');
+    Route::get('/artikel/{slug}', [HomePageController::class, 'showArtikel'])->name('artikel.show');
+    Route::get('/agenda/{slug}', [HomePageController::class, 'showAgenda'])->name('agenda.show');
 
+    Route::get('/tentang-kami', [HomePageController::class, 'tentangKami'])->name('tentangKami');
 });
 
 // Group routes dengan prefix "auth"
@@ -58,6 +57,9 @@ Route::prefix('dashboard')->name('dashboard.')->middleware(AuthCheck::class)->gr
     Route::get('/', [DashboardController::class, 'index'])->name('index');
     Route::post('/pengambilanMakanan/{id}/mulai', [DashboardController::class, 'mulaiPengambilanMakanan'])->name('pengambilanMakanan.mulai');
     Route::post('/pengambilanDaurUlang/{id}/mulai', [DashboardController::class, 'mulaiPengambilanDaurUlang'])->name('pengambilanDaurUlang.mulai');
+
+    Route::post('/konfirmasiMakanan/{id}/mulai', [DashboardController::class, 'makananSudahDiambil'])->name('konfirmasiMakanan.mulai');
+
     Route::get('/topbar', [DashboardController::class, 'topbar'])->name('topbar');
 
     //Page pesan
@@ -120,4 +122,19 @@ Route::prefix('settings')->middleware(AuthCheck::class)->group(function () {
 
 Route::middleware(['web', 'auth'])->group(function () {
     //
+});
+
+
+//offline sw
+
+Route::get('/offline', function () {
+    return view('offline');
+})->name('offline');
+
+Route::get('/serviceworker.js', function () {
+    $manifest = json_decode(file_get_contents(public_path('build/manifest.json')), true);
+
+    return response()->view('serviceworker', [
+        'manifest' => $manifest
+    ])->header('Content-Type', 'application/javascript');
 });

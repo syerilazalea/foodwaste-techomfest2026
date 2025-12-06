@@ -58,16 +58,6 @@
         @endauth
         <!-- User Menu End -->
 
-        <!-- Icons Menu Start -->
-        <ul class="list-unstyled list-inline text-center menu-icons">
-            <li class="list-inline-item">
-                <a href="#" data-bs-toggle="modal" data-bs-target="#searchPagesModal">
-                    <i data-acorn-icon="search" data-acorn-size="18"></i>
-                </a>
-            </li>
-        </ul>
-        <!-- Icons Menu End -->
-
         <!-- Menu Start -->
         <div class="menu-container flex-grow-1">
             <ul id="menu" class="menu">
@@ -112,13 +102,30 @@
                         <li><a href="{{ route('katalog.katalogDaurUlang.index') }}"><span class="label">Daur Ulang</span></a></li>
                     </ul>
                 </li>
-
+                <!-- Jika user belum login -->
+                @guest
                 <li>
                     <a href="{{ route('home.kampanye') }}">
                         <i data-acorn-icon="menu-bookmark" class="icon" data-acorn-size="18"></i>
                         <span class="label">Kampanye</span>
                     </a>
                 </li>
+                @endguest
+
+                <!-- Jika user sudah login -->
+                @auth
+                <li>
+                    <a href="#menu-kampanye" data-bs-toggle="collapse" class="dropdown-toggle">
+                        <i data-acorn-icon="menu-bookmark" class="icon" data-acorn-size="18"></i>
+                        <span class="label">Kampanye</span>
+                    </a>
+                    <ul id="menu-kampanye" class="collapse">
+                        <li><a href="{{ route('dashboard.kampanye.index') }}"><span class="label">Kampanye</span></a></li>
+                        <li><a href="{{ route('dashboard.agenda.index') }}"><span class="label">Agenda</span></a></li>
+                        <li><a href="{{ route('dashboard.artikel.index') }}"><span class="label">Artikel</span></a></li>
+                    </ul>
+                </li>
+                @endauth
 
                 @auth
                 <li>

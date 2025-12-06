@@ -25,8 +25,8 @@ class Chat {
         this.messageContainerTemplate = document.getElementById('messageContainerTemplate');
         this.messageAttachmentContentTemplate = document.getElementById('messageAttachmentContentTemplate');
         this.messageTextContentTemplate = document.getElementById('messageTextContentTemplate');
-        this.currentMode = 'chat'; 
-        this.currentView = null; 
+        this.currentMode = 'chat';
+        this.currentView = null;
         this.chatView = document.getElementById('chatView');
         this.listView = document.getElementById('listView');
 
@@ -42,11 +42,11 @@ class Chat {
             .then(response => response.json())
             .then(data => {
                 this.chatData = data.map((d) => {
-                    
+
                     return {...d };
                 });
 
-                
+
                 if (typeof targetUser !== 'undefined' && targetUser) {
                     const exists = this.chatData.find(u => u.id === targetUser.id);
                     if (!exists) {
@@ -68,17 +68,17 @@ class Chat {
         this._addListeners();
         this._initEcho();
 
-        
+
         if (typeof targetUser !== 'undefined' && targetUser) {
             this._renderChatMessagesById(targetUser.id);
-            
+
             if (this.currentView === 'mobile') {
                 this._updateView();
             }
         } else if (this.currentView === 'desktop' && this.chatData.length > 0) {
             this._renderChatMessagesById(this.chatData[0].id);
         }
-        
+
         this._updateChatScrollDelayed();
     }
 
@@ -95,40 +95,40 @@ class Chat {
     }
 
     _handleIncomingMessage(message, sender) {
-        
-        
-        
+
+
+
         const targetContactId = sender.id === currentUserId ? message.receiver_id : sender.id;
 
-        
+
         let contact = this.chatData.find(u => u.id === targetContactId);
-        
-        
+
+
         if (!contact) {
             contact = {
                 id: targetContactId,
-                name: sender.id === currentUserId ? 'Unknown' : sender.name, 
-                thumb: 'img/profile/profile-1.webp', 
+                name: sender.id === currentUserId ? 'Unknown' : sender.name,
+                thumb: 'img/profile/profile-1.webp',
                 last: 'Just now',
                 status: 'Online',
                 unread: 0,
                 messages: []
             };
-            
+
             this.chatData.unshift(contact);
             this._renderContacts();
         }
 
-        
+
         if (sender.id === currentUserId) {
-             const lastMessages = contact.messages.slice(-5); 
-             const isDuplicate = lastMessages.some(m => m.text === message.message && m.type === 'message');
-             if (isDuplicate) {
-                 return;
-             }
+            const lastMessages = contact.messages.slice(-5);
+            const isDuplicate = lastMessages.some(m => m.text === message.message && m.type === 'message');
+            if (isDuplicate) {
+                return;
+            }
         }
 
-        
+
         const formattedMsg = {
             type: sender.id === currentUserId ? 'message' : 'response',
             text: message.message,
@@ -137,23 +137,23 @@ class Chat {
         };
 
         contact.messages.push(formattedMsg);
-        
-        
+
+
         if (this.currentChatData && this.currentChatData.id === contact.id) {
-             this._renderChatMessage(formattedMsg, this.chatContentContainer.querySelector('.os-content'));
-             this._updateChatScroll();
+            this._renderChatMessage(formattedMsg, this.chatContentContainer.querySelector('.os-content'));
+            this._updateChatScroll();
         } else {
             if (sender.id !== currentUserId) {
                 contact.unread++;
             }
-            this._renderContacts(); 
+            this._renderContacts();
         }
-        
-        
+
+
         contact.last = 'Just now';
     }
 
-    
+
     _initView() {
         const windowWidth = window.innerWidth;
         let newView = null;
@@ -171,28 +171,28 @@ class Chat {
         }
     }
 
-    
+
     _updateView() {
         if (this.currentView === 'mobile') {
-            
+
             if (this.currentChatData) {
-                
+
                 this._showChatView();
                 this._enableBackButton();
             } else {
-                
+
                 this._showListView();
                 this._disableBackButton();
             }
             this._showChatBackButton();
         } else {
-            
+
             this._showBothViews();
             this._hideChatBackButton();
         }
     }
 
-    
+
     _showChatView() {
         this.chatView.classList.remove('d-none');
         this.chatView.classList.add('d-flex');
@@ -200,7 +200,7 @@ class Chat {
         this.listView.classList.add('d-none');
     }
 
-    
+
     _showListView() {
         this.chatView.classList.add('d-none');
         this.chatView.classList.remove('d-flex');
@@ -208,7 +208,7 @@ class Chat {
         this.listView.classList.remove('d-none');
     }
 
-    
+
     _showBothViews() {
         this.chatView.classList.remove('d-none');
         this.chatView.classList.add('d-flex');
@@ -224,7 +224,7 @@ class Chat {
         document.getElementById('backButton').classList.add('disabled');
     }
 
-    
+
     _initMode() {
         if (this.currentMode === 'chat') {
             document.getElementById('chatMode').classList.remove('d-none');
@@ -241,7 +241,7 @@ class Chat {
         }
     }
 
-    
+
     _addListeners() {
         this.chatInput.addEventListener('keydown', this._onChatInputKeyDown.bind(this));
         document.getElementById('chatSendButton') && document.getElementById('chatSendButton').addEventListener('click', this._inputSend.bind(this));
@@ -258,39 +258,39 @@ class Chat {
         window.addEventListener('resize', this._onResize.bind(this));
     }
 
-    
+
     _showChatBackButton() {
         document.getElementById('backButton').classList.remove('d-none');
     }
 
-    
+
     _hideChatBackButton() {
         document.getElementById('backButton').classList.add('d-none');
     }
 
-    
+
     _onResizeDebounced(event) {
         this._updateChatScroll();
     }
 
-    
+
     _onResize(event) {
         this._initView();
     }
 
-    
+
     _onEndCallClick(event) {
         this.currentMode = 'chat';
         this._initMode();
     }
 
-    
+
     _onCallClick(event) {
         this.currentMode = 'call';
         this._initMode();
     }
 
-    
+
     _renderCall() {
         const callMode = document.getElementById('callMode');
         callMode.querySelector('.name').innerHTML = this.currentChatData.name;
@@ -298,7 +298,7 @@ class Chat {
         this._startTimer(callMode.querySelector('.time'));
     }
 
-    
+
     _startTimer(timer) {
         timer.innerHTML = '00:00:00';
         var startTimestamp = moment().startOf('day');
@@ -308,14 +308,14 @@ class Chat {
         }, 1000);
     }
 
-    
+
     _endTimer() {
         if (this.timerInterval) {
             clearInterval(this.timerInterval);
         }
     }
 
-    
+
     _onBackClick(event) {
         this.currentChatData = null;
         this._renderContacts();
@@ -327,7 +327,7 @@ class Chat {
         }
     }
 
-    
+
     _renderContacts() {
         this.messagesListContainer.querySelector('.os-content').innerHTML = '';
         this.contactsListContainer.querySelector('.os-content').innerHTML = '';
@@ -337,7 +337,7 @@ class Chat {
         });
     }
 
-    
+
     _renderContact(contact, container) {
         var itemClone = this.listItemTemplate.content.cloneNode(true).querySelector('a');
         itemClone.setAttribute('data-id', contact.id);
@@ -354,18 +354,18 @@ class Chat {
         container.append(itemClone);
     }
 
-    
+
     _renderContactTitle() {
         const contactTitle = document.getElementById('contactTitle');
         contactTitle.querySelector('.name').innerHTML = this.currentChatData.name;
-        
+
         contactTitle.querySelector('.profile').setAttribute('src', this.currentChatData.thumb);
         if (this.currentChatData.status !== 'Online') {
             contactTitle.querySelector('.status').classList.add('d-none');
         }
     }
 
-    
+
     _setActiveContact() {
         this.userProfileTabs.querySelectorAll('.contact-list-item').forEach((element) => {
             element.classList.remove('active');
@@ -375,7 +375,7 @@ class Chat {
         });
     }
 
-    
+
     _setAsRead() {
         if (this.currentChatData.unread > 0) {
             this.currentChatData.unread = 0;
@@ -384,18 +384,18 @@ class Chat {
         }
     }
 
-    
+
     _renderChatMessagesById(id) {
         this.currentChatData = this._getDataById(id);
         this.chatContentContainer.querySelector('.os-content').innerHTML = '<div class="text-center p-2">Loading...</div>';
-        
+
         const url = chatMessagesUrl.replace(':id', id);
         fetch(url)
             .then(res => res.json())
             .then(messages => {
-                 this.currentChatData.messages = messages;
-                 this.chatContentContainer.querySelector('.os-content').innerHTML = '';
-                 messages.map((chat) => {
+                this.currentChatData.messages = messages;
+                this.chatContentContainer.querySelector('.os-content').innerHTML = '';
+                messages.map((chat) => {
                     this._renderChatMessage(chat, this.chatContentContainer.querySelector('.os-content'));
                 });
                 this._renderContactTitle();
@@ -410,12 +410,12 @@ class Chat {
             });
     }
 
-    
+
     _renderChatMessage(chat, container) {
         var itemClone = null;
         var containerClone = null;
         if (chat.type === 'response') {
-            
+
             containerClone = this.respondContainerTemplate.content.cloneNode(true).querySelector('div');
             containerClone.querySelector('.chat-profile').setAttribute('src', this.currentChatData.thumb);
             if (chat.text !== '') {
@@ -434,7 +434,7 @@ class Chat {
                 });
             }
         } else {
-            
+
             containerClone = this.messageContainerTemplate.content.cloneNode(true).querySelector('div');
             if (chat.text !== '') {
                 itemClone = this.messageTextContentTemplate.content.cloneNode(true).querySelector('div');
@@ -454,7 +454,7 @@ class Chat {
         }
     }
 
-    
+
     _getDataById(id) {
         return this.chatData.find((data) => {
             if (data.id === id) {
@@ -463,7 +463,7 @@ class Chat {
         });
     }
 
-    
+
     _initTextArea() {
         autosize(this.chatInput);
         this.chatInput.addEventListener('autosize:resized', this._chatInputResize.bind(this));
@@ -473,7 +473,7 @@ class Chat {
         this._updateChatScroll();
     }
 
-    
+
     _inputSend(event) {
         const text = this.chatInput.value;
         if (!text.trim()) return;
@@ -487,35 +487,35 @@ class Chat {
 
         this.chatInput.value = '';
         this.chatInput.focus();
-        
-        
+
+
         this._renderChatMessage(message, this.chatContentContainer.querySelector('.os-content'));
         this._updateChatScroll();
         this._updateChatData(message);
 
-        
+
         fetch(chatSendUrl, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': this.csrfToken
-            },
-            body: JSON.stringify({
-                receiver_id: this.currentChatData.id,
-                message: text
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': this.csrfToken
+                },
+                body: JSON.stringify({
+                    receiver_id: this.currentChatData.id,
+                    message: text
+                })
+            }).then(res => res.json())
+            .then(data => {
+                console.log('Message sent', data);
             })
-        }).then(res => res.json())
-          .then(data => { 
-              console.log('Message sent', data);
-          })
-          .catch(err => console.error('Error sending message', err));
+            .catch(err => console.error('Error sending message', err));
     }
 
-    
+
     _updateChatData(message) {
-        
+
         this.currentChatData.messages.push(message);
-        
+
         const index = this.chatData.indexOf(this.currentChatData);
         if (index > -1) {
             this.chatData.splice(index, 1);
@@ -525,12 +525,12 @@ class Chat {
         this._setActiveContact();
     }
 
-    
+
     _attachmentSend(event) {
         document.getElementById('chatAttachmentInput').dispatchEvent(new MouseEvent('click'));
     }
 
-    
+
     _onAttachmentChange(event) {
         const input = document.getElementById('chatAttachmentInput');
         if (input.files && input.files[0]) {
@@ -540,22 +540,22 @@ class Chat {
                     type: 'message',
                     text: '',
                     time: moment().format('HH:mm'),
-                    attachments: [onLoadEvent.target.result + '#.webp'], 
+                    attachments: [onLoadEvent.target.result + '#.webp'],
                 };
                 this._renderChatMessage(attachment, this.chatContentContainer.querySelector('.os-content'));
                 baguetteBox.destroy();
                 baguetteBox.run('.lightbox');
                 this._updateChatScroll();
                 this._updateChatData(attachment);
-                
-                
-                
+
+
+
             };
             reader.readAsDataURL(input.files[0]);
         }
     }
 
-    
+
     _onChatInputKeyDown(event) {
         if (event.keyCode == 13) {
             event.preventDefault();
@@ -571,7 +571,7 @@ class Chat {
         }
     }
 
-    
+
     _onContactListClick(event) {
         if (this.currentMode !== 'chat') {
             return;
@@ -579,14 +579,14 @@ class Chat {
         const contactElement = event.target.closest('.contact-list-item');
         if (contactElement) {
             const contactId = contactElement.getAttribute('data-id');
-            
+
             this.currentChatData = this._getDataById(parseInt(contactId));
             this._updateView();
             this._renderChatMessagesById(parseInt(contactId));
         }
     }
 
-    
+
     _initScrollbars() {
         if (typeof OverlayScrollbars !== 'undefined') {
             OverlayScrollbars(this.messagesListContainer, { scrollbars: { autoHide: 'leave', autoHideDelay: 600 }, overflowBehavior: { x: 'hidden', y: 'scroll' } });
@@ -598,14 +598,14 @@ class Chat {
         }
     }
 
-    
+
     _updateChatScroll() {
         if (this.chatContentScroll) {
-             this.chatContentScroll.scroll({ el: this.chatContentContainer.querySelector('.card-content:last-of-type'), scroll: { x: 'never' }, block: 'end' }, 0);
+            this.chatContentScroll.scroll({ el: this.chatContentContainer.querySelector('.card-content:last-of-type'), scroll: { x: 'never' }, block: 'end' }, 0);
         }
     }
 
-    
+
     _updateChatScrollDelayed() {
         setTimeout(() => {
             this._updateChatScroll();

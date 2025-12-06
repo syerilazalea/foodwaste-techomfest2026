@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade'); // user yang mengambil
             $table->foreignId('data_makanan_id')->constrained('data_makanan')->onDelete('cascade'); // makanan yang diambil
             $table->integer('jumlah'); // jumlah yang diambil
-            $table->enum('status', ['menunggu', 'dikonfirmasi', 'selesai'])->default('menunggu');
+            $table->enum('status', ['menunggu', 'perjalanan', 'diambil'])->default('menunggu');
             $table->timestamps();
         });
     }

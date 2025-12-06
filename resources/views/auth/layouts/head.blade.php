@@ -1,7 +1,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <title>Food Cycle - Kelola Kampanye</title>
+    <title>Econect</title>
     <!-- Favicon -->
     <link rel="icon" href="{{ asset('logo/favicon.svg') }}" type="image/svg+xml">
     <link rel="apple-touch-icon" href="{{ asset('logo/favicon.svg') }}" type="image/svg+xml">

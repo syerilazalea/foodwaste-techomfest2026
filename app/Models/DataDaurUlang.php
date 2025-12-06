@@ -12,6 +12,7 @@ class DataDaurUlang extends Model
     protected $table = 'data_daur_ulang';
 
     protected $fillable = [
+        'data_makanan_id',
         'nama',
         'penyedia',
         'kategori',
@@ -29,5 +30,10 @@ class DataDaurUlang extends Model
     public function pengambilanDaurUlang()
     {
         return $this->hasMany(PengambilDaurUlang::class, 'data_daur_ulang_id');
+    }
+
+    public function dataMakanan()
+    {
+        return $this->hasMany(DataMakanan::class, 'data_makanan_id');
     }
 }

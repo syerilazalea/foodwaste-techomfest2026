@@ -16,13 +16,13 @@
                 <div class="card d-flex mb-2">
                     <div class="d-flex flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#faq1" aria-expanded="true">
                         <div class="card-body py-4">
-                            <div class="btn btn-link list-item-heading p-0">Apa itu Food Cycle?</div>
+                            <div class="btn btn-link list-item-heading p-0">Apa itu Econect?</div>
                         </div>
                     </div>
                     <div id="faq1" class="collapse show" data-bs-parent="#accordionCardsExample">
                         <div class="card-body accordion-content pt-0">
                             <p class="mb-0">
-                                Food Cycle adalah platform yang bertujuan untuk mengurangi dampak food waste yang berlebihan dengan cara menjembatani penyaluran makanan layak konsumsi kepada pihak yang membutuhkan, serta limbah hasil makanan agar dapat dimanfaatkan menjadi kompos, pakan
+                                Econect adalah platform yang bertujuan untuk mengurangi dampak food waste yang berlebihan dengan cara menjembatani penyaluran makanan layak konsumsi kepada pihak yang membutuhkan, serta limbah hasil makanan agar dapat dimanfaatkan menjadi kompos, pakan
                                 ternak, atau lainnya.
                             </p>
                         </div>

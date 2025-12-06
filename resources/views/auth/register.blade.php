@@ -11,7 +11,7 @@
                     <div>
                         <div>
                             <div class="mb-5">
-                                <h1 class="display-3 text-white">Food Cycle</h1>
+                                <h1 class="display-3 text-white">Econect</h1>
                                 <h1 class="display-6 text-white">Reduce Food Waste Together</h1>
                             </div>
                             <p class="h6 text-white lh-1-6 mb-5">

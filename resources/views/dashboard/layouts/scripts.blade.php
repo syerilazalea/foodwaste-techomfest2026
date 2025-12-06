@@ -4,8 +4,6 @@
 <script src="{{asset ('js/vendor/OverlayScrollbars.min.js')}}"></script>
 <script src="{{asset ('js/vendor/autoComplete.min.js')}}"></script>
 <script src="{{asset ('js/vendor/clamp.min.js')}}"></script>
-<script src="{{asset ('icon/acorn-icons.js')}}"></script>
-<script src="{{asset ('icon/acorn-icons-interface.js')}}"></script>
 <script src="{{asset ('js/vendor/jquery.barrating.min.js')}}"></script>
 <script src="{{asset ('icon/acorn-icons.js')}}"></script>
 <script src="{{asset ('icon/acorn-icons-interface.js')}}"></script>
@@ -47,8 +45,13 @@
 </script>
 
 <!-- TinyMCE API -->
-<script src="https://cdn.tiny.cloud/1/<Your_API></Your_API>/tinymce/8/tinymce.min.js" referrerpolicy="origin" crossorigin="anonymous"></script>
-
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        src = "https://cdn.tiny.cloud/1/YOUR_API/tinymce/8/tinymce.min.js"
+        referrerpolicy = "origin"
+        crossorigin = "anonymous"
+    });
+</script>
 <!-- Dropify JS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js"></script>
 <script>
@@ -72,20 +75,30 @@
 
 <!-- Preview Profile -->
 <script>
-    document.getElementById('dropifyInput').addEventListener('change', function(event) {
-        let reader = new FileReader();
-        reader.onload = function(e) {
-            document.getElementById('previewImage').src = e.target.result;
+    document.addEventListener('DOMContentLoaded', function() {
+        const input = document.getElementById('dropifyInput');
+        const preview = document.getElementById('previewImage');
+
+        if (input && preview) {
+            input.addEventListener('change', function(event) {
+                const file = event.target.files[0];
+                if (!file) return;
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                }
+                reader.readAsDataURL(file);
+            });
         }
-        reader.readAsDataURL(event.target.files[0]);
     });
 </script>
+
 
 <!-- Laravel PWA Service Worker Registration -->
 <script type="text/javascript">
     // Initialize the service worker
     if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('/serviceworker.js', {
+        navigator.serviceWorker.register("{{asset ('serviceworker.js')}}", {
             scope: '.'
         }).then(function(registration) {
             // Registration was successful

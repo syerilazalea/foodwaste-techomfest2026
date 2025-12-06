@@ -27,6 +27,11 @@ class PengambilMakanan extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class,'user_id');
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function dataMakanan()
+    {
+        return $this->belongsTo(\App\Models\DataMakanan::class, 'data_makanan_id');
     }
 }

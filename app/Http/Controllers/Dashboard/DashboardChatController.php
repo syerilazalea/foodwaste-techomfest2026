@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Message;
 use App\Events\MessageSent;
+use App\Models\PengambilDaurUlang;
+use App\Models\PengambilMakanan;
 use Illuminate\Support\Facades\Auth;
 
 class DashboardChatController extends Controller
@@ -14,13 +16,16 @@ class DashboardChatController extends Controller
     public function index(Request $request)
     {
         $targetUser = null;
+
         if ($request->has('start_chat')) {
-            $targetUser = User::find($request->start_chat);
-            if ($targetUser) {
+            // Ambil user yang memesan berdasarkan id yang dikirim di start_chat
+            $user = User::find($request->start_chat);
+
+            if ($user) {
                 $targetUser = [
-                    'id' => $targetUser->id,
-                    'name' => $targetUser->name,
-                    'thumb' => asset('img/profile/profile-1.webp'),
+                    'id' => $user->id,
+                    'name' => $user->name,
+                    'thumb' => $user->gambar, // sudah otomatis menyesuaikan id $user
                     'last' => '',
                     'status' => 'Online',
                     'unread' => 0,
@@ -28,13 +33,14 @@ class DashboardChatController extends Controller
                 ];
             }
         }
+
         return view('dashboard.chat.index', compact('targetUser'));
     }
 
     public function getContacts()
     {
         $userId = Auth::id();
-        
+
         // Get users who have chatted with current user (sent or received)
         // This is a simplified query. For production, use distinct and join.
         $messages = Message::where('user_id', $userId)
@@ -56,7 +62,7 @@ class DashboardChatController extends Controller
             return [
                 'id' => $contact->id,
                 'name' => $contact->name,
-                'thumb' => asset('img/profile/profile-1.webp'), // Placeholder or real image
+                'thumb' => $contact->gambar, // Placeholder or real image
                 'last' => $lastMsg ? $lastMsg->created_at->diffForHumans() : '',
                 'status' => 'Online', // You might want to implement real status later
                 'unread' => 0, // Implement unread count logic if needed

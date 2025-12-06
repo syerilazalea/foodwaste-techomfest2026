@@ -207,7 +207,7 @@
             <div class="row g-2">
                 <div class="col-auto d-flex align-items-end order-1">
                     <div class="sw-5 sh-5 mb-1 d-inline-block position-relative">
-                        <img src="{{asset ('img/profile/profile-2.webp')}}" class="img-fluid rounded-xl" alt="thumb" />
+                        <img src="{{ asset(auth()->user()->gambar ?: 'default.png') }}" class="img-fluid rounded-xl" alt="thumb" />
                     </div>
                 </div>
                 <div class="col d-flex justify-content-end align-items-end content-container"></div>

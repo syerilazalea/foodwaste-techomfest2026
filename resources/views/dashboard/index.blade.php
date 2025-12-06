@@ -51,7 +51,7 @@ $currentUser = Auth::user();
         </div>
 
         <div class="row">
-            <h2 class="small-title">Status Informasi Dipesan</h2>
+            <h2 class="small-title">Status Informasi Memesan</h2>
             <div class="mb-5">
                 <div class="row g-2">
                     <div class="col-12 col-sm-6 col-lg-3">
@@ -60,8 +60,8 @@ $currentUser = Auth::user();
                                 <div class="bg-gradient-light sh-5 sw-5 rounded-xl d-flex justify-content-center align-items-center mb-2">
                                     <i data-acorn-icon="loaf" class="text-white"></i>
                                 </div>
-                                <div class="heading text-center mb-0 d-flex align-items-center lh-1">Diterima</div>
-                                <div class="text-small text-primary">14 PRODUCTS</div>
+                                <div class="heading text-center mb-0 d-flex align-items-center lh-1">Total Anda Memesan</div>
+                                <div class="text-small text-primary">{{ $totalMemesan }} ITEM</div>
                             </div>
                         </div>
                     </div>
@@ -73,7 +73,18 @@ $currentUser = Auth::user();
                                 </div>
                                 <div class="heading text-center mb-0 d-flex align-items-center lh-1">Menunggu Diambil
                                 </div>
-                                <div class="text-small text-primary">8 ITEM</div>
+                                <div class="text-small text-primary">{{ $totalMemesanMenunggu }} ITEM</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-6 col-lg-3">
+                        <div class="card hover-scale-up cursor-pointer sh-19">
+                            <div class="h-100 d-flex flex-column justify-content-between card-body align-items-center">
+                                <div class="bg-gradient-light sh-5 sw-5 rounded-xl d-flex justify-content-center align-items-center mb-2">
+                                    <i data-acorn-icon="send" class="text-white"></i>
+                                </div>
+                                <div class="heading text-center mb-0 d-flex align-items-center lh-1">Perjalanan Diambil</div>
+                                <div class="text-small text-primary">{{ $totalMemesanPerjalanan }} ITEM</div>
                             </div>
                         </div>
                     </div>
@@ -84,18 +95,7 @@ $currentUser = Auth::user();
                                     <i data-acorn-icon="leaf" class="text-white"></i>
                                 </div>
                                 <div class="heading text-center mb-0 d-flex align-items-center lh-1">Diterima</div>
-                                <div class="text-small text-primary">21 PRODUCTS</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-sm-6 col-lg-3">
-                        <div class="card hover-scale-up cursor-pointer sh-19">
-                            <div class="h-100 d-flex flex-column justify-content-between card-body align-items-center">
-                                <div class="bg-gradient-light sh-5 sw-5 rounded-xl d-flex justify-content-center align-items-center mb-2">
-                                    <i data-acorn-icon="send" class="text-white"></i>
-                                </div>
-                                <div class="heading text-center mb-0 d-flex align-items-center lh-1">Belum Diambil</div>
-                                <div class="text-small text-primary">21 PRODUCTS</div>
+                                <div class="text-small text-primary">{{ $totalDataDiambil}} ITEM</div>
                             </div>
                         </div>
                     </div>
@@ -123,7 +123,7 @@ $currentUser = Auth::user();
                                 <div class="col-auto">
                                     <span
                                         class="badge rounded-pill
-                                            @if($item->status == 'diterima')
+                                            @if($item->status == 'diambil')
                                                 bg-primary
                                             @elseif($item->status == 'perjalanan')
                                                 bg-info
@@ -163,7 +163,7 @@ $currentUser = Auth::user();
             <!-- Produk Daur Ulang -->
             <div class="col-12 col-xl-6 mb-5">
                 <div class="d-flex justify-content-between">
-                    <h2 class="small-title">Produk Daur Ulang</h2>
+                    <h2 class="small-title">Daur Ulang</h2>
                     <button class="btn btn-icon btn-icon-only btn-sm btn-background-alternate mt-n2 shadow" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">
                         <i data-acorn-icon="more-horizontal" data-acorn-size="15"></i>
                     </button>
@@ -181,7 +181,7 @@ $currentUser = Auth::user();
                                 <div class="col-auto">
                                     <span
                                         class="badge rounded-pill
-                                            @if($item->status == 'diterima')
+                                            @if($item->status == 'diambil')
                                                 bg-primary
                                             @elseif($item->status == 'perjalanan')
                                                 bg-info
@@ -220,7 +220,7 @@ $currentUser = Auth::user();
 
 
         <div class="row">
-            <h2 class="small-title">Status Informasi Pemesanan</h2>
+            <h2 class="small-title">Status Informasi Dipesan</h2>
             <div class="mb-5">
                 <div class="row g-2">
                     <div class="col-12 col-sm-6 col-lg-3">
@@ -231,7 +231,7 @@ $currentUser = Auth::user();
                                 </div>
                                 <div class="heading text-center mb-0 d-flex align-items-center lh-1">
                                     Disumbangkan</div>
-                                <div class="text-small text-primary">14 ITEM</div>
+                                <div class="text-small text-primary">{{ $totalDisumbangkan }} ITEM</div>
                             </div>
                         </div>
                     </div>
@@ -243,7 +243,7 @@ $currentUser = Auth::user();
                                     <i data-acorn-icon="send" class="text-white"></i>
                                 </div>
                                 <div class="heading text-center mb-0 d-flex align-items-center lh-1">Belum Diambil</div>
-                                <div class="text-small text-primary">8 PRODUCTS</div>
+                                <div class="text-small text-primary">{{ $totalDataMenungguDiambil }} ITEM</div>
                             </div>
                         </div>
                     </div>
@@ -254,9 +254,9 @@ $currentUser = Auth::user();
                                 <div class="bg-gradient-light sh-5 sw-5 rounded-xl d-flex justify-content-center align-items-center mb-2">
                                     <i data-acorn-icon="check-circle" class="text-white"></i>
                                 </div>
-                                <div class="heading text-center mb-0 d-flex align-items-center lh-1">Telah Diterima
+                                <div class="heading text-center mb-0 d-flex align-items-center lh-1">Diambil
                                 </div>
-                                <div class="text-small text-primary">21 ITEM</div>
+                                <div class="text-small text-primary">{{ $totalDataDiambil}} ITEM</div>
                             </div>
                         </div>
                     </div>
@@ -269,7 +269,7 @@ $currentUser = Auth::user();
                                 </div>
                                 <div class="heading text-center mb-0 d-flex align-items-center lh-1">Expired
                                 </div>
-                                <div class="text-small text-primary">21 ITEM</div>
+                                <div class="text-small text-primary">{{ $totalExpired }} ITEM</div>
                             </div>
                         </div>
                     </div>
@@ -297,7 +297,7 @@ $currentUser = Auth::user();
                             <div class="row g-0 sh-12">
                                 <div class="col-auto position-relative">
                                     <span class="badge rounded-pill
-                                @if($item->status == 'diterima') bg-primary
+                                @if($item->status == 'diambil') bg-primary
                                 @elseif($item->status == 'perjalanan') bg-info
                                 @elseif($item->status == 'menunggu') bg-warning
                                 @endif
@@ -339,7 +339,7 @@ $currentUser = Auth::user();
             <!-- Produk Daur Ulang yang dipesan -->
             <div class="col-12 col-xl-6 mb-5">
                 <div class="d-flex justify-content-between">
-                    <h2 class="small-title">Makanan</h2>
+                    <h2 class="small-title">Daur Ulang</h2>
                     <button class="btn btn-icon btn-icon-only btn-sm btn-background-alternate mt-n2 shadow" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">
                         <i data-acorn-icon="more-horizontal" data-acorn-size="15"></i>
                     </button>
@@ -357,7 +357,7 @@ $currentUser = Auth::user();
                             <div class="row g-0 sh-12">
                                 <div class="col-auto position-relative">
                                     <span class="badge rounded-pill
-                                @if($item->status == 'diterima') bg-primary
+                                @if($item->status == 'diambil') bg-primary
                                 @elseif($item->status == 'perjalanan') bg-info
                                 @elseif($item->status == 'menunggu') bg-warning
                                 @endif
@@ -411,7 +411,7 @@ $currentUser = Auth::user();
                     class="img-fluid rounded modal-img-fix" />
 
                 <span class="badge 
-                    @if($item->status == 'diterima') bg-primary 
+                    @if($item->status == 'diambil') bg-primary 
                     @elseif($item->status == 'perjalanan') bg-info
                     @elseif($item->status == 'menunggu') bg-warning 
                     @endif
@@ -468,7 +468,7 @@ $currentUser = Auth::user();
                             <div>
                                 <div class="text-muted small">Status</div>
                                 <span class="badge 
-                                            @if($item->status == 'diterima')
+                                            @if($item->status == 'diambil')
                                                 bg-primary
                                             @elseif($item->status == 'perjalanan')
                                                 bg-info
@@ -516,11 +516,11 @@ $currentUser = Auth::user();
             <!-- FOOTER: TOMBOL -->
             <div class="p-3 border-top bg-white">
                 <div class="d-grid gap-2 mb-3">
-                    @if($item->status == 'sudah diambil')
-                    <button class="btn btn-success" disabled>Sudah Diambil</button>
+                    @if($item->status == 'diambil')
+                    <button class="btn btn-success" disabled>Diterima</button>
 
-                    @elseif($item->status == 'diterima')
-                    <button class="btn btn-primary" disabled>Diterima</button>
+                    @elseif($item->status == 'perjalanan')
+                    <button class="btn btn-primary" disabled>Perjalanan</button>
 
                     @elseif($item->status == 'menunggu')
                     @if(Auth::id() === $item->user_id || Auth::id() === $item->makanan->user_id)
@@ -529,15 +529,14 @@ $currentUser = Auth::user();
                         @csrf
                         <button class="btn btn-warning w-100" type="submit">Ingin Mengambil</button>
                     </form>
-                    <a href="{{ route('dashboard.chat.index', ['start_chat' => $item->makanan->user->id, 'context_image' => $item->makanan->gambar, 'context_name' => $item->makanan->nama, 'context_expired' => $item->makanan->batas_waktu]) }}" class="btn btn-outline-primary w-100">Mulai mengobrol dengan {{ $item->makanan->user->name }}</a>
                     @else
                     <button class="btn btn-warning w-100" disabled>Menunggu</button>
                     @endif
 
                     @elseif($item->status == 'perjalanan')
                     <button class="btn btn-info" disabled>Perjalanan</button>
-                    <a href="{{ route('dashboard.chat.index', ['start_chat' => $item->makanan->user->id, 'context_image' => $item->makanan->gambar, 'context_name' => $item->makanan->nama, 'context_expired' => $item->makanan->batas_waktu]) }}" class="btn btn-outline-primary w-100">Mulai mengobrol dengan {{ $item->makanan->user->name }}</a>
                     @endif
+                    <a href="{{ route('dashboard.chat.index', ['start_chat' => $item->makanan->user->id, 'context_image' => $item->makanan->gambar, 'context_name' => $item->makanan->nama, 'context_expired' => $item->makanan->batas_waktu]) }}" class="btn btn-outline-primary w-100">Mulai mengobrol dengan {{ $item->makanan->user->name }}</a>
                 </div>
             </div>
 
@@ -554,7 +553,7 @@ $currentUser = Auth::user();
             <div class="position-relative">
                 <img src="{{ asset($item->daurUlang->gambar) }}" class="img-fluid rounded modal-img-fix" alt="Responsive image" />
                 <span class="badge 
-                    @if($item->status == 'diterima') bg-primary 
+                    @if($item->status == 'diambil') bg-primary 
                     @elseif($item->status == 'perjalanan') bg-info
                     @elseif($item->status == 'menunggu') bg-warning 
                     @endif
@@ -602,7 +601,7 @@ $currentUser = Auth::user();
                             <div>
                                 <div class="text-muted small">Status</div>
                                 <span class="badge 
-                                            @if($item->status == 'diterima')
+                                            @if($item->status == 'diambil')
                                                 bg-primary
                                             @elseif($item->status == 'perjalanan')
                                                 bg-info
@@ -647,11 +646,11 @@ $currentUser = Auth::user();
             <!-- FOOTER: TOMBOL -->
             <div class="p-3 border-top bg-white">
                 <div class="d-grid gap-2 mb-3">
-                    @if($item->status == 'sudah diambil')
-                    <button class="btn btn-success" disabled>Sudah Diambil</button>
+                    @if($item->status == 'diambil')
+                    <button class="btn btn-success" disabled>Sudah Diterima</button>
 
-                    @elseif($item->status == 'diterima')
-                    <button class="btn btn-primary" disabled>Diterima</button>
+                    @elseif($item->status == 'perjalanan')
+                    <button class="btn btn-warning" disabled>diambil</button>
 
                     @elseif($item->status == 'menunggu')
                     @if(Auth::id() === $item->user_id || Auth::id() === $item->daurUlang->user_id)
@@ -660,15 +659,14 @@ $currentUser = Auth::user();
                         @csrf
                         <button class="btn btn-warning w-100" type="submit">Ingin Mengambil</button>
                     </form>
-                    <a href="{{ route('dashboard.chat.index', ['start_chat' => $item->daurUlang->user->id, 'context_image' => $item->daurUlang->gambar, 'context_name' => $item->daurUlang->nama, 'context_expired' => $item->daurUlang->batas_waktu]) }}" class="btn btn-outline-primary w-100">Mulai mengobrol dengan {{ $item->daurUlang->user->name }}</a>
                     @else
                     <button class="btn btn-warning w-100" disabled>Menunggu</button>
                     @endif
 
                     @elseif($item->status == 'perjalanan')
                     <button class="btn btn-info" disabled>Perjalanan</button>
-                    <a href="{{ route('dashboard.chat.index', ['start_chat' => $item->daurUlang->user->id, 'context_image' => $item->daurUlang->gambar, 'context_name' => $item->daurUlang->nama, 'context_expired' => $item->daurUlang->batas_waktu]) }}" class="btn btn-outline-primary w-100">Mulai mengobrol dengan {{ $item->daurUlang->user->name }}</a>
                     @endif
+                    <a href="{{ route('dashboard.chat.index', ['start_chat' => $item->daurUlang->user->id, 'context_image' => $item->daurUlang->gambar, 'context_name' => $item->daurUlang->nama, 'context_expired' => $item->daurUlang->batas_waktu]) }}" class="btn btn-outline-primary w-100">Mulai mengobrol dengan {{ $item->daurUlang->user->name }}</a>
                 </div>
             </div>
 
@@ -678,8 +676,7 @@ $currentUser = Auth::user();
 @endforeach
 
 <!-- MODAL MAKANAN -->
-@foreach($dipesanMakanan as $item)
-@if(Auth::id() === $item->makanan?->user_id)
+@foreach($diambilMakanan as $item)
 <div class="modal fade modal-close-out" id="modalMakanan{{ $item->id }}" tabindex="-1" aria-labelledby="modalMakananLabel{{ $item->id }}" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content border-0 shadow-lg">
@@ -688,7 +685,7 @@ $currentUser = Auth::user();
             <div class="position-relative">
                 <img src="{{ asset($item->makanan->gambar) }}" class="img-fluid rounded modal-img-fix" alt="{{ $item->makanan->nama }}" />
                 <span class="badge
-                    @if($item->status == 'diterima') bg-primary
+                    @if($item->status == 'diambil') bg-primary
                     @elseif($item->status == 'perjalanan') bg-info
                     @elseif($item->status == 'menunggu') bg-warning text-dark @endif
                     position-absolute" style="top: 12px; left: 12px;">
@@ -811,17 +808,39 @@ $currentUser = Auth::user();
 
             <!-- BUTTON -->
             <div class="p-3 border-top bg-white">
-                <button class="btn btn-success w-100" data-bs-dismiss="modal">Konfirmasi Sudah Diambil</button>
+                <div class="d-grid gap-2 mb-3">
+
+                    @if($item->status == 'diambil')
+                    <button class="btn btn-success" disabled>Sudah Diambil</button>
+
+                    @elseif($item->status == 'menunggu')
+                    <button class="btn btn-primary" disabled>Diambil</button>
+
+                    @elseif($item->status == 'perjalanan')
+                    @if(Auth::id() === $item->user_id || Auth::id() === $item->makanan->user_id)
+                    <!-- Hanya user pemesan atau penyedia yang bisa menekan -->
+                    <form action="{{ route('dashboard.konfirmasiMakanan.mulai', $item->id) }}" method="POST">
+                        @csrf
+                        <button class="btn btn-warning w-100" type="submit">diambil</button>
+                    </form>
+                    <a href="{{ route('dashboard.chat.index', ['start_chat' => $item->makanan->user->id, 'context_image' => $item->makanan->gambar, 'context_name' => $item->makanan->nama, 'context_expired' => $item->makanan->batas_waktu]) }}" class="btn btn-outline-primary w-100">Mulai mengobrol dengan {{ $item->makanan->user->name }}</a>
+                    @else
+                    <button class="btn btn-warning w-100" disabled>Menunggu</button>
+                    @endif
+
+                    @elseif($item->status == 'perjalanan')
+                    <button class="btn btn-info" disabled>Diambil</button>
+                    @endif
+                    <a href="{{ route('dashboard.chat.index', ['start_chat' => $item->user->id, 'context_image' => $item->makanan->gambar, 'context_name' => $item->makanan->nama, 'context_expired' => $item->makanan->batas_waktu]) }}" class="btn btn-outline-primary w-100">Mulai mengobrol dengan {{ $item->user->name }}</a>
+                </div>
             </div>
         </div>
     </div>
 </div>
-@endif
 @endforeach
 
 <!-- MODAL DAUR ULANG -->
 @foreach($dipesanDaurUlang as $item)
-@if(Auth::id() === $item->daurUlang?->user_id)
 <div class="modal fade modal-close-out" id="modalDaurUlang{{ $item->id }}" tabindex="-1" aria-labelledby="modalDaurUlangLabel{{ $item->id }}" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content border-0 shadow-lg">
@@ -830,7 +849,7 @@ $currentUser = Auth::user();
             <div class="position-relative">
                 <img src="{{ asset($item->daurUlang->gambar) }}" class="img-fluid rounded modal-img-fix" alt="{{ $item->daurUlang->nama }}" />
                 <span class="badge
-                    @if($item->status == 'diterima') bg-primary
+                    @if($item->status == 'diambil') bg-primary
                     @elseif($item->status == 'perjalanan') bg-info
                     @elseif($item->status == 'menunggu') bg-warning text-dark @endif
                     position-absolute" style="top: 12px; left: 12px;">
@@ -953,11 +972,35 @@ $currentUser = Auth::user();
 
             <!-- BUTTON -->
             <div class="p-3 border-top bg-white">
-                <button class="btn btn-success w-100" data-bs-dismiss="modal">Konfirmasi Sudah Diambil</button>
+                <div class="d-grid gap-2 mb-3">
+
+                    @if($item->status == 'diambil')
+                    <button class="btn btn-success" disabled>Sudah Diambil</button>
+
+                    @elseif($item->status == 'menunggu')
+                    <button class="btn btn-primary" disabled>Diambil</button>
+
+                    @elseif($item->status == 'perjalanan')
+                    @if(Auth::id() === $item->user_id || Auth::id() === $item->daurUlang->user_id)
+                    <!-- Hanya user pemesan atau penyedia yang bisa menekan -->
+                    <form action="{{ route('dashboard.konfirmasiDaurUlang.mulai', $item->id) }}" method="POST">
+                        @csrf
+                        <button class="btn btn-warning w-100" type="submit">diambil</button>
+                    </form>
+                    <a href="{{ route('dashboard.chat.index', ['start_chat' => $item->makanan->user->id, 'context_image' => $item->makanan->gambar, 'context_name' => $item->makanan->nama, 'context_expired' => $item->makanan->batas_waktu]) }}" class="btn btn-outline-primary w-100">Mulai mengobrol dengan {{ $item->makanan->user->name }}</a>
+                    @else
+                    <button class="btn btn-warning w-100" disabled>Menunggu</button>
+                    @endif
+
+                    @elseif($item->status == 'perjalanan')
+                    <button class="btn btn-info" disabled>Diambil</button>
+                    @endif
+                    <a href="{{ route('dashboard.chat.index', ['start_chat' => $item->user->id, 'context_image' => $item->daurUlang->gambar, 'context_name' => $item->daurUlang->nama, 'context_expired' => $item->daurUlang->batas_waktu]) }}" class="btn btn-outline-primary w-100">Mulai mengobrol dengan {{ $item->user->name }}</a>
+                </div>
             </div>
         </div>
     </div>
 </div>
-@endif
 @endforeach
+
 @endsection

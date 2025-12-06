@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class PengambilDaurUlang extends Model
 {
-     protected $table = 'pengambilan_daur_ulang';
+    protected $table = 'pengambilan_daur_ulang';
 
     use HasFactory;
 
@@ -25,6 +25,11 @@ class PengambilDaurUlang extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class,'user_id');
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function dataDaurUlang()
+    {
+        return $this->belongsTo(\App\Models\DataDaurUlang::class, 'data_daur_ulang_id');
     }
 }

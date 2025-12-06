@@ -140,7 +140,7 @@
                                 <div class="card-body d-flex flex-column h-100 p-4">
                                     <h3 class="card-title text-primary mb-4 mt-4">Peran Kami</h3>
                                     <p class="card-text mb-2">
-                                        FoodCycle hadir sebagai penghubung antara masyarakat, kolaborator, dan aktivis untuk mengurangi masalah food waste berlebih serta mendukung kegiatan ramah lingkungan.
+                                        Econect hadir sebagai penghubung antara masyarakat, kolaborator, dan aktivis untuk mengurangi masalah food waste berlebih serta mendukung kegiatan ramah lingkungan.
                                     </p>
                                     <p class="card-text">
                                         Bersama, kita kurangi jumlah food waste dengan <strong>Food
