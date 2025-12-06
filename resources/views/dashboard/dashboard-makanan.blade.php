@@ -218,7 +218,7 @@
     <div class="modal-dialog modal-xl modal-dialog-centered">
         <div class="modal-content border-0 shadow">
             <div class="modal-header">
-                <h5 class="modal-title fw-bold">Data Produk Daur Ulang</h5>
+                <h5 class="modal-title fw-bold">Data Makanan</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
 

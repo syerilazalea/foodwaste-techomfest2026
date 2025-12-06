@@ -25,8 +25,8 @@ class Chat {
         this.messageContainerTemplate = document.getElementById('messageContainerTemplate');
         this.messageAttachmentContentTemplate = document.getElementById('messageAttachmentContentTemplate');
         this.messageTextContentTemplate = document.getElementById('messageTextContentTemplate');
-        this.currentMode = 'chat'; //chat - call
-        this.currentView = null; //mobile - desktop
+        this.currentMode = 'chat'; 
+        this.currentView = null; 
         this.chatView = document.getElementById('chatView');
         this.listView = document.getElementById('listView');
 
@@ -42,11 +42,11 @@ class Chat {
             .then(response => response.json())
             .then(data => {
                 this.chatData = data.map((d) => {
-                    // Ensure correct URL formatting if needed
+                    
                     return {...d };
                 });
 
-                // Handle Start Chat Trigger
+                
                 if (typeof targetUser !== 'undefined' && targetUser) {
                     const exists = this.chatData.find(u => u.id === targetUser.id);
                     if (!exists) {
@@ -68,10 +68,10 @@ class Chat {
         this._addListeners();
         this._initEcho();
 
-        // Select target user if triggered
+        
         if (typeof targetUser !== 'undefined' && targetUser) {
             this._renderChatMessagesById(targetUser.id);
-            // If mobile, show chat view
+            
             if (this.currentView === 'mobile') {
                 this._updateView();
             }
@@ -95,46 +95,40 @@ class Chat {
     }
 
     _handleIncomingMessage(message, sender) {
-        // Find if contact exists
-        let contact = this.chatData.find(u => u.id === sender.id);
         
-        // If contact doesn't exist (new conversation), add them
-        if (!contact) {
-            // If I am the sender (from another tab), I need to find the receiver, not sender.
-            // But wait, if I sent it to User B, the 'sender' in the event is Me.
-            // The 'message' object has 'receiver_id'.
-            // So if sender.id === currentUserId, the contact is message.receiver_id.
-            
-            let contactId = sender.id;
-            if (sender.id === currentUserId) {
-                 contactId = message.receiver_id;
-                 // We need to fetch this user's info if not in list?
-                 // For now, let's assume we only add if we receive FROM someone else.
-                 // If we are sending to a new user from Tab 1, Tab 2 might not have that user in list.
-                 // We might need to fetch user info.
-                 // But for simplicity, let's fallback to a placeholder or ignore if complex.
-                 
-                 // Actually, if I am sending to B, and B is not in Tab 2's list.
-                 // Tab 2 receives event. contactId is B.
-                 // contact is undefined.
-                 // We create a placeholder for B.
-            }
+        
+        
+        const targetContactId = sender.id === currentUserId ? message.receiver_id : sender.id;
 
+        
+        let contact = this.chatData.find(u => u.id === targetContactId);
+        
+        
+        if (!contact) {
             contact = {
-                id: contactId,
-                name: sender.id === currentUserId ? 'Unknown' : sender.name, // We might not have receiver name if we are sender
+                id: targetContactId,
+                name: sender.id === currentUserId ? 'Unknown' : sender.name, 
                 thumb: 'img/profile/profile-1.webp', 
                 last: 'Just now',
                 status: 'Online',
                 unread: 0,
                 messages: []
             };
-            // Ideally we fetch the user info here if missing.
+            
             this.chatData.unshift(contact);
             this._renderContacts();
         }
 
-        // Format message
+        
+        if (sender.id === currentUserId) {
+             const lastMessages = contact.messages.slice(-5); 
+             const isDuplicate = lastMessages.some(m => m.text === message.message && m.type === 'message');
+             if (isDuplicate) {
+                 return;
+             }
+        }
+
+        
         const formattedMsg = {
             type: sender.id === currentUserId ? 'message' : 'response',
             text: message.message,
@@ -144,7 +138,7 @@ class Chat {
 
         contact.messages.push(formattedMsg);
         
-        // If this is the active chat, render it
+        
         if (this.currentChatData && this.currentChatData.id === contact.id) {
              this._renderChatMessage(formattedMsg, this.chatContentContainer.querySelector('.os-content'));
              this._updateChatScroll();
@@ -155,11 +149,11 @@ class Chat {
             this._renderContacts(); 
         }
         
-        // Update last message time
+        
         contact.last = 'Just now';
     }
 
-    // Initializing view and updating view variable
+    
     _initView() {
         const windowWidth = window.innerWidth;
         let newView = null;
@@ -177,28 +171,28 @@ class Chat {
         }
     }
 
-    // Switching between views for mobile and desktop. Showing only chat or only user list at a time for mobile and showing both for desktop
+    
     _updateView() {
         if (this.currentView === 'mobile') {
-            // Init mobile view
+            
             if (this.currentChatData) {
-                // Show chat view
+                
                 this._showChatView();
                 this._enableBackButton();
             } else {
-                // Show list view
+                
                 this._showListView();
                 this._disableBackButton();
             }
             this._showChatBackButton();
         } else {
-            // Init desktop view
+            
             this._showBothViews();
             this._hideChatBackButton();
         }
     }
 
-    // Showing chat view
+    
     _showChatView() {
         this.chatView.classList.remove('d-none');
         this.chatView.classList.add('d-flex');
@@ -206,7 +200,7 @@ class Chat {
         this.listView.classList.add('d-none');
     }
 
-    // Showing contact list view
+    
     _showListView() {
         this.chatView.classList.add('d-none');
         this.chatView.classList.remove('d-flex');
@@ -214,7 +208,7 @@ class Chat {
         this.listView.classList.remove('d-none');
     }
 
-    // Showing both list view and chat view
+    
     _showBothViews() {
         this.chatView.classList.remove('d-none');
         this.chatView.classList.add('d-flex');
@@ -230,7 +224,7 @@ class Chat {
         document.getElementById('backButton').classList.add('disabled');
     }
 
-    // Switching 'mode' between chat and call
+    
     _initMode() {
         if (this.currentMode === 'chat') {
             document.getElementById('chatMode').classList.remove('d-none');
@@ -247,7 +241,7 @@ class Chat {
         }
     }
 
-    // Adding listeners for buttons, resize and keyboard
+    
     _addListeners() {
         this.chatInput.addEventListener('keydown', this._onChatInputKeyDown.bind(this));
         document.getElementById('chatSendButton') && document.getElementById('chatSendButton').addEventListener('click', this._inputSend.bind(this));
@@ -264,39 +258,39 @@ class Chat {
         window.addEventListener('resize', this._onResize.bind(this));
     }
 
-    // Showing back button for chat screens
+    
     _showChatBackButton() {
         document.getElementById('backButton').classList.remove('d-none');
     }
 
-    // Hiding back button for call screens
+    
     _hideChatBackButton() {
         document.getElementById('backButton').classList.add('d-none');
     }
 
-    // Resize with a debounce
+    
     _onResizeDebounced(event) {
         this._updateChatScroll();
     }
 
-    // Resize handler
+    
     _onResize(event) {
         this._initView();
     }
 
-    // End click listener
+    
     _onEndCallClick(event) {
         this.currentMode = 'chat';
         this._initMode();
     }
 
-    // Call click listener
+    
     _onCallClick(event) {
         this.currentMode = 'call';
         this._initMode();
     }
 
-    // Call screen
+    
     _renderCall() {
         const callMode = document.getElementById('callMode');
         callMode.querySelector('.name').innerHTML = this.currentChatData.name;
@@ -304,7 +298,7 @@ class Chat {
         this._startTimer(callMode.querySelector('.time'));
     }
 
-    // Call screen timer starter
+    
     _startTimer(timer) {
         timer.innerHTML = '00:00:00';
         var startTimestamp = moment().startOf('day');
@@ -314,14 +308,14 @@ class Chat {
         }, 1000);
     }
 
-    // Call screen timer clear
+    
     _endTimer() {
         if (this.timerInterval) {
             clearInterval(this.timerInterval);
         }
     }
 
-    // Back button listener for mobile
+    
     _onBackClick(event) {
         this.currentChatData = null;
         this._renderContacts();
@@ -333,7 +327,7 @@ class Chat {
         }
     }
 
-    // Renders all the users both from messages and contacts
+    
     _renderContacts() {
         this.messagesListContainer.querySelector('.os-content').innerHTML = '';
         this.contactsListContainer.querySelector('.os-content').innerHTML = '';
@@ -343,7 +337,7 @@ class Chat {
         });
     }
 
-    // Renders a single user
+    
     _renderContact(contact, container) {
         var itemClone = this.listItemTemplate.content.cloneNode(true).querySelector('a');
         itemClone.setAttribute('data-id', contact.id);
@@ -360,18 +354,18 @@ class Chat {
         container.append(itemClone);
     }
 
-    // Sets name and image of the title in the chat container
+    
     _renderContactTitle() {
         const contactTitle = document.getElementById('contactTitle');
         contactTitle.querySelector('.name').innerHTML = this.currentChatData.name;
-        // contactTitle.querySelector('.last').innerHTML = this.currentChatData.last; // Can be dynamic
+        
         contactTitle.querySelector('.profile').setAttribute('src', this.currentChatData.thumb);
         if (this.currentChatData.status !== 'Online') {
             contactTitle.querySelector('.status').classList.add('d-none');
         }
     }
 
-    // Sets selected contact
+    
     _setActiveContact() {
         this.userProfileTabs.querySelectorAll('.contact-list-item').forEach((element) => {
             element.classList.remove('active');
@@ -381,7 +375,7 @@ class Chat {
         });
     }
 
-    // Makes unread message zero
+    
     _setAsRead() {
         if (this.currentChatData.unread > 0) {
             this.currentChatData.unread = 0;
@@ -390,7 +384,7 @@ class Chat {
         }
     }
 
-    // Renders all the messages and responses from a clicked person
+    
     _renderChatMessagesById(id) {
         this.currentChatData = this._getDataById(id);
         this.chatContentContainer.querySelector('.os-content').innerHTML = '<div class="text-center p-2">Loading...</div>';
@@ -416,12 +410,12 @@ class Chat {
             });
     }
 
-    // Renders a single chat message or response
+    
     _renderChatMessage(chat, container) {
         var itemClone = null;
         var containerClone = null;
         if (chat.type === 'response') {
-            // Adding content from the contact
+            
             containerClone = this.respondContainerTemplate.content.cloneNode(true).querySelector('div');
             containerClone.querySelector('.chat-profile').setAttribute('src', this.currentChatData.thumb);
             if (chat.text !== '') {
@@ -440,7 +434,7 @@ class Chat {
                 });
             }
         } else {
-            // Adding content from the user
+            
             containerClone = this.messageContainerTemplate.content.cloneNode(true).querySelector('div');
             if (chat.text !== '') {
                 itemClone = this.messageTextContentTemplate.content.cloneNode(true).querySelector('div');
@@ -460,7 +454,7 @@ class Chat {
         }
     }
 
-    // Returns chat data from the array by id
+    
     _getDataById(id) {
         return this.chatData.find((data) => {
             if (data.id === id) {
@@ -469,7 +463,7 @@ class Chat {
         });
     }
 
-    // Implementing the autosize plugin to make text area expand
+    
     _initTextArea() {
         autosize(this.chatInput);
         this.chatInput.addEventListener('autosize:resized', this._chatInputResize.bind(this));
@@ -479,7 +473,7 @@ class Chat {
         this._updateChatScroll();
     }
 
-    // Click listener for input send button, also called via enter key press.
+    
     _inputSend(event) {
         const text = this.chatInput.value;
         if (!text.trim()) return;
@@ -494,12 +488,12 @@ class Chat {
         this.chatInput.value = '';
         this.chatInput.focus();
         
-        // Optimistic update
+        
         this._renderChatMessage(message, this.chatContentContainer.querySelector('.os-content'));
         this._updateChatScroll();
         this._updateChatData(message);
 
-        // Send to API
+        
         fetch(chatSendUrl, {
             method: 'POST',
             headers: {
@@ -517,11 +511,11 @@ class Chat {
           .catch(err => console.error('Error sending message', err));
     }
 
-    // Updates and changes message from tha data.
+    
     _updateChatData(message) {
-        // const messageCount = this.currentChatData.messages.length;
+        
         this.currentChatData.messages.push(message);
-        // Move contact to top of list
+        
         const index = this.chatData.indexOf(this.currentChatData);
         if (index > -1) {
             this.chatData.splice(index, 1);
@@ -531,12 +525,12 @@ class Chat {
         this._setActiveContact();
     }
 
-    // Attach button click listener, triggers a click on the hidden file input.
+    
     _attachmentSend(event) {
         document.getElementById('chatAttachmentInput').dispatchEvent(new MouseEvent('click'));
     }
 
-    // Attachment input change listener
+    
     _onAttachmentChange(event) {
         const input = document.getElementById('chatAttachmentInput');
         if (input.files && input.files[0]) {
@@ -554,14 +548,14 @@ class Chat {
                 this._updateChatScroll();
                 this._updateChatData(attachment);
                 
-                // Note: Attachment uploading logic to backend is not implemented in this snippet.
-                // You would need a FormData upload endpoint.
+                
+                
             };
             reader.readAsDataURL(input.files[0]);
         }
     }
 
-    // Keydown listener for the main chat input to determine enter vs shift+enter.
+    
     _onChatInputKeyDown(event) {
         if (event.keyCode == 13) {
             event.preventDefault();
@@ -577,7 +571,7 @@ class Chat {
         }
     }
 
-    // Click listener for contact list items.
+    
     _onContactListClick(event) {
         if (this.currentMode !== 'chat') {
             return;
@@ -585,14 +579,14 @@ class Chat {
         const contactElement = event.target.closest('.contact-list-item');
         if (contactElement) {
             const contactId = contactElement.getAttribute('data-id');
-            // Check if we need to load
+            
             this.currentChatData = this._getDataById(parseInt(contactId));
             this._updateView();
             this._renderChatMessagesById(parseInt(contactId));
         }
     }
 
-    // Initializing contact list and chat scrollbars and keeping a reference for chat scroll.
+    
     _initScrollbars() {
         if (typeof OverlayScrollbars !== 'undefined') {
             OverlayScrollbars(this.messagesListContainer, { scrollbars: { autoHide: 'leave', autoHideDelay: 600 }, overflowBehavior: { x: 'hidden', y: 'scroll' } });
@@ -604,14 +598,14 @@ class Chat {
         }
     }
 
-    // Updating the chat scrollbar to make it scroll to the bottom.
+    
     _updateChatScroll() {
         if (this.chatContentScroll) {
              this.chatContentScroll.scroll({ el: this.chatContentContainer.querySelector('.card-content:last-of-type'), scroll: { x: 'never' }, block: 'end' }, 0);
         }
     }
 
-    // A delayed version of chat scroll update since it does not work when used without delay on the initial call.
+    
     _updateChatScrollDelayed() {
         setTimeout(() => {
             this._updateChatScroll();

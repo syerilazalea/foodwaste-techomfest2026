@@ -10,13 +10,15 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 
 class DataMakananController extends Controller
 {
     public function index()
     {
         // Saat index diakses, makanan yg expired otomatis pindah. Jadi gpke worker.
-        $expiredMakanan = DataMakanan::where('batas_waktu', '<', Carbon::now())->get();
+        $expiredMakanan = DataMakanan::where('batas_waktu', '<', Carbon::now()->format('H:i:s'))->get();
+        $currentTime = Carbon::now();
 
         foreach ($expiredMakanan as $makanan) {
             DataDaurUlang::create([

@@ -39,6 +39,7 @@
 <script src="{{asset ('js/scripts.js')}}"></script>
 <script src="{{asset ('js/plugins/carousels.js')}}"></script>
 <script src="{{asset ('js/pages/blog.detail.js')}}"></script>
+@vite(['resources/js/app.js'])
 <script src="{{asset ('js/apps/chat.js')}}"></script>
 
 <script>

@@ -79,6 +79,18 @@
 
                             <div class="separator-light mb-3"></div>
 
+                            @if(request('context_name'))
+                            <div class="alert alert-primary d-flex align-items-center p-2 mb-3 mx-3" role="alert">
+                                <div class="sw-5 sh-5 me-3">
+                                    <img src="{{ asset(request('context_image')) }}" class="img-fluid rounded" alt="product">
+                                </div>
+                                <div class="flex-grow-1">
+                                    <h6 class="alert-heading fw-bold mb-0 text-primary">{{ request('context_name') }}</h6>
+                                    <small class="mb-0 text-muted">Expired: {{ \Carbon\Carbon::parse(request('context_expired'))->format('d M H:i') }}</small>
+                                </div>
+                            </div>
+                            @endif
+
                             <!-- Messages Start -->
                             <div class="h-100 mb-n2 scroll-out">
                                 <div class="h-100 opacity-0" id="chatContentContainer"></div>
