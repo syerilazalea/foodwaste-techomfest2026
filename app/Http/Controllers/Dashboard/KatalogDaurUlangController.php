@@ -14,9 +14,38 @@ class KatalogDaurUlangController extends Controller
     {
         $user = Auth::user();
         // Ambil semua data makanan, urut dari yang terbaru
-        $daurUlang = DataDaurUlang::orderBy('created_at', 'desc')->get();
+        $daurUlang = DataDaurUlang::orderBy('created_at', 'desc')->take(6)->get();
+        $totalDaurUlang = DataDaurUlang::count();
 
-        return view('dashboard.katalog-daur-ulang', compact('user', 'daurUlang'));
+        return view('dashboard.katalog-daur-ulang', compact('user', 'daurUlang', 'totalDaurUlang'));
+    }
+
+    public function filter(Request $request)
+    {
+        $kategori = $request->kategori;
+        $offset   = $request->offset ?? 0;
+        $limit    = 6;
+
+        $query = DataDaurUlang::query();
+
+        if ($kategori != 'semua') {
+            $query->where('kategori', $kategori);
+        }
+
+        $daurUlang = $query->orderBy('created_at', 'DESC')
+            ->skip($offset)
+            ->take($limit)
+            ->get();
+
+        $html = '';
+        foreach ($daurUlang as $data) {
+            $html .= view('dashboard.partials.katalog-daurUlang-card', compact('data'))->render();
+        }
+
+        return response()->json([
+            'html' => $html,
+            'count' => $daurUlang->count()
+        ]);
     }
 
     public function ambil(Request $request, $id)

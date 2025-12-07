@@ -3,6 +3,7 @@
 @section('content')
 <main>
     <div class="container d-flex flex-column">
+        @include('dashboard.components.breadcrumbs')
         <!-- Title and Top Buttons Start -->
         <div class="page-title-container">
             <div class="row">

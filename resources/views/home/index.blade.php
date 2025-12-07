@@ -45,6 +45,40 @@ $noScripts = true; // set true supaya scripts tidak dijalankan
         -webkit-box-orient: vertical;
         overflow: hidden;
     }
+
+    /* untuk glidejs */
+    .glide__arrows button {
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        backdrop-filter: blur(6px);
+        background: rgba(255, 255, 255, 0.6);
+        border: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: .3s ease;
+    }
+
+    .glide__arrows button:hover {
+        background: rgba(255, 255, 255, 0.85);
+        transform: scale(1.1);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .glide__arrows .left-arrow {
+        position: absolute;
+        left: -25px;
+        top: 50%;
+        transform: translateY(-10%);
+    }
+
+    .glide__arrows .right-arrow {
+        position: absolute;
+        right: -25px;
+        top: 50%;
+        transform: translateY(-10%);
+    }
 </style>
 
 @endpush
@@ -281,6 +315,73 @@ $noScripts = true; // set true supaya scripts tidak dijalankan
             </div>
         </div>
 
+        <!-- Data Yang Disumbangkan  -->
+        <div class="row mb-5">
+            <h2 class="card-title text-primary mb-4">Rekomendasi Katalog</h2>
+            <div class="glide" id="glidePenjualan">
+
+                <!-- BULLETS / DOTS -->
+                <div class="glide__bullets" data-glide-el="controls[nav]"></div>
+
+                <div class="glide__track" data-glide-el="track">
+                    <ul class="glide__slides">
+
+                        @foreach($dataItem->chunk(4) as $chunk)
+                        <li class="glide__slide">
+                            <div class="row g-4">
+
+                                @foreach($chunk as $item)
+                                <div class="col-12 col-lg-3 col-xxl-6 sh-40" data-bs-toggle="modal" data-bs-target="{{ $item instanceof \App\Models\DataMakanan ? '#modalDetailMakanan'.$item->id : '#modalDetailDaurUlang'.$item->id }}">
+                                    <div class="card h-100">
+                                        <img src="{{ asset($item->gambar ?? 'null') }}" class="card-img-top sh-22" alt="{{ $item->nama }}" />
+                                        <div class="card-body pb-0">
+                                            <a href="javascript:void(0)" role="button" class="h5 heading body-link stretched-link">
+                                                <div class="mb-0 lh-1-5 sh-8 sh-md-6 clamp-line" data-line="2">{{ $item->nama ?? 'Tanpa Judul' }}</div>
+                                            </a>
+                                        </div>
+                                        <div class="card-footer border-0 pt-0">
+                                            <div class="row g-0">
+                                                <div class="col-auto pe-3">
+                                                    <i data-acorn-icon="user" class="text-primary me-1"></i>
+                                                    <span class="align-middle">
+                                                        @if ($item->porsi)
+                                                        {{ $item->porsi }} Porsi
+                                                        @elseif ($item->berat)
+                                                        {{ $item->berat }} kg
+                                                        @else
+                                                        -
+                                                        @endif
+                                                    </span>
+                                                </div>
+                                                <div class="col">
+                                                    <i data-acorn-icon="clock" class="text-primary me-1"></i>
+                                                    <span class="align-middle countdown" data-time="{{ $item->batas_waktu }}"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                @endforeach
+
+                            </div>
+                        </li>
+                        @endforeach
+
+                    </ul>
+                </div>
+
+                <!-- NAV -->
+                <div class="glide__arrows" data-glide-el="controls">
+                    <button class="btn btn-icon btn-icon-only btn-foreground-alternate shadow left-arrow" data-glide-dir="<">
+                        <i data-acorn-icon="chevron-left"></i>
+                    </button>
+                    <button class="btn btn-icon btn-icon-only btn-foreground-alternate shadow right-arrow" data-glide-dir=">">
+                        <i data-acorn-icon="chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
         <!-- CTA Section -->
         <section class="pb-5">
             <div class="card h-100">
@@ -343,6 +444,7 @@ $noScripts = true; // set true supaya scripts tidak dijalankan
                             </div>
                         </div>
 
+                        @if(count($artikels) > 3)
                         <div class="text-center mt-3">
                             <span class="glide__arrows slider-nav" data-glide-el="controls">
                                 <button class="btn btn-icon btn-icon-only btn-outline-primary" data-glide-dir="<">
@@ -356,6 +458,7 @@ $noScripts = true; // set true supaya scripts tidak dijalankan
                                 </button>
                             </span>
                         </div>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -447,6 +550,125 @@ $noScripts = true; // set true supaya scripts tidak dijalankan
     </div>
 </main>
 
+<!-- modal pemesanan -->
+@foreach($dataItem as $makanan)
+<div class="modal fade" id="modalDetailMakanan{{ $makanan->id }}" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <form action="{{ route('katalog.katalogMakanan.ambil', $makanan->id) }}" method="POST">
+                @csrf
+                <div class="modal-header">
+                    <h5 class="modal-title">Detail Makanan</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body">
+
+                    <!-- Nama -->
+                    <h5 class="mb-3 fw-bold">{{ $makanan->nama }}</h5>
+
+                    <!-- Info utama -->
+                    <div class="mb-3">
+                        <div><strong>Jumlah Tersedia:</strong> {{ $makanan->porsi }} Porsi</div>
+                        <div><strong>Batas Pengambilan:</strong> {{ \Carbon\Carbon::parse($makanan->batas_waktu)->format('H:i') }} WIB</div>
+                    </div>
+
+                    <!-- Info penyedia -->
+                    <div class="border rounded p-3 bg-light mb-3">
+                        <div><strong>Penyedia:</strong> {{ $makanan->penyedia }}</div>
+                        <div><strong>Jenis:</strong> {{ $makanan->kategori }}</div>
+                        <div><strong>Alamat:</strong> {{ $makanan->alamat }}</div>
+                    </div>
+
+                    <!-- Input jumlah yang ingin diambil -->
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Jumlah yang Ingin Diambil</label>
+                        <input type="number" name="jumlah" id="ambilJumlah{{ $makanan->id }}" class="form-control" min="1" placeholder="Masukkan jumlah..." />
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" makanan-bs-dismiss="modal">Tutup</button>
+                    @auth
+                    {{-- Jika user login --}}
+                    <button type="submit" class="btn btn-primary" onclick="handleKonfirmasi({{ $makanan->id }})">
+                        Konfirmasi Pengambilan
+                    </button>
+                    @else
+                    {{-- Jika user tidak login --}}
+                    <a href="{{ route('auth.login') }}" class="btn btn-primary">
+                        Login Untuk Mengambil
+                    </a>
+                    @endauth
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@endforeach
+
+
+@foreach($dataItem as $daurUlang)
+<div class="modal fade" id="modalDetailDaurUlang{{ $daurUlang->id }}" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <form action="{{ route('katalog.katalaogDaurUlang.ambil', $daurUlang->id) }}" method="POST">
+                @csrf
+                <div class="modal-header">
+                    <h5 class="modal-title">Detail Daur Ulang</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body">
+
+                    <!-- Nama -->
+                    <h5 class="mb-3 fw-bold">{{ $daurUlang->nama }}</h5>
+
+                    <!-- Info utama -->
+                    <div class="mb-3">
+                        <div><strong>Jumlah Tersedia:</strong> {{ $daurUlang->berat }} kg</div>
+                        <div><strong>Batas Pengambilan:</strong> {{ \Carbon\Carbon::parse($daurUlang->batas_waktu)->format('H:i') }} WIB</div>
+                    </div>
+
+                    <!-- Info penyedia -->
+                    <div class="border rounded p-3 bg-light mb-3">
+                        <div><strong>Penyedia:</strong> {{ $daurUlang->penyedia }}</div>
+                        <div><strong>Jenis:</strong> {{ $daurUlang->kategori }}</div>
+                        <div><strong>Alamat:</strong> {{ $daurUlang->alamat }}</div>
+                    </div>
+
+                    <!-- Input jumlah yang ingin diambil -->
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Jumlah yang Ingin Diambil</label>
+                        <input type="number" name="jumlah" id="ambilJumlah{{ $daurUlang->id }}" pattern="[0-9]+([,\.][0-9]+)?" class="form-control" min="0" step="0.1" placeholder="Masukkan jumlah..." />
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Tutup</button>
+
+                    @auth
+                    {{-- Jika user login --}}
+                    <button type="submit" class="btn btn-primary" onclick="handleKonfirmasi({{ $daurUlang->id }})">
+                        Konfirmasi Pengambilan
+                    </button>
+                    @else
+                    {{-- Jika user tidak login --}}
+                    <a href="{{ route('auth.login') }}" class="btn btn-primary">
+                        Login Untuk Mengambil
+                    </a>
+                    @endauth
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@endforeach
+
 @endsection
 
 @push('scripts')
@@ -489,6 +711,82 @@ $noScripts = true; // set true supaya scripts tidak dijalankan
 <script src="{{asset ('js/scripts.js')}}"></script>
 <script src="{{asset ('js/plugins/carousels.js')}}"></script>
 <script src="{{asset ('js/pages/blog.detail.js')}}"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        new Glide('#glidePenjualan', {
+            type: 'carousel',
+            autoplay: 3500,
+            hoverpause: true,
+            animationDuration: 600,
+            perView: 1,
+            swipeThreshold: 80,
+            dragThreshold: 120
+        }).mount();
+    });
+</script>
+
+<!-- menghitung mundur batas waktu -->
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const countdownElements = document.querySelectorAll(".countdown");
+
+        countdownElements.forEach(el => {
+            const timeOnly = el.dataset.time;
+
+            function getTargetDate() {
+                const now = new Date();
+                const [hour, minute, second] = timeOnly.split(":").map(Number);
+
+                let target = new Date();
+                target.setHours(hour);
+                target.setMinutes(minute || 0);
+                target.setSeconds(second || 0);
+                target.setMilliseconds(0);
+
+                // Jika waktu sudah lewat → hitung untuk besok
+                if (target < now) {
+                    target.setDate(target.getDate() + 1);
+                }
+                return target;
+            }
+
+            const targetTime = getTargetDate();
+
+            function updateCountdown() {
+                const now = new Date().getTime();
+                const distance = targetTime.getTime() - now;
+
+                if (distance <= 0) {
+                    el.textContent = "Waktu Habis";
+                    return;
+                }
+
+                const hours = Math.floor(distance / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                if (hours > 0) {
+                    el.textContent = `${hours} Jam ${minutes} Menit`;
+                } else if (minutes > 0) {
+                    el.textContent = `${minutes} Menit ${seconds} Detik`;
+                } else {
+                    el.textContent = `${seconds} Detik`;
+                }
+            }
+
+            updateCountdown();
+            setInterval(updateCountdown, 1000);
+        });
+    });
+</script>
+
+<script>
+    document.addEventListener('click', function(e) {
+        const a = e.target.closest('a[href="#"]');
+        if (a) e.preventDefault();
+    });
+</script>
 
 <!-- Laravel PWA Service Worker Registration -->
 <script type="text/javascript">

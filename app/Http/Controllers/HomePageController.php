@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Agenda;
 use App\Models\Artikel;
+use App\Models\DataDaurUlang;
+use App\Models\DataMakanan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 
@@ -16,7 +18,13 @@ class HomePageController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
-        return view('home.index', compact('artikels'));
+        // Ambil 5 data terbaru dari masing-masing model
+        $makanan = DataMakanan::latest()->take(5)->get();
+        $daurUlang = DataDaurUlang::latest()->take(5)->get();
+        // menggambil data makanan dan daur ulang dari terbaru sampai terlama
+        $dataItem = $makanan->merge($daurUlang)->sortByDesc('created_at');
+
+        return view('home.index', compact('artikels', 'dataItem'));
     }
 
     public function tentangKami()

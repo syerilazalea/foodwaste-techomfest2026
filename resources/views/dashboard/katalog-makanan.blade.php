@@ -8,6 +8,12 @@
         overflow-y: auto;
         display: block;
     }
+
+    .active-kategori {
+        border: 3px solid #4caf50 !important;
+        transform: scale(0.98);
+        transition: 0.2s;
+    }
 </style>
 
 @endpush
@@ -16,37 +22,51 @@
 
 <main>
     <div class="container">
+        @include('dashboard.components.breadcrumbs')
         <div class="row">
-            <section class="scroll-section" id="basicItems">
-                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4">
+            <!-- LEFT CONTENT -->
+            <div class="col-12 col-xl-8 col-xxl-9 mb-5">
+                <div id="makananList" class="row row-cols-1 row-cols-sm-2 row-cols-xl-3 g-3">
                     @foreach($makanan as $data)
-                    <div class="col mb-5">
-                        <div class="card shadow-sm" style="border-radius: 14px; overflow: hidden;" data-bs-toggle="modal" data-bs-target="#modalDetail{{ $data->id }}">
-                            <img src="{{ $data->gambar ? asset($data->gambar) : asset('img/default.png') }}"
-                                class="card-img-top" style="height: 160px; object-fit: cover;" alt="{{ $data->nama }}" />
-                            <div class="card-body p-3">
-                                <h5 class="heading mb-3">
-                                    <a href="#" class="body-link stretched-link">{{ $data->nama }}</a>
-                                </h5>
-                                <div class="d-flex align-items-center text-muted small mb-2" style="gap: 16px;">
-                                    <div class="d-flex align-items-center">
-                                        <i data-acorn-icon="user" class="me-1"></i>
-                                        <span class="text-primary">{{ $data->porsi }} Porsi</span>
-                                    </div>
-                                    <div class="d-flex align-items-center">
-                                        <i data-acorn-icon="clock" class="me-1"></i>
-                                        <span class="text-primary">{{ \Carbon\Carbon::parse($data->batas_waktu)->format('H:i') }} WIB</span>
-                                    </div>
+                    @include('dashboard.partials.katalog-makanan-card', ['data' => $data])
+                    @endforeach
+                </div>
+
+                <div class="row mt-5">
+                    <div class="col-12 text-center">
+                        <button id="loadMoreBtn" class="btn btn-xl btn-outline-primary sw-30"
+                            @if($totalMakanan <=6) style="display:none" @endif>
+                            Lebih Banyak
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT SIDEBAR (Kategori) -->
+            <div class="col-12 col-xl-4 col-xxl-3">
+                <section class="scroll-section" id="imagesHorizontal">
+                    <h2 class="small-title">Kategori</h2>
+                    <div class="row g-3">
+                        @php
+                        $categories = ['semua', 'restoran', 'rumah tangga', 'umkm', 'hotel'];
+                        @endphp
+                        @foreach($categories as $cat)
+                        <div class="col-12" style="cursor:pointer;">
+                            <div class="card w-100 sh-12 hover-img-scale-up kategori-btn"
+                                data-kategori="{{ $cat }}"
+                                style="border-radius:10px; overflow:hidden;">
+                                <img src="{{ asset('img/banner/cta-horizontal-short-1.webp') }}"
+                                    class="card-img h-100 scale" alt="card image" />
+                                <div class="card-img-overlay d-flex flex-column justify-content-center bg-transparent p-2 mx-5">
+                                    <div class="cta-5 text-black w-75 w-md-50">{{ ucfirst($cat) }}</div>
                                 </div>
                             </div>
                         </div>
+                        @endforeach
                     </div>
-                    @endforeach
-                </div>
-            </section>
+                </section>
+            </div>
         </div>
-    </div>
-    </div>
     </div>
 </main>
 
@@ -90,8 +110,17 @@
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Tutup</button>
-                    <button type="submit" class="btn btn-primary" onclick="handleKonfirmasi({{ $data->id }})">Konfirmasi
-                        Pengambilan</button>
+                    @auth
+                    {{-- Jika user login --}}
+                    <button type="submit" class="btn btn-primary" onclick="handleKonfirmasi({{ $data->id }})">
+                        Konfirmasi Pengambilan
+                    </button>
+                    @else
+                    {{-- Jika user tidak login --}}
+                    <a href="{{ route('auth.login') }}" class="btn btn-primary">
+                        Login Untuk Mengambil
+                    </a>
+                    @endauth
                 </div>
             </form>
         </div>
@@ -117,6 +146,72 @@
             } else {
                 fieldMakanan.classList.add("d-none");
                 fieldKompos.classList.remove("d-none");
+            }
+        });
+    });
+</script>
+
+<script>
+    document.addEventListener('click', function(e) {
+        const a = e.target.closest('a[href="#"]');
+        if (a) e.preventDefault();
+    });
+</script>
+
+<script>
+    let kategori = "semua";
+    let offset = 6;
+
+    // Filter kategori
+    $(document).on("click", ".kategori-btn", function() {
+        kategori = $(this).data("kategori");
+        offset = 0;
+
+        $(".kategori-btn").removeClass("active-kategori");
+        $(this).addClass("active-kategori");
+
+        $.ajax({
+            url: "{{ route('katalog.katalogMakanan.filter') }}",
+            method: "GET",
+            data: {
+                kategori,
+                offset
+            },
+            success: function(res) {
+
+                // Replace isi LIST saja
+                $("#makananList").html(res.html);
+
+                offset = 6;
+
+                if (res.count < 6) {
+                    $("#loadMoreBtn").hide();
+                } else {
+                    $("#loadMoreBtn").show();
+                }
+            }
+        });
+    });
+
+    // Load More
+    $(document).on("click", "#loadMoreBtn", function() {
+        $.ajax({
+            url: "{{ route('katalog.katalogMakanan.filter') }}",
+            method: "GET",
+            data: {
+                kategori,
+                offset
+            },
+            success: function(res) {
+
+                // Append hanya ke LIST
+                $("#makananList").append(res.html);
+
+                offset += 6;
+
+                if (res.count < 6) {
+                    $("#loadMoreBtn").hide();
+                }
             }
         });
     });

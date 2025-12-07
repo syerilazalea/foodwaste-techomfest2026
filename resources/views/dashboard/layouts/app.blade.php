@@ -7,8 +7,8 @@
 
 @stack('styles')
 
-<body>
-    <div id="root">
+<body class="d-flex flex-column min-vh-100">
+    <div id="root" class="d-flex flex-column flex-grow-1">
 
         @include('dashboard.layouts.topbar')
 

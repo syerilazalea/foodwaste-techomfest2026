@@ -14,10 +14,40 @@ class KatalogMakananController extends Controller
     {
         $user = Auth::user();
         // Ambil semua data makanan, urut dari yang terbaru
-        $makanan = DataMakanan::orderBy('created_at', 'desc')->get();
+        $makanan = DataMakanan::orderBy('created_at', 'desc')->take(6)->get();
+        $totalMakanan = DataMakanan::count();
 
-        return view('dashboard.katalog-makanan', compact('user', 'makanan'));
+        return view('dashboard.katalog-makanan', compact('user', 'makanan', 'totalMakanan'));
     }
+
+    public function filter(Request $request)
+    {
+        $kategori = $request->kategori;
+        $offset   = $request->offset ?? 0;
+        $limit    = 6;
+
+        $query = DataMakanan::query();
+
+        if ($kategori != 'semua') {
+            $query->where('kategori', $kategori);
+        }
+
+        $makanan = $query->orderBy('created_at', 'DESC')
+            ->skip($offset)
+            ->take($limit)
+            ->get();
+
+        $html = '';
+        foreach ($makanan as $data) {
+            $html .= view('dashboard.partials.katalog-makanan-card', compact('data'))->render();
+        }
+
+        return response()->json([
+            'html' => $html,
+            'count' => $makanan->count()
+        ]);
+    }
+
 
     public function ambil(Request $request, $id)
     {

@@ -34,6 +34,7 @@
 
 <main>
     <div class="container">
+        @include('dashboard.components.breadcrumbs')
         <div class="row">
             <div class="col-12">
                 <div class="page-title-container">

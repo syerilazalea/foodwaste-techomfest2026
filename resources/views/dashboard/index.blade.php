@@ -42,13 +42,14 @@ $currentUser = Auth::user();
 
 <main>
     <div class="container">
-        <div class="row">
+        @include('dashboard.components.breadcrumbs')
+        <!-- <div class="row">
             <div class="col-12">
                 <div class="page-title-container">
                     <h1 class="mb-0 pb-0 display-4" id="title">Selamat Datang, {{ $user->name }}!</h1>
                 </div>
             </div>
-        </div>
+        </div> -->
 
         <div class="row">
             <h2 class="small-title">Status Informasi Memesan</h2>

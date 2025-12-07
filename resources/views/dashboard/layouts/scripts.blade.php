@@ -30,6 +30,7 @@
 <!-- Template Base Scripts End -->
 <!-- Page Specific Scripts Start -->
 <script src="{{asset ('js/cs/glide.custom.js')}}"></script>
+<script src="{{asset ('js/pages/blog.home.js')}}"></script>
 <script src="{{asset ('js/cs/charts.extend.js')}}"></script>
 <script src="{{asset ('js/pages/dashboard.default.js')}}"></script>
 <script src="{{asset ('js/pages/dashboard.visual.js')}}"></script>
@@ -93,6 +94,12 @@
     });
 </script>
 
+<script>
+    document.addEventListener('click', function(e) {
+        const a = e.target.closest('a[href="#"]');
+        if (a) e.preventDefault();
+    });
+</script>
 
 <!-- Laravel PWA Service Worker Registration -->
 <script type="text/javascript">

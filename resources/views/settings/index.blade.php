@@ -3,6 +3,7 @@
 @section('content')
 <main>
     <div class="container">
+        @include('dashboard.components.breadcrumbs')
         <div class="page-title-container">
             <div class="row">
             </div>

@@ -106,10 +106,12 @@ Route::prefix('katalog')->name('katalog.')->group(function () {
     //katelog makanan
     Route::get('/makanan', [KatalogMakananController::class, 'index'])->name('katalogMakanan.index');
     Route::post('/makanan/{id}/ambil', [KatalogMakananController::class, 'ambil'])->name('katalogMakanan.ambil');
+    Route::get('/makanan/filter', [KatalogMakananController::class, 'filter'])->name('katalogMakanan.filter');
 
     //katalog DAUR ULANG
     Route::get('/daur-ulang', [KatalogDaurUlangController::class, 'index'])->name('katalogDaurUlang.index');
     Route::post('/daur-ulang/{id}/ambil', [KatalogDaurUlangController::class, 'ambil'])->name('katalaogDaurUlang.ambil');
+    Route::get('/daur-ulang/filter', [KatalogDaurUlangController::class, 'filter'])->name('katalogDaurUlang.filter');
 });
 
 // Group routes dengan prefix "settings" menggunakan middleware AuthCheck
