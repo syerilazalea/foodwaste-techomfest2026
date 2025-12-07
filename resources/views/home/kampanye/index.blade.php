@@ -4,6 +4,7 @@
 
 <main>
     <div class="container">
+        @include('dashboard.components.breadcrumbs')
         <!-- Title and Top Buttons Start -->
         <div class="page-title-container">
             <div class="row">
@@ -64,7 +65,7 @@
                     </div>
 
                     <div class="text-center">
-                        <button id="loadMoreArtikel" class="btn btn-xl btn-outline-primary sw-30" data-skip="4">Muat Lebih Banyak</button>
+                        <button id="loadMoreArtikel" class="btn btn-xl btn-outline-primary sw-30" data-skip="4" @if($totalArtikel <=4) style="display:none" @endif>Muat Lebih Banyak</button>
                     </div>
                 </div>
 
@@ -109,16 +110,13 @@
                         </div>
                         @endforelse
                     </div>
-
                     <div class="text-center">
-                        <button id="loadMoreAgenda" class="btn btn-xl btn-outline-primary sw-30" data-skip="4">Muat Lebih Banyak</button>
+                        <button id="loadMoreAgenda" class="btn btn-xl btn-outline-primary sw-30" data-skip="4" @if($totalAgenda <=4) style="display:none" @endif>Muat Lebih Banyak</button>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
-
 </main>
 
 @endsection

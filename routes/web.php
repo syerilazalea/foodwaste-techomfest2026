@@ -85,6 +85,8 @@ Route::prefix('dashboard')->name('dashboard.')->middleware(AuthCheck::class)->gr
     Route::get('/kampanye', [DashboardKampanyeController::class, 'index'])->name('kampanye.index'); // untuk load tabel
     Route::put('/kampanye/artikel/{artikel:slug}', [DashboardKampanyeController::class, 'updateArtikel'])->name('kampanyeArtikel.update');
     Route::put('/kampanye/agenda/{slug}', [DashboardKampanyeController::class, 'updateAgenda'])->name('kampanyeAgenda.update');
+    Route::post('/kampanye/artikel/{id}/update-status', [DashboardKampanyeController::class, 'updateStatusArtikel'])->name('kampanyeArtikel.updateStatusArtikel');
+    Route::post('/kampanye/agenda/{id}/update-status', [DashboardKampanyeController::class, 'updateStatusAgenda'])->name('kampanyeAgenda.updateStatusAgenda');
 
     //tabel agenda
     Route::get('/tabel-agenda', [DashboardAgendaController::class, 'index'])->name('agenda.index'); // untuk load tabel

@@ -45,7 +45,6 @@ class DashboardKampanyeController extends Controller
             'judul' => 'required|string|max:255',
             'deskripsi' => 'nullable|string',
             'kategori' => 'required|string|max:100',
-            'status' => 'required|in:Published,Draft',
         ]);
 
         // handle gambar
@@ -83,7 +82,6 @@ class DashboardKampanyeController extends Controller
             'waktu_selesai' => 'required',
             'lokasi' => 'required|string',
             'kuota' => 'required|integer',
-            'status' => 'required|string',
             'gambar' => 'nullable|image|mimes:jpg,png,jpeg,webp|max:2048',
         ]);
 
@@ -113,5 +111,32 @@ class DashboardKampanyeController extends Controller
         ]);
 
         return redirect()->route('dashboard.kampanye.index')->with('success', 'Agenda berhasil diupdate!');
+    }
+
+    public function updateStatusArtikel(Request $request, $id)
+    {
+        // Find the artikel by ID
+        $artikel = Artikel::findOrFail($id);
+
+        // Update the status to "upload"
+        $artikel->status = 'Published';
+        $artikel->save();
+
+        // Redirect back with a success message
+        return redirect()->back()->with('success', 'Artikel status updated to upload.');
+    }
+
+
+    public function updateStatusAgenda(Request $request, $id)
+    {
+        // Find the artikel by ID
+        $agenda = Agenda::findOrFail($id);
+
+        // Update the status to "upload"
+        $agenda->status = 'Aktif';
+        $agenda->save();
+
+        // Redirect back with a success message
+        return redirect()->back()->with('success', 'Agenda status updated to upload.');
     }
 }

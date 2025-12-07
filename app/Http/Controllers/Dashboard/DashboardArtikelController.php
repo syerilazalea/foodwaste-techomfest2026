@@ -58,7 +58,6 @@ class DashboardArtikelController extends Controller
             'judul' => 'required|string|max:255',
             'deskripsi' => 'nullable|string',
             'kategori' => 'required|string|max:100',
-            'status' => 'required|in:Published,Draft',
         ]);
 
         // Default path tetap gambar lama

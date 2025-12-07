@@ -13,7 +13,6 @@ Carbon::setLocale('id'); // set locale ke Indonesia
         <div class="row">
             <div class="col-12">
                 <div class="page-title-container">
-                    <h1 class="mb-0 pb-0 display-4" id="title">Dashboard Kampanye</h1>
                     <p class="mb-0 text-muted">Kelola artikel edukasi dan agenda kegiatan lingkungan</p>
                 </div>
             </div>
@@ -137,12 +136,22 @@ Carbon::setLocale('id'); // set locale ke Indonesia
                                                 </div>
                                             </div>
                                             <div class="col-12 col-md-5 d-flex align-items-center justify-content-md-end">
-                                                <button class="btn btn-sm btn-icon btn-icon-only btn-outline-primary mb-1"
-                                                    type="button"
-                                                    data-bs-toggle="modal"
-                                                    data-bs-target="#modalEditArtikel{{ $artikel->id }}">
-                                                    <i data-acorn-icon="edit"></i>
-                                                </button>
+                                                <div class="col-12 col-md-5 d-flex align-items-center justify-content-md-end">
+                                                    <button class="btn btn-sm btn-icon btn-icon-only btn-outline-primary mb-1 me-2"
+                                                        type="button"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#modalEditArtikel{{ $artikel->id }}">
+                                                        <i data-acorn-icon="edit"></i>
+                                                    </button>
+                                                    <form action="{{ route('dashboard.kampanyeArtikel.updateStatusArtikel', $artikel->id) }}" method="POST" class="d-inline">
+                                                        @csrf
+                                                        @method('POST')
+                                                        <button class="btn btn-sm btn-icon btn-icon-only btn-outline-primary mb-1"
+                                                            type="submit">
+                                                            <i data-acorn-icon="upload"></i>
+                                                        </button>
+                                                    </form>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -172,7 +181,7 @@ Carbon::setLocale('id'); // set locale ke Indonesia
                                         {{ ucfirst($agenda->status) }}
                                     </span>
                                     <img src="{{ asset($agenda->gambar) }}"
-                                        alt="Artikel"
+                                        alt="Agenda"
                                         class="card-img card-img-horizontal"
                                         style="width: 100%; height: 96%; object-fit: cover;" />
                                 </div>
@@ -186,12 +195,20 @@ Carbon::setLocale('id'); // set locale ke Indonesia
                                                 </div>
                                             </div>
                                             <div class="col-12 col-md-5 d-flex align-items-center justify-content-md-end">
-                                                <button class="btn btn-sm btn-icon btn-icon-only btn-outline-primary mb-1"
+                                                <button class="btn btn-sm btn-icon btn-icon-only btn-outline-primary mb-1 me-2"
                                                     type="button"
                                                     data-bs-toggle="modal"
                                                     data-bs-target="#modalEditAgenda{{ $agenda->id }}">
                                                     <i data-acorn-icon="edit"></i>
                                                 </button>
+                                                <form action="{{ route('dashboard.kampanyeAgenda.updateStatusAgenda', $agenda->id) }}" method="POST" class="d-inline">
+                                                    @csrf
+                                                    @method('POST')
+                                                    <button class="btn btn-sm btn-icon btn-icon-only btn-outline-primary mb-1"
+                                                        type="submit">
+                                                        <i data-acorn-icon="upload"></i>
+                                                    </button>
+                                                </form>
                                             </div>
                                         </div>
                                     </div>
@@ -225,7 +242,7 @@ Carbon::setLocale('id'); // set locale ke Indonesia
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Konten Artikel</label>
-                        <textarea class="form-control" name="deskripsi" rows="6">{{ $artikel->deskripsi }}</textarea>
+                        <textarea class="form-control" name="deskripsi" rows="6">{!! $artikel->deskripsi !!}</textarea>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Gambar Utama</label>
@@ -245,28 +262,6 @@ Carbon::setLocale('id'); // set locale ke Indonesia
                             <option value="berita" {{ $artikel->kategori == 'berita' ? 'selected' : '' }}>Berita</option>
                             <option value="tutorial" {{ $artikel->kategori == 'tutorial' ? 'selected' : '' }}>Tutorial</option>
                         </select>
-                    </div>
-                    @php
-                    $statusOptions = ['Draft', 'Published']; // enum values
-                    @endphp
-
-                    <div class="mb-3">
-                        <label class="form-label">Status</label>
-                        <div>
-                            @php
-                            $statusOptions = ['Draft', 'Published'];
-                            @endphp
-                            @foreach($statusOptions as $status)
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio"
-                                    name="status"
-                                    id="status_{{ $status }}_{{ $artikel->id }}"
-                                    value="{{ $status }}"
-                                    {{ $artikel->status == $status ? 'checked' : '' }}>
-                                <label class="form-check-label" for="status_{{ $status }}_{{ $artikel->id }}">{{ $status }}</label>
-                            </div>
-                            @endforeach
-                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">

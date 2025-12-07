@@ -13,8 +13,12 @@ class HomePageController extends Controller
 {
     public function index()
     {
+        $cekStatusArtikel = ['Published', 'Draft'];
+
         // Ambil artikel terbaru maksimal 7 hari terakhir
         $artikels = Artikel::where('created_at', '>=', Carbon::now()->subDays(7))
+            ->whereIn('status', $cekStatusArtikel)
+            ->where('status', 'Published')
             ->orderBy('created_at', 'desc')
             ->get();
 
@@ -34,21 +38,40 @@ class HomePageController extends Controller
 
     public function kampanye()
     {
-        // Ambil semua artikel terbaru
-        $artikels = Artikel::orderBy('created_at', 'desc')->take(4)->get(); // Ambil 4 pertama
-        // Ambil semua agenda terbaru
-        $agendas = Agenda::orderBy('created_at', 'desc')->take(4)->get(); // Ambil 4 pertama
+        $cekStatusArtikel = ['Published', 'Draft'];
+        $cekStatusAgenda = ['Aktif', 'Nonaktif'];
 
-        return view('home.kampanye.index', compact('artikels', 'agendas'));
+        $totalArtikel = Artikel::whereIn('status', $cekStatusArtikel)
+            ->where('status', 'Published')
+            ->count();
+
+        $totalAgenda = Agenda::whereIn('status', $cekStatusAgenda)
+            ->where('status', 'Aktif')
+            ->count();
+
+        // Ambil semua artikel terbaru yang memiliki status Published
+        $artikels = Artikel::whereIn('status', $cekStatusArtikel)
+            ->where('status', 'Published')
+            ->orderBy('created_at', 'desc')->take(4)->get(); // Ambil 4 pertama
+
+        // Ambil semua agenda terbaru
+        $agendas = Agenda::whereIn('status', $cekStatusAgenda)
+            ->where('status', 'Aktif')
+            ->orderBy('created_at', 'desc')->take(4)->get(); // Ambil 4 pertama
+
+        return view('home.kampanye.index', compact('artikels', 'agendas', 'totalArtikel','totalAgenda'));
     }
 
     // Route AJAX untuk load more
     public function loadMoreArtikel(Request $request)
     {
-        $skip = $request->skip; // jumlah artikel yang sudah ditampilkan
-        $artikels = Artikel::orderBy('created_at', 'desc')
+        $cekStatusArtikel = ['Published', 'Draft'];
+        $skip = $request->skip;
+        $artikels = Artikel::whereIn('status', $cekStatusArtikel)
+            ->where('status', 'Published')
+            ->orderBy('created_at', 'desc')
             ->skip($skip)
-            ->take(4) // ambil 4 berikutnya
+            ->take(4)
             ->get();
 
         $html = '';
@@ -74,9 +97,13 @@ class HomePageController extends Controller
 
     public function loadMoreAgenda(Request $request)
     {
+        $cekStatusAgenda = ['Aktif', 'Nonaktif'];
+
         $skip = $request->skip;
 
-        $agendas = Agenda::orderBy('created_at', 'desc')
+        $agendas = Agenda::whereIn('status', $cekStatusAgenda)
+            ->where('status', 'Aktif')
+            ->orderBy('created_at', 'desc')
             ->skip($skip)
             ->take(4)
             ->get();
@@ -106,14 +133,18 @@ class HomePageController extends Controller
     public function showArtikel($slug)
     {
         // Ambil artikel berdasarkan slug
-        $artikel = Artikel::where('slug', $slug)->firstOrFail();
+        $artikel = Artikel::where('slug', $slug)
+            ->where('status', 'Published') // Ensure the article is published
+            ->firstOrFail();
 
         return view('home.kampanye.detail-artikel', compact('artikel'));
     }
 
     public function showAgenda($slug)
     {
-        $agenda = Agenda::where('slug', $slug)->firstOrFail(); // ambil berdasarkan slug
+        $agenda = Agenda::where('slug', $slug)
+            ->where('status', 'Aktif')
+            ->firstOrFail(); // ambil berdasarkan slug
         return view('home.kampanye.detail-agenda', compact('agenda'));
     }
 }

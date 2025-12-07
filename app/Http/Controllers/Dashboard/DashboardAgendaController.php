@@ -87,7 +87,6 @@ class DashboardAgendaController extends Controller
             'waktu_selesai' => 'required',
             'lokasi' => 'required|string',
             'kuota' => 'required|integer',
-            'status' => 'required|string',
             'gambar' => 'nullable|image|mimes:jpg,png,jpeg,webp|max:2048',
         ]);
 
