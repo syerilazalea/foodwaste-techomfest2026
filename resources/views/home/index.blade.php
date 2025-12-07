@@ -317,26 +317,37 @@ $noScripts = true; // set true supaya scripts tidak dijalankan
 
         <!-- Data Yang Disumbangkan  -->
         <div class="row mb-5">
-            <h2 class="card-title text-primary mb-4">Rekomendasi Katalog</h2>
+            <div class="d-flex justify-content-between">
+                <h2 class="card-title text-primary">Rekomendasi Katalog</h2>
+                <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">
+                    <div class="card-title">Lihat Lebih Banyak</div>
+                </button>
+                <div class="dropdown-menu dropdown-menu-sm dropdown-menu-end shadow">
+                    <a class="dropdown-item" href="{{route ('katalog.katalogMakanan.index')}}">Makanan</a>
+                    <a class="dropdown-item" href="{{route ('katalog.katalogDaurUlang.index')}}">Daur Ulang</a>
+                </div>
+            </div>
             <div class="glide" id="glidePenjualan">
-
                 <!-- BULLETS / DOTS -->
                 <div class="glide__bullets" data-glide-el="controls[nav]"></div>
 
                 <div class="glide__track" data-glide-el="track">
                     <ul class="glide__slides">
+                        @php
+                        $perSlide = 4;
+                        $chunks = $dataItem->chunk($perSlide);
+                        @endphp
 
-                        @foreach($dataItem->chunk(4) as $chunk)
+                        @foreach($chunks as $chunk)
                         <li class="glide__slide">
                             <div class="row g-4">
-
                                 @foreach($chunk as $item)
                                 <div class="col-12 col-lg-3 col-xxl-6 sh-40" data-bs-toggle="modal" data-bs-target="{{ $item instanceof \App\Models\DataMakanan ? '#modalDetailMakanan'.$item->id : '#modalDetailDaurUlang'.$item->id }}">
                                     <div class="card h-100">
                                         <img src="{{ asset($item->gambar ?? 'null') }}" class="card-img-top sh-22" alt="{{ $item->nama }}" />
                                         <div class="card-body pb-0">
                                             <a href="javascript:void(0)" role="button" class="h5 heading body-link stretched-link">
-                                                <div class="mb-0 lh-1-5 sh-8 sh-md-6 clamp-line" data-line="2">{{ $item->nama ?? 'Tanpa Judul' }}</div>
+                                                {{ $item->nama ?? 'Tanpa Judul' }}
                                             </a>
                                         </div>
                                         <div class="card-footer border-0 pt-0">
@@ -344,9 +355,9 @@ $noScripts = true; // set true supaya scripts tidak dijalankan
                                                 <div class="col-auto pe-3">
                                                     <i data-acorn-icon="user" class="text-primary me-1"></i>
                                                     <span class="align-middle">
-                                                        @if ($item->porsi)
+                                                        @if ($item->porsi ?? false)
                                                         {{ $item->porsi }} Porsi
-                                                        @elseif ($item->berat)
+                                                        @elseif ($item->berat ?? false)
                                                         {{ $item->berat }} kg
                                                         @else
                                                         -
@@ -362,11 +373,9 @@ $noScripts = true; // set true supaya scripts tidak dijalankan
                                     </div>
                                 </div>
                                 @endforeach
-
                             </div>
                         </li>
                         @endforeach
-
                     </ul>
                 </div>
 
