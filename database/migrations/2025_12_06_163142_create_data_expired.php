@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('data_expired', function (Blueprint $table) {
+        Schema::create('data_expired', function (Blueprint $table) {
             $table->id();
             $table->timestamp('expired_at')->nullable();
             $table->timestamps();
@@ -23,8 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('data_expired', function (Blueprint $table) {
-            Schema::dropIfExists('data_expired');
-        });
+        Schema::dropIfExists('data_expired');
     }
 };
