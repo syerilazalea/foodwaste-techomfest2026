@@ -17,10 +17,19 @@ use App\Http\Controllers\Setting\SettingController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\AuthCheck;
 
+Route::get('/debug-db', function () {
+    try {
+        \Illuminate\Support\Facades\DB::connection()->getPdo();
+        return 'Database connection is working: ' . \Illuminate\Support\Facades\DB::connection()->getDatabaseName();
+    } catch (\Exception $e) {
+        return 'Database connection failed: ' . $e->getMessage();
+    }
+});
+
 Route::get('/', [HomePageController::class, 'index'])->name('home.index');
 
 Route::prefix('/')->name('home.')->group(function () {
-    // Route::get('/home', [HomePageController::class, 'index'])->name('index'); // Removed redundant route
+    // Route::get('/home', [HomePageController::class, 'index'])->name('index'); // Deleted to prevent conflict
 
     Route::get('/kampanye', [HomePageController::class, 'kampanye'])->name('kampanye');
     Route::get('/kampanye/load-more-artikel', [HomePageController::class, 'loadMoreArtikel'])->name('artikel.loadMore');
