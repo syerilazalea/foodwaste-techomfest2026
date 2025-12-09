@@ -88,9 +88,9 @@ $noScripts = true; // set true supaya scripts tidak dijalankan
 <main>
     <div class="container">
         <!-- Galeri Gambar Section -->
-        <section class="scroll-section mb-5" id="gallery">
+        <!-- <section class="scroll-section mb-5" id="gallery">
             <div class="glide" id="glideGallery">
-                <!-- Large Images Start -->
+                
                 <div class="glide glide-large shadow rounded mb-4">
                     <div class="glide__track mb-0" data-glide-el="track">
                         <ul class="glide__slides gallery-glide-custom mb-0">
@@ -127,8 +127,7 @@ $noScripts = true; // set true supaya scripts tidak dijalankan
                         </ul>
                     </div>
                 </div>
-                <!-- Large Images End -->
-                <!-- Thumbs Start -->
+                
                 <div class="glide glide-thumb mb-3">
                     <div class="glide__track" data-glide-el="track">
                         <ul class="glide__slides">
@@ -162,7 +161,7 @@ $noScripts = true; // set true supaya scripts tidak dijalankan
                     </div>
                 </div>
             </div>
-        </section>
+        </section> -->
 
         <!-- Peran Kami & Statistik Section -->
         <div class="row mb-5">
@@ -560,7 +559,7 @@ $noScripts = true; // set true supaya scripts tidak dijalankan
 </main>
 
 <!-- modal pemesanan -->
-@foreach($dataItem as $makanan)
+<!-- @foreach($dataItem as $makanan)
 <div class="modal fade" id="modalDetailMakanan{{ $makanan->id }}" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -574,23 +573,19 @@ $noScripts = true; // set true supaya scripts tidak dijalankan
 
                 <div class="modal-body">
 
-                    <!-- Nama -->
                     <h5 class="mb-3 fw-bold">{{ $makanan->nama }}</h5>
 
-                    <!-- Info utama -->
                     <div class="mb-3">
                         <div><strong>Jumlah Tersedia:</strong> {{ $makanan->porsi }} Porsi</div>
                         <div><strong>Batas Pengambilan:</strong> {{ \Carbon\Carbon::parse($makanan->batas_waktu)->format('H:i') }} WIB</div>
                     </div>
 
-                    <!-- Info penyedia -->
                     <div class="border rounded p-3 bg-light mb-3">
                         <div><strong>Penyedia:</strong> {{ $makanan->penyedia }}</div>
                         <div><strong>Jenis:</strong> {{ $makanan->kategori }}</div>
                         <div><strong>Alamat:</strong> {{ $makanan->alamat }}</div>
                     </div>
 
-                    <!-- Input jumlah yang ingin diambil -->
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Jumlah yang Ingin Diambil</label>
                         <input type="number" name="jumlah" id="ambilJumlah{{ $makanan->id }}" class="form-control" min="1" placeholder="Masukkan jumlah..." />
@@ -601,12 +596,10 @@ $noScripts = true; // set true supaya scripts tidak dijalankan
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-secondary" makanan-bs-dismiss="modal">Tutup</button>
                     @auth
-                    {{-- Jika user login --}}
                     <button type="submit" class="btn btn-primary" onclick="handleKonfirmasi({{ $makanan->id }})">
                         Konfirmasi Pengambilan
                     </button>
                     @else
-                    {{-- Jika user tidak login --}}
                     <a href="{{ route('auth.login') }}" class="btn btn-primary">
                         Login Untuk Mengambil
                     </a>
@@ -633,23 +626,19 @@ $noScripts = true; // set true supaya scripts tidak dijalankan
 
                 <div class="modal-body">
 
-                    <!-- Nama -->
                     <h5 class="mb-3 fw-bold">{{ $daurUlang->nama }}</h5>
 
-                    <!-- Info utama -->
                     <div class="mb-3">
                         <div><strong>Jumlah Tersedia:</strong> {{ $daurUlang->berat }} kg</div>
                         <div><strong>Batas Pengambilan:</strong> {{ \Carbon\Carbon::parse($daurUlang->batas_waktu)->format('H:i') }} WIB</div>
                     </div>
 
-                    <!-- Info penyedia -->
                     <div class="border rounded p-3 bg-light mb-3">
                         <div><strong>Penyedia:</strong> {{ $daurUlang->penyedia }}</div>
                         <div><strong>Jenis:</strong> {{ $daurUlang->kategori }}</div>
                         <div><strong>Alamat:</strong> {{ $daurUlang->alamat }}</div>
                     </div>
 
-                    <!-- Input jumlah yang ingin diambil -->
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Jumlah yang Ingin Diambil</label>
                         <input type="number" name="jumlah" id="ambilJumlah{{ $daurUlang->id }}" pattern="[0-9]+([,\.][0-9]+)?" class="form-control" min="0" step="0.1" placeholder="Masukkan jumlah..." />
@@ -661,12 +650,10 @@ $noScripts = true; // set true supaya scripts tidak dijalankan
                     <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Tutup</button>
 
                     @auth
-                    {{-- Jika user login --}}
                     <button type="submit" class="btn btn-primary" onclick="handleKonfirmasi({{ $daurUlang->id }})">
                         Konfirmasi Pengambilan
                     </button>
                     @else
-                    {{-- Jika user tidak login --}}
                     <a href="{{ route('auth.login') }}" class="btn btn-primary">
                         Login Untuk Mengambil
                     </a>
@@ -676,7 +663,7 @@ $noScripts = true; // set true supaya scripts tidak dijalankan
         </div>
     </div>
 </div>
-@endforeach
+@endforeach -->
 
 @endsection
 
