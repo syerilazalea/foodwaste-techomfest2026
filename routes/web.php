@@ -17,13 +17,10 @@ use App\Http\Controllers\Setting\SettingController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\AuthCheck;
 
-Route::get('/', function () {
-    return redirect()->route('home.index');
-});
+Route::get('/', [HomePageController::class, 'index'])->name('home.index');
 
 Route::prefix('/')->name('home.')->group(function () {
-
-    Route::get('/home', [HomePageController::class, 'index'])->name('index');
+    // Route::get('/home', [HomePageController::class, 'index'])->name('index'); // Removed redundant route
 
     Route::get('/kampanye', [HomePageController::class, 'kampanye'])->name('kampanye');
     Route::get('/kampanye/load-more-artikel', [HomePageController::class, 'loadMoreArtikel'])->name('artikel.loadMore');

@@ -36,4 +36,9 @@ class DataDaurUlang extends Model
     {
         return $this->hasMany(DataMakanan::class, 'data_makanan_id');
     }
+
+    public function getGambarAttribute($value)
+    {
+        return $value ? asset('storage/' . $value) : asset('storage/default.png');
+    }
 }

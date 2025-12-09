@@ -31,4 +31,9 @@ class DataMakanan extends Model
     {
         return $this->hasMany(PengambilMakanan::class, 'data_makanan_id');
     }
+
+    public function getGambarAttribute($value)
+    {
+        return $value ? asset('storage/' . $value) : asset('storage/default.png');
+    }
 }
