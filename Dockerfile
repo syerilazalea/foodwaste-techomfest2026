@@ -2,7 +2,6 @@
 # Dockerfile Laravel + Octane
 # ===========================
 
-# Base image PHP CLI
 FROM php:8.2-cli
 
 # ---------------------------
@@ -22,6 +21,7 @@ RUN apt-get update && apt-get install -y \
     pkg-config \
     nodejs \
     npm \
+    procps \
     && docker-php-ext-install pdo pdo_mysql zip pcntl
 
 # ---------------------------
@@ -49,24 +49,22 @@ COPY . .
 # Install dependencies
 # ---------------------------
 RUN composer install --no-dev --optimize-autoloader
-
-# Optional: npm install & build if you use Laravel Mix / Vite
 RUN npm install
 RUN npm run build
 
 # ---------------------------
-# Railway auto PORT
+# Copy entrypoint script
+# ---------------------------
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+# ---------------------------
+# Expose port
 # ---------------------------
 ENV PORT=8080
 EXPOSE 8080
 
 # ---------------------------
-# Generate APP_KEY if not exists
+# Start container via entrypoint
 # ---------------------------
-RUN if [ ! -f .env ]; then cp .env.example .env; fi
-RUN php artisan key:generate --ansi
-
-# ---------------------------
-# Start Octane Swoole
-# ---------------------------
-CMD php artisan octane:start --server=swoole --host=0.0.0.0 --port=${PORT}
+ENTRYPOINT ["/entrypoint.sh"]
