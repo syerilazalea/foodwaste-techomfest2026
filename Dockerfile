@@ -55,6 +55,11 @@ RUN npm install
 RUN npm run build
 
 # ---------------------------
+# Generate APP_KEY if not exists
+# ---------------------------
+RUN php artisan key:generate --ansi
+
+# ---------------------------
 # Railway auto PORT
 # ---------------------------
 ENV PORT=8080
