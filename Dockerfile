@@ -38,7 +38,7 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 # ---------------------------
 # Set working directory
 # ---------------------------
-WORKDIR /app
+WORKDIR /var/www
 
 # ---------------------------
 # Copy project files
@@ -61,8 +61,12 @@ ENV PORT=8080
 EXPOSE 8080
 
 # ---------------------------
-# Generate APP_KEY & Start Octane
+# Generate APP_KEY if not exists
 # ---------------------------
-CMD if [ ! -f .env ]; then cp .env.example .env; fi && \
-    php artisan key:generate --force && \
-    php artisan octane:start --server=swoole --host=0.0.0.0 --port=${PORT}
+RUN if [ ! -f .env ]; then cp .env.example .env; fi
+RUN php artisan key:generate --ansi
+
+# ---------------------------
+# Start Octane Swoole
+# ---------------------------
+CMD php artisan octane:start --server=swoole --host=0.0.0.0 --port=${PORT}
