@@ -2,7 +2,6 @@
 # Dockerfile Laravel + Octane
 # ===========================
 
-# Base image PHP CLI
 FROM php:8.2-cli
 
 # ---------------------------
