@@ -6,6 +6,16 @@ RUN apt-get update && apt-get install -y \
     nginx supervisor gettext-base \
     && docker-php-ext-install pdo_mysql zip
 
+# Install Node.js
+RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
+    && apt-get install -y nodejs
+
+# Install frontend dependencies
+RUN npm install
+
+# Build frontend assets (production)
+RUN npm run build
+
 # Install composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
