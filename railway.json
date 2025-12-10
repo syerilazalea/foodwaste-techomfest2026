@@ -3,6 +3,6 @@
     "builder": "dockerfile"
   },
   "deploy": {
-    "restartPolicyType": "always"
+    "restartPolicyType": "ON_FAILURE"
   }
 }
