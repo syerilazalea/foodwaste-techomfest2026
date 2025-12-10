@@ -16,7 +16,8 @@ RUN apt-get update && apt-get install -y \
 
 # Install Swoole (disable problematic features)
 RUN pecl install swoole \
-    && docker-php-ext-enable swoole
+    && docker-php-ext-enable swoole \
+    && php -m | grep swoole
 
 # Install Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
