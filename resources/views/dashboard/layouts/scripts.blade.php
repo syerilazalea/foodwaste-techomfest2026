@@ -39,11 +39,17 @@
 <script src="{{asset ('js/plugins/carousels.js')}}"></script>
 <script src="{{asset ('js/pages/blog.detail.js')}}"></script>
 @vite(['resources/js/app.js'])
+@auth
 <script src="{{asset ('js/apps/chat.js')}}"></script>
 
 <script>
     const chatJsonUrl = "{{ asset('json/chat.json') }}";
+    const chatContactsUrl = "{{ route('dashboard.chat.contacts') }}";
+    const chatSendUrl = "{{ route('dashboard.chat.send') }}";
+    const chatMessagesUrl = "{{ route('dashboard.chat.messages', ':id') }}";
+    const currentUserId = {{ auth()->id() }};
 </script>
+@endauth
 
 <!-- TinyMCE API -->
 <script>
