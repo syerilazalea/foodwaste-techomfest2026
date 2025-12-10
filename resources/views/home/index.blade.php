@@ -339,7 +339,7 @@
                                 @foreach($chunk as $item)
                                 <div class="col-12 col-lg-3 col-xxl-6 sh-40" data-bs-toggle="modal" data-bs-target="{{ $item instanceof \App\Models\DataMakanan ? '#modalDetailMakanan'.$item->id : '#modalDetailDaurUlang'.$item->id }}">
                                     <div class="card h-100">
-                                        <img src="{{ asset($item->gambar ?? 'null') }}" class="card-img-top sh-22" alt="{{ $item->nama }}" />
+                                        <img src="{{ asset($item->gambar ?? 'null') }}" class="card-img-top sh-22" alt="{{ $item->nama }}" onerror="this.onerror=null; this.src='{{ asset('img/product/small/product-1.webp') }}';" />
                                         <div class="card-body pb-0">
                                             <a href="javascript:void(0)" role="button" class="h5 heading body-link stretched-link">
                                                 {{ $item->nama ?? 'Tanpa Judul' }}
@@ -424,7 +424,7 @@
                                         <div class="card mb-5 article-card h-100 d-flex flex-column">
                                             <div class="card-img-wrapper">
                                                 @if($artikel->gambar)
-                                                <img src="{{ asset($artikel->gambar) }}" alt="{{ $artikel->judul }}" class="card-img-top">
+                                                <img src="{{ asset($artikel->gambar) }}" alt="{{ $artikel->judul }}" class="card-img-top" onerror="this.onerror=null; this.src='{{ asset('img/default-artikel.webp') }}';">
                                                 @else
                                                 <img src="{{ asset('img/default-artikel.webp') }}" alt="default image" class="card-img-top">
                                                 @endif
