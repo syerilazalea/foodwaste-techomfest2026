@@ -26,7 +26,10 @@ Route::get('/debug-db', function () {
     }
 });
 
-Route::get('/', [HomePageController::class, 'index'])->name('home.index');
+Route::get('/landing', [HomePageController::class, 'index'])->name('home.index');
+
+// Redirect root to /landing
+Route::redirect('/', '/landing');
 
 Route::prefix('/')->name('home.')->group(function () {
     // Route::get('/home', [HomePageController::class, 'index'])->name('index'); // Deleted to prevent conflict
