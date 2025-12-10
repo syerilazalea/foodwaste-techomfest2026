@@ -722,21 +722,49 @@ $noScripts = true; // set true supaya scripts tidak dijalankan
 <script src="{{asset ('js/pages/blog.detail.js')}}"></script>
 
 <script>
-    window.addEventListener('load', function() {
-        const glideElement = document.querySelector('#glidePenjualan');
-        if (glideElement) {
-            new Glide(glideElement, {
-                type: 'carousel',
-                autoplay: 3500,
-                hoverpause: true,
-                animationDuration: 600,
-                perView: 1,
-                swipeThreshold: 80,
-                dragThreshold: 120
-            }).mount();
-        }
-    });
+document.addEventListener("DOMContentLoaded", function() {
+    const glideElement = document.querySelector('#glidePenjualan');
+    if (!glideElement) return; // Jika elemen tidak ada, jangan jalankan Glide
+
+    // Tunggu semua gambar di carousel selesai load
+    const images = glideElement.querySelectorAll('img');
+    let loadedCount = 0;
+
+    if (images.length === 0) {
+        // Jika tidak ada gambar, langsung mount Glide
+        mountGlide();
+    } else {
+        images.forEach(img => {
+            if (img.complete) {
+                loadedCount++;
+            } else {
+                img.addEventListener('load', () => {
+                    loadedCount++;
+                    if (loadedCount === images.length) mountGlide();
+                });
+                img.addEventListener('error', () => {
+                    loadedCount++;
+                    if (loadedCount === images.length) mountGlide();
+                });
+            }
+        });
+        if (loadedCount === images.length) mountGlide();
+    }
+
+    function mountGlide() {
+        new Glide(glideElement, {
+            type: 'carousel',
+            autoplay: 3500,
+            hoverpause: true,
+            animationDuration: 600,
+            perView: 1,
+            swipeThreshold: 80,
+            dragThreshold: 120
+        }).mount();
+    }
+});
 </script>
+
 
 <!-- menghitung mundur batas waktu -->
 <script>
