@@ -11,7 +11,12 @@ WORKDIR /var/www/html
 
 COPY . .
 
-COPY nginx/default.conf /etc/nginx/sites-available/default
+# Hapus default config bawaan nginx (penting!)
+RUN rm -f /etc/nginx/conf.d/default.conf
+
+# Copy config kamu
+COPY nginx/default.conf /etc/nginx/conf.d/default.conf
+
 COPY supervisor/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 RUN composer install --no-dev --optimize-autoloader
