@@ -4,17 +4,21 @@ FROM php:8.2-cli
 RUN apt-get update && apt-get install -y \
     git \
     unzip \
+    curl \
+    pkg-config \
     libssl-dev \
     libzip-dev \
+    libcurl4-openssl-dev \
     libpq-dev \
-    curl \
-    && docker-php-ext-install pdo pdo_mysql zip
+    libbrotli-dev \
+    libzstd-dev \
+    && docker-php-ext-install pdo_mysql zip
 
-# Install Swoole for Octane
+# Install Swoole (disable problematic features)
 RUN pecl install swoole \
     && docker-php-ext-enable swoole
 
-# Copy Composer
+# Install Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 # Set working directory
@@ -29,8 +33,8 @@ RUN composer install --no-dev --optimize-autoloader
 # Railway injects PORT automatically
 ENV PORT=8080
 
-# Expose port for Railway
+# Expose port
 EXPOSE 8080
 
-# Start Octane using the Railway PORT
+# Start Laravel Octane with Swoole
 CMD php artisan octane:start --server=swoole --host=0.0.0.0 --port=${PORT}
