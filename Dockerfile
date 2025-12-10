@@ -55,17 +55,14 @@ RUN npm install
 RUN npm run build
 
 # ---------------------------
-# Generate APP_KEY if not exists
-# ---------------------------
-RUN php artisan key:generate --ansi
-
-# ---------------------------
 # Railway auto PORT
 # ---------------------------
 ENV PORT=8080
 EXPOSE 8080
 
 # ---------------------------
-# Start Octane Swoole
+# Generate APP_KEY & Start Octane
 # ---------------------------
-CMD php artisan octane:start --server=swoole --host=0.0.0.0 --port=${PORT}
+CMD if [ ! -f .env ]; then cp .env.example .env; fi && \
+    php artisan key:generate --force && \
+    php artisan octane:start --server=swoole --host=0.0.0.0 --port=${PORT}
