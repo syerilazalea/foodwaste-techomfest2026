@@ -30,6 +30,12 @@ RUN composer install --no-dev --optimize-autoloader
 # Set permissions
 RUN chown -R www-data:www-data storage bootstrap/cache
 
+RUN php artisan config:clear
+RUN php artisan route:clear
+RUN php artisan view:clear
+
+RUN php artisan storage:link || true
+
 # Railway provides PORT env automatically
 ENV PORT=8080
 EXPOSE 8080
