@@ -2,6 +2,7 @@
 # Dockerfile Laravel + Octane
 # ===========================
 
+# Base image PHP CLI
 FROM php:8.2-cli
 
 # ---------------------------
@@ -46,25 +47,25 @@ WORKDIR /var/www
 COPY . .
 
 # ---------------------------
-# Install dependencies
+# Install PHP dependencies
 # ---------------------------
 RUN composer install --no-dev --optimize-autoloader
+
+# ---------------------------
+# Install Node dependencies (optional)
+# ---------------------------
 RUN npm install
 RUN npm run build
 
 # ---------------------------
-# Copy entrypoint script
-# ---------------------------
-COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
-
-# ---------------------------
-# Expose port
+# Railway auto PORT
 # ---------------------------
 ENV PORT=8080
 EXPOSE 8080
 
 # ---------------------------
-# Start container via entrypoint
+# Entrypoint
 # ---------------------------
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
