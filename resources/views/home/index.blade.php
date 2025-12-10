@@ -702,7 +702,6 @@
 <script src="{{asset ('js/common.js')}}"></script>
 <script src="{{asset ('js/scripts.js')}}"></script>
 <script src="{{asset ('js/plugins/carousels.js')}}"></script>
-<script src="{{asset ('js/pages/blog.detail.js')}}"></script>
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
