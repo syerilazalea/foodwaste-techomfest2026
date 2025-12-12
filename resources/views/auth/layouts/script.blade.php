@@ -28,4 +28,4 @@
 <script src="{{asset ('js/common.js')}}"></script>
 <script src="{{asset ('js/scripts.js')}}"></script>
 
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

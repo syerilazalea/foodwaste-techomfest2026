@@ -10,6 +10,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 
 class DataDaurUlangController extends Controller
 {
@@ -31,6 +32,30 @@ class DataDaurUlangController extends Controller
             ->paginate(10);
 
         return view('dashboard.dashboard-daur-ulang', compact('user', 'dataDaurUlang'));
+    }
+
+    // search
+    public function search(Request $request)
+    {
+        $user = Auth::user();
+        $query = $request->input('q');
+
+        // Gunakan paginate, agar pagination tetap jalan
+        $dataDaurUlang = DataDaurUlang::where('user_id', $user->id)
+            ->when($query, function ($q) use ($query) {
+                $q->where(function ($subQuery) use ($query) {
+                    $subQuery->where('nama', 'LIKE', "%{$query}%")
+                        ->orWhere('penyedia', 'LIKE', "%{$query}%")
+                        ->orWhere('kategori', 'LIKE', "%{$query}%")
+                        ->orWhere('alamat', 'LIKE', "%{$query}%");
+                });
+            })
+            ->orderBy('nama', 'asc')
+            ->paginate(10)
+            ->appends(['q' => $query]); // biar pagination bawa query search
+
+        // return partial blade
+        return view('dashboard.partials.tabel-data-daur-ulang', compact('dataDaurUlang'));
     }
 
     public function store(Request $request)
@@ -76,7 +101,7 @@ class DataDaurUlangController extends Controller
         if ($dataDaurUlang->user_id !== $user->id) {
             abort(403, 'Anda tidak memiliki izin untuk mengubah data ini.');
         }
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'nama' => 'required|string|max:255',
             'penyedia' => 'required|string|max:255',
             'kategori' => 'required|in:UMKM,Restoran,Hotel,Rumah Tangga',
@@ -85,7 +110,11 @@ class DataDaurUlangController extends Controller
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120',
         ]);
 
-        $user = Auth::user();
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->with('edit_id', $dataDaurUlang->id); // penting untuk modal otomatis terbuka
+        }
 
         // Jika ada file baru, hapus lama dan simpan baru
         if ($request->hasFile('gambar')) {
@@ -122,7 +151,7 @@ class DataDaurUlangController extends Controller
         if ($dataDaurUlang->user_id !== $user->id) {
             abort(403, 'Anda tidak memiliki izin untuk menghapus data ini.');
         }
-        
+
         if ($dataDaurUlang->gambar && File::exists(public_path($dataDaurUlang->gambar))) {
             File::delete(public_path($dataDaurUlang->gambar));
         }

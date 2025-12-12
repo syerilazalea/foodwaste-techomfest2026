@@ -34,16 +34,14 @@
 
 <main>
     <div class="container">
-        @include('dashboard.components.breadcrumbs')
         <div class="row">
             <div class="col-12">
                 <div class="page-title-container">
-                    <h1 class="mb-0 pb-0 display-4" id="title">Kelola Agenda</h1>
+                    @include('dashboard.components.breadcrumbs')
                     <p class="mb-0 text-muted">Kelola semua agenda kegiatan lingkungan</p>
                 </div>
             </div>
         </div>
-
 
         <!-- Tabel Agenda -->
         <div class="row">
@@ -52,21 +50,23 @@
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center mb-3">
                             <h5 class="mb-0 fw-bold">Daftar Artikel</h5>
-                            <div class="d-flex gap-2">
+                            <div class="d-flex gap-2 mb-3">
+                                <!-- Input Text Search -->
                                 <div class="input-group" style="width: 250px;">
                                     <input type="text" id="searchInput" class="form-control" placeholder="Cari agenda...">
                                     <button class="btn btn-outline-secondary" type="button">
                                         <i data-acorn-icon="search"></i>
                                     </button>
                                 </div>
-                                <select class="form-select" style="width: 150px;">
+                                <!-- Select Status Filter -->
+                                <select id="filterStatus" class="form-select" style="width: 150px;">
                                     <option value="">Semua Status</option>
                                     <option value="Aktif">Aktif</option>
                                     <option value="Nonaktif">Nonaktif</option>
                                 </select>
                                 <button class="btn btn-primary d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#buatAgenda">
                                     <i data-acorn-icon="plus"></i>
-                                    <span>Buat Artikel</span>
+                                    <span>Buat Agenda</span>
                                 </button>
                             </div>
                         </div>
@@ -84,7 +84,11 @@
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
-
+                                <div id="loadingSpinner" class="text-center my-3" style="display: none;">
+                                    <div class="spinner-border text-primary" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                </div>
                                 <tbody id="agendaTableBody">
                                     @foreach($agendas as $agenda)
                                     <tr>
@@ -113,7 +117,9 @@
                                             <button class="btn btn-sm btn-icon btn-icon-only btn-outline-secondary me-1"
                                                 data-bs-toggle="modal"
                                                 data-bs-target="#modalEditAgenda{{ $agenda->id }}">
-                                                <i data-acorn-icon="pen"></i>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
+                                                    <path d="M12.854.146a.5.5 0 0 1 .646.058l2.292 2.292a.5.5 0 0 1-.058.646L4.207 14.793 1 15l.207-3.207L12.854.146z" />
+                                                </svg>
                                             </button>
 
                                             <!-- Tombol Delete -->
@@ -121,7 +127,10 @@
                                                 data-slug="{{ $agenda->id }}"
                                                 data-bs-toggle="modal"
                                                 data-bs-target="#modalDelete">
-                                                <i data-acorn-icon="bin"></i>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                                    <path d="M5.5 5.5A.5.5 0 0 1 6 5h4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0V6H6v6.5a.5.5 0 0 1-1 0v-7z" />
+                                                    <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1 0-2h3.5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1H14a1 1 0 0 1 1 1zm-3.5 1V4h-5v-.5h5z" />
+                                                </svg>
                                             </button>
                                         </td>
                                     </tr>
@@ -308,6 +317,83 @@
 @endsection
 
 @push('scripts')
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.getElementById('searchInput');
+        const filterStatus = document.getElementById('filterStatus');
+        const tableBody = document.getElementById('agendaTableBody');
+        const spinner = document.getElementById('loadingSpinner');
+        let timeout = null;
+
+        function fetchData() {
+            const status = filterStatus.value;
+            const keyword = searchInput.value;
+            const url = `{{ route('dashboard.agenda.search') }}?status=${encodeURIComponent(status)}&q=${encodeURIComponent(keyword)}`;
+
+            if (spinner) spinner.style.display = 'block';
+
+            fetch(url)
+                .then(response => response.text())
+                .then(html => {
+                    tableBody.innerHTML = html;
+                    if (spinner) spinner.style.display = 'none';
+
+                    // Bind pagination
+                    document.querySelectorAll('#agendaTableBody .pagination a').forEach(link => {
+                        link.addEventListener('click', function(e) {
+                            e.preventDefault();
+                            fetchPage(this.href);
+                        });
+                    });
+                })
+                .catch(err => {
+                    console.error(err);
+                    if (spinner) spinner.style.display = 'none';
+                });
+        }
+
+        function fetchPage(url) {
+            if (spinner) spinner.style.display = 'block';
+            fetch(url)
+                .then(response => response.text())
+                .then(html => {
+                    tableBody.innerHTML = html;
+                    if (spinner) spinner.style.display = 'none';
+
+                    // Ambil query string dari URL
+                    const params = new URL(url).searchParams;
+                    searchInput.value = params.get('q') || '';
+                    filterStatus.value = params.get('status') || '';
+
+                    // Bind pagination baru
+                    document.querySelectorAll('#agendaTableBody .pagination a').forEach(link => {
+                        link.addEventListener('click', function(e) {
+                            e.preventDefault();
+                            fetchPage(this.href);
+                        });
+                    });
+                });
+        }
+
+        // Event input search dengan delay
+        searchInput.addEventListener('keyup', function() {
+            clearTimeout(timeout);
+            timeout = setTimeout(fetchData, 300);
+        });
+
+        // Event select change
+        filterStatus.addEventListener('change', fetchData);
+
+        // Bind pagination awal
+        document.querySelectorAll('#agendaTableBody .pagination a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                fetchPage(this.href);
+            });
+        });
+    });
+</script>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {

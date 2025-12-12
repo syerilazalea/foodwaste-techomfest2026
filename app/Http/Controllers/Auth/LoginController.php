@@ -27,24 +27,28 @@ class LoginController extends Controller
             'password' => 'required|string|min:6',
         ]);
 
-        // Ambil credentials
+        // Credentials
         $credentials = [
             'email' => trim($request->email),
             'password' => $request->password,
         ];
 
-        // Cek checkbox "remember me"
-        $remember = $request->has('rememberCheck');
+        // Checkbox remember
+        $remember = $request->boolean('rememberCheck');
 
         // Attempt login
         if (Auth::attempt($credentials, $remember)) {
-            $request->session()->regenerate(); // regenerasi session untuk keamanan
-            return redirect()->route('dashboard.index'); // redirect ke dashboard.index
+
+            $request->session()->regenerate();
+
+            return redirect()
+                ->route('dashboard.index')
+                ->with('success', 'Berhasil login! Selamat datang kembali.');
         }
 
-        // Login gagal
-        return back()->withErrors([
-            'loginError' => 'Email atau password salah.',
-        ])->onlyInput('email');
+        // Jika gagal
+        return back()
+            ->with('error', 'Email atau password salah.')
+            ->withInput();
     }
 }

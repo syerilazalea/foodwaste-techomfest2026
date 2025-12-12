@@ -49,7 +49,7 @@ Carbon::setLocale('id'); // set locale ke Indonesia
                     </div>
 
                     <!-- Total Artikel dan Agenda -->
-                    <div class="col-12 col-sm-5">
+                    <div class="col-12 col-sm-6">
                         <div class="card hover-scale-up sh-19">
                             <div class="h-100 d-flex flex-column justify-content-between card-body align-items-center">
                                 <div class="bg-gradient-light sh-5 sw-5 rounded-xl d-flex justify-content-center align-items-center mb-2">
@@ -69,7 +69,7 @@ Carbon::setLocale('id'); // set locale ke Indonesia
                 <div class="row g-2">
                     <!-- Buat Artikel -->
                     <div class="col-12 col-sm-6">
-                        <a href="#" class="text-decoration-none">
+                        <a href="{{route ('dashboard.artikel.index')}}" class="text-decoration-none">
                             <div class="card hover-scale-up cursor-pointer sh-19">
                                 <div class="h-100 d-flex flex-column justify-content-between card-body align-items-center">
                                     <div class="bg-gradient-light sh-5 sw-5 rounded-xl d-flex justify-content-center align-items-center mb-2">
@@ -143,6 +143,7 @@ Carbon::setLocale('id'); // set locale ke Indonesia
                                                         data-bs-target="#modalEditArtikel{{ $artikel->id }}">
                                                         <i data-acorn-icon="edit"></i>
                                                     </button>
+                                                    @if(strtolower($artikel->status) === 'draft')
                                                     <form action="{{ route('dashboard.kampanyeArtikel.updateStatusArtikel', $artikel->id) }}" method="POST" class="d-inline">
                                                         @csrf
                                                         @method('POST')
@@ -151,6 +152,7 @@ Carbon::setLocale('id'); // set locale ke Indonesia
                                                             <i data-acorn-icon="upload"></i>
                                                         </button>
                                                     </form>
+                                                    @endif
                                                 </div>
                                             </div>
                                         </div>
@@ -201,14 +203,15 @@ Carbon::setLocale('id'); // set locale ke Indonesia
                                                     data-bs-target="#modalEditAgenda{{ $agenda->id }}">
                                                     <i data-acorn-icon="edit"></i>
                                                 </button>
+                                                @if(strtolower($agenda->status) === 'nonaktif')
                                                 <form action="{{ route('dashboard.kampanyeAgenda.updateStatusAgenda', $agenda->id) }}" method="POST" class="d-inline">
                                                     @csrf
                                                     @method('POST')
-                                                    <button class="btn btn-sm btn-icon btn-icon-only btn-outline-primary mb-1"
-                                                        type="submit">
+                                                    <button class="btn btn-sm btn-icon btn-icon-only btn-outline-primary mb-1" type="submit">
                                                         <i data-acorn-icon="upload"></i>
                                                     </button>
                                                 </form>
+                                                @endif
                                             </div>
                                         </div>
                                     </div>

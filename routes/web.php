@@ -60,6 +60,7 @@ Route::prefix('dashboard')->name('dashboard.')->middleware(AuthCheck::class)->gr
     Route::post('/pengambilanDaurUlang/{id}/mulai', [DashboardController::class, 'mulaiPengambilanDaurUlang'])->name('pengambilanDaurUlang.mulai');
 
     Route::post('/konfirmasiMakanan/{id}/mulai', [DashboardController::class, 'makananSudahDiambil'])->name('konfirmasiMakanan.mulai');
+    Route::post('/konfirmasiDaurUlang/{id}/mulai', [DashboardController::class, 'daurUlangSudahDiambil'])->name('konfirmasiDaurUlang.mulai');
 
     Route::get('/topbar', [DashboardController::class, 'topbar'])->name('topbar');
 
@@ -81,12 +82,14 @@ Route::prefix('dashboard')->name('dashboard.')->middleware(AuthCheck::class)->gr
     Route::post('/data-daur-ulang/store', [DataDaurUlangController::class, 'store'])->name('dataDaurUlang.store');
     Route::put('/dataDaurUlang/{dataDaurUlang}', [DataDaurUlangController::class, 'update'])->name('dataDaurUlang.update');
     Route::post('/data-daur-ulang/delete/{dataDaurUlang}', [DataDaurUlangController::class, 'destroy'])->name('dataDaurUlang.destroy');
+    Route::get('/data-daur-ulang/search', [DataDaurUlangController::class, 'search'])->name('dataDaurUlang.search');
 
     //tabel data makanan
     Route::get('/data-makanan', [DataMakananController::class, 'index'])->name('dataMakanan.index');
     Route::post('/data-makanan/store', [DataMakananController::class, 'store'])->name('dataMakanan.store');
     Route::put('/data-makanan/{dataMakanan}', [DataMakananController::class, 'update'])->name('dataMakanan.update');
     Route::post('/data-makanan/delete/{dataMakanan}', [DataMakananController::class, 'destroy'])->name('dataMakanan.destroy');
+    Route::get('/data-makanan/search', [DataMakananController::class, 'search'])->name('dataMakanan.search');
 
     //page dashboard kampanye
     Route::get('/kampanye', [DashboardKampanyeController::class, 'index'])->name('kampanye.index'); // untuk load tabel

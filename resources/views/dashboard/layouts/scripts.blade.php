@@ -38,6 +38,8 @@
 <script src="{{asset ('js/scripts.js')}}"></script>
 <script src="{{asset ('js/plugins/carousels.js')}}"></script>
 <script src="{{asset ('js/pages/blog.detail.js')}}"></script>
+<!-- sweet alert -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 @vite(['resources/js/app.js'])
 <script src="{{asset ('js/apps/chat.js')}}"></script>
 

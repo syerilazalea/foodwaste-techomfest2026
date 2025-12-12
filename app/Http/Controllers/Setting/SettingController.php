@@ -72,7 +72,7 @@ class SettingController extends Controller
     public function updateKontak(Request $request)
     {
         $request->validate([
-            'phone' => 'nullable|string|max:20',
+            'phone' => 'required|digits_between:10,13',
         ]);
 
         $user = Auth::user();

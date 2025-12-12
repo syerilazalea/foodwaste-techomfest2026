@@ -28,6 +28,32 @@ class DashboardAgendaController extends Controller
         return view('dashboard.kampanye.tabelAgenda', compact('agendas'));
     }
 
+    public function search(Request $request)
+    {
+        $user = Auth::user();
+        $status = $request->input('status');
+        $keyword = $request->input('q');
+
+        $agendas = Agenda::where('user_id', $user->id)
+            ->when($status, function ($query) use ($status) {
+                $query->where('status', $status);
+            })
+            ->when($keyword, function ($query) use ($keyword) {
+                $query->where(function ($q) use ($keyword) {
+                    $q->where('nama_kegiatan', 'like', "%{$keyword}%")
+                        ->orWhere('lokasi', 'like', "%{$keyword}%");
+                });
+            })
+            ->orderBy('tanggal', 'desc')
+            ->paginate(10)
+            ->appends([
+                'status' => $status,
+                'q' => $keyword
+            ]);
+
+        return view('dashboard.partials.dashboard-tabel-agenda', compact('agendas'));
+    }
+
     // ================= STORE =================
     public function store(Request $request)
     {

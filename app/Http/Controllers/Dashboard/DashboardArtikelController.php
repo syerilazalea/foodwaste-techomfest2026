@@ -22,6 +22,32 @@ class DashboardArtikelController extends Controller
         return view('dashboard.kampanye.tabelArtikel', compact('artikels'));
     }
 
+    public function search(Request $request)
+    {
+        $user = Auth::user();
+        $keyword = $request->input('q'); // keyword search
+        $status = $request->input('status'); // opsional, kalau ada filter status
+
+        $artikels = Artikel::where('user_id', $user->id)
+            ->when($status, function ($query) use ($status) {
+                $query->where('status', $status);
+            })
+            ->when($keyword, function ($query) use ($keyword) {
+                $query->where(function ($q) use ($keyword) {
+                    $q->where('judul', 'like', "%{$keyword}%")
+                        ->orWhere('kategori', 'like', "%{$keyword}%"); // search kategori juga
+                });
+            })
+            ->orderBy('created_at', 'desc')
+            ->paginate(10)
+            ->appends([
+                'status' => $status,
+                'q' => $keyword
+            ]);
+
+        return view('dashboard.partials.dashboard-tabel-artikel', compact('artikels'));
+    }
+
     public function store(Request $request)
     {
         $data = $request->validate([

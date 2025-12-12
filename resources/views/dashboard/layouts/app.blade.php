@@ -29,6 +29,7 @@
     @endif
 
     @stack('scripts')
+    @include('dashboard.components.swal-global')
 
 </body>
 

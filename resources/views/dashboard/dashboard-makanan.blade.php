@@ -30,10 +30,18 @@
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center mb-3">
                             <h5 class="mb-0 fw-bold">Daftar Makanan</h5>
-                            <button class="btn btn-icon btn-icon-end btn-primary mb-1" data-bs-toggle="modal" data-bs-target="#modalInput" type="button">
-                                <span>Tambahkan Item</span>
-                                <i data-acorn-icon="plus"></i>
-                            </button>
+                            <div class="d-flex gap-2">
+                                <div class="input-group" style="width: 250px;">
+                                    <input type="text" id="searchInput" class="form-control" placeholder="Cari agenda...">
+                                    <button class="btn btn-outline-secondary" type="button">
+                                        <i data-acorn-icon="search"></i>
+                                    </button>
+                                </div>
+                                <button class="btn btn-icon btn-icon-end btn-primary mb-1" data-bs-toggle="modal" data-bs-target="#modalInput" type="button">
+                                    <span>Tambahkan Item</span>
+                                    <i data-acorn-icon="plus"></i>
+                                </button>
+                            </div>
                         </div>
 
                         <div class="table-responsive table-scroll">
@@ -50,7 +58,11 @@
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
-
+                                <div id="loadingSpinner" class="text-center my-3" style="display: none;">
+                                    <div class="spinner-border text-primary" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                </div>
                                 <tbody id="tableBody">
                                     @foreach($dataMakanan as $item)
                                     <tr>
@@ -68,16 +80,22 @@
                                         <td>{{ $item->porsi }} Porsi</td>
                                         <td>{{ $item->batas_waktu }}</td>
                                         <td class="text-nowrap">
-                                            <button class="btn btn-sm btn-icon btn-icon-only btn-outline-secondary"
-                                                data-bs-toggle="modal" data-bs-target="#modalEdit"
+                                            <button
+                                                type="button"
+                                                class="btn btn-sm btn-icon btn-icon-only btn-outline-secondary"
                                                 onclick='setEdit(@json($item))'>
-                                                <i data-acorn-icon="pen"></i>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
+                                                    <path d="M12.854.146a.5.5 0 0 1 .646.058l2.292 2.292a.5.5 0 0 1-.058.646L4.207 14.793 1 15l.207-3.207L12.854.146z" />
+                                                </svg>
                                             </button>
 
                                             <button class="btn btn-sm btn-icon btn-icon-only btn-outline-danger"
                                                 data-bs-toggle="modal" data-bs-target="#modalDelete"
                                                 onclick="setDeleteId({{ $item->id }})">
-                                                <i data-acorn-icon="bin"></i>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                                    <path d="M5.5 5.5A.5.5 0 0 1 6 5h4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0V6H6v6.5a.5.5 0 0 1-1 0v-7z" />
+                                                    <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1 0-2h3.5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1H14a1 1 0 0 1 1 1zm-3.5 1V4h-5v-.5h5z" />
+                                                </svg>
                                             </button>
                                         </td>
                                     </tr>
@@ -93,12 +111,8 @@
                     </div>
                 </div>
                 </table>
+            </section>
         </div>
-    </div>
-    </section>
-    </div>
-    </div>
-    </div>
     </div>
 </main>
 
@@ -159,15 +173,15 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label class="form-label fw-semibold">Nama Makanan</label>
-                                <input type="text" class="form-control" name="nama" id="nama" required>
+                                <input type="text" class="form-control" name="nama" id="edit_nama" required>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label fw-semibold">Nama Penyedia / Instansi</label>
-                                <input type="text" class="form-control" name="penyedia" id="penyedia" required>
+                                <input type="text" class="form-control" name="penyedia" id="edit_penyedia" required>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label fw-semibold">Alamat</label>
-                                <input type="text" class="form-control" name="alamat" id="alamat" value="{{ Auth::user()->alamat }}" required>
+                                <input type="text" class="form-control" name="alamat" id="edit_alamat" value="{{ Auth::user()->alamat }}" required>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -194,7 +208,7 @@
                             </div>
                             <div class="mb-3">
                                 <label class="form-label fw-semibold">Porsi</label>
-                                <input type="number" class="form-control" name="porsi" id="porsi" min="1" step="1" required>
+                                <input type="number" class="form-control" name="porsi" id="edit_porsi" min="1" step="1" required>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label fw-semibold">Batas Waktu Pengambilan</label>
@@ -297,33 +311,180 @@
 
 @push('scripts')
 
+{{-- =============== MODAL TAMBAH (VALIDASI GAGAL) =============== --}}
+@if ($errors->any() && !session('edit_id'))
 <script>
-    //untuk edit
+    document.addEventListener('DOMContentLoaded', function() {
+        const modal = new bootstrap.Modal(document.getElementById('modalInput'));
+        modal.show();
+
+        Swal.fire({
+            icon: 'error',
+            title: 'Validasi Gagal!',
+            html: `{!! implode('<br>', $errors->all()) !!}`,
+        });
+    });
+</script>
+@endif
+
+{{-- =============== MODAL EDIT (VALIDASI GAGAL) =============== --}}
+@if ($errors->any() && session('edit_id'))
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        let modalEl = document.getElementById('modalEdit');
+        let modal = bootstrap.Modal.getOrCreateInstance(modalEl);
+        modal.show();
+    });
+</script>
+@endif
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.getElementById('searchInput');
+        const tableBody = document.getElementById('tableBody');
+        const spinner = document.getElementById('loadingSpinner');
+        let timeout = null;
+
+        function fetchData(url) {
+            spinner.style.display = 'block'; // tampilkan spinner
+            fetch(url)
+                .then(response => response.text())
+                .then(html => {
+                    tableBody.innerHTML = html;
+                    spinner.style.display = 'none'; // sembunyikan spinner
+
+                    // Re-render icon Acorn
+                    if (typeof acorn !== 'undefined' && acorn.icon !== undefined) {
+                        acorn.icon.replace();
+                    }
+
+                    // Bind klik pagination link
+                    document.querySelectorAll('#tableBody .pagination a').forEach(link => {
+                        link.addEventListener('click', function(e) {
+                            e.preventDefault();
+                            fetchData(this.href);
+                        });
+                    });
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    spinner.style.display = 'none';
+                });
+        }
+
+        // Event input search
+        searchInput.addEventListener('keyup', function() {
+            clearTimeout(timeout);
+            timeout = setTimeout(() => {
+                const query = searchInput.value;
+                const url = `{{ route('dashboard.dataMakanan.search') }}?q=${encodeURIComponent(query)}`;
+                fetchData(url);
+            }, 300); // delay 300ms agar tidak tiap ketik langsung request
+        });
+
+        // Initial bind pagination
+        document.querySelectorAll('#tableBody .pagination a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                fetchData(this.href);
+            });
+        });
+    });
+</script>
+
+{{-- =============== VALIDASI TAMBAH =============== --}}
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+
+        const form = document.getElementById("formInputMakanan");
+        if (!form) return;
+
+        form.addEventListener("submit", function(e) {
+
+            const gambar = document.getElementById("gambar").value;
+            const nama = document.getElementById("nama").value.trim();
+            const penyedia = document.getElementById("penyedia").value.trim();
+            const alamat = document.getElementById("alamat").value.trim();
+            const kategori = document.querySelector('input[name="kategori"]:checked');
+            const porsi = document.getElementById("porsi").value.trim();
+            const batasWaktu = document.getElementById("batas_waktu").value.trim();
+
+            if (!gambar) return e.preventDefault(), Swal.fire("Wajib Upload Foto!", "", "warning");
+            if (!nama) return e.preventDefault(), Swal.fire("Nama wajib diisi!", "", "warning");
+            if (!penyedia) return e.preventDefault(), Swal.fire("Penyedia wajib diisi!", "", "warning");
+            if (!alamat) return e.preventDefault(), Swal.fire("Alamat wajib diisi!", "", "warning");
+            if (!kategori) return e.preventDefault(), Swal.fire("Kategori wajib dipilih!", "", "warning");
+            if (!porsi || porsi < 1) return e.preventDefault(), Swal.fire("Porsi minimal 1!", "", "warning");
+            if (!batasWaktu) return e.preventDefault(), Swal.fire("Batas waktu wajib!", "", "warning");
+        });
+
+    });
+</script>
+
+
+{{-- =============== SCRIPT SET EDIT =============== --}}
+<script>
     function setEdit(data) {
+
         const form = document.getElementById('formEditMakanan');
-        form.action = `/dashboard/data-makanan/${data.id}`; // ini harus sesuai route PUT
-        form.querySelector('input[name="id"]').value = data.id;
-        form.querySelector('input[name="nama"]').value = data.nama;
-        form.querySelector('input[name="penyedia"]').value = data.penyedia;
-        form.querySelector('input[name="alamat"]').value = data.alamat;
-        form.querySelector('input[name="porsi"]').value = data.porsi;
-        form.querySelector('input[name="batas_waktu"]').value = data.batas_waktu;
+        form.action = `/dashboard/data-makanan/${data.id}`;
 
-        const radios = form.querySelectorAll('input[name="kategori"]');
-        radios.forEach(radio => radio.checked = (radio.value === data.kategori));
+        document.getElementById('id').value = data.id;
+        document.getElementById('edit_nama').value = data.nama;
+        document.getElementById('edit_penyedia').value = data.penyedia;
+        document.getElementById('edit_alamat').value = data.alamat;
+        document.getElementById('edit_porsi').value = data.porsi;
+        document.getElementById('edit_batas_waktu').value = data.batas_waktu;
 
-        const imagePreview = form.querySelector('img.image-preview');
+        document.getElementById('edit_kategori_umkm').checked = data.kategori === "UMKM";
+        document.getElementById('edit_kategori_restoran').checked = data.kategori === "Restoran";
+        document.getElementById('edit_kategori_hotel').checked = data.kategori === "Hotel";
+        document.getElementById('edit_kategori_rumah').checked = data.kategori === "Rumah Tangga";
+
+        const preview = document.getElementById('preview_edit_gambar');
         if (data.gambar) {
-            imagePreview.src = '/' + data.gambar;
-            imagePreview.style.display = 'block';
+            preview.src = '/' + data.gambar;
+            preview.style.display = 'block';
+            preview.style.width = "120px";
         } else {
-            imagePreview.style.display = 'none';
+            preview.style.display = 'none';
         }
 
         const modal = new bootstrap.Modal(document.getElementById('modalEdit'));
         modal.show();
     }
+</script>
 
+
+{{-- =============== VALIDASI EDIT =============== --}}
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+
+        const form = document.getElementById("formEditMakanan");
+        if (!form) return;
+
+        form.addEventListener("submit", function(e) {
+
+            const nama = document.getElementById("edit_nama").value.trim();
+            const penyedia = document.getElementById("edit_penyedia").value.trim();
+            const alamat = document.getElementById("edit_alamat").value.trim();
+            const kategori = document.querySelector('input[name="kategori"]:checked');
+            const porsi = document.getElementById("edit_porsi").value.trim();
+            const batas = document.getElementById("edit_batas_waktu").value.trim();
+
+            if (!nama) return e.preventDefault(), Swal.fire("Nama wajib diisi!", "", "warning");
+            if (!penyedia) return e.preventDefault(), Swal.fire("Penyedia wajib diisi!", "", "warning");
+            if (!alamat) return e.preventDefault(), Swal.fire("Alamat wajib diisi!", "", "warning");
+            if (!kategori) return e.preventDefault(), Swal.fire("Kategori wajib dipilih!", "", "warning");
+            if (!porsi || porsi < 1) return e.preventDefault(), Swal.fire("Porsi minimal 1!", "", "warning");
+            if (!batas) return e.preventDefault(), Swal.fire("Batas waktu wajib!", "", "warning");
+
+        });
+
+    });
+</script>
+
+<script>
     //untuk delete
     let deleteId = null;
 
