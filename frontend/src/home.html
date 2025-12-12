@@ -140,96 +140,75 @@
 
         <main>
             <div class="container">
-                <!-- Galeri Gambar Section -->
-                <section class="scroll-section mb-5" id="gallery">
-                    <div class="glide" id="glideGallery">
-                        <!-- Large Images Start -->
-                        <div class="glide glide-large shadow rounded mb-4">
-                            <div class="glide__track mb-0" data-glide-el="track">
-                                <ul class="glide__slides gallery-glide-custom mb-0">
-                                    <li class="glide__slide p-0">
-                                        <a href="img/product/large/product-1.webp">
-                                            <img alt="detail" src="img/product/large/product-1.webp"
-                                                class="responsive border-0 rounded img-fluid sh-50 w-100" />
-                                        </a>
-                                    </li>
-                                    <li class="glide__slide p-0">
-                                        <a href="img/product/large/product-2.webp">
-                                            <img alt="detail" src="img/product/large/product-2.webp"
-                                                class="responsive border-0 rounded img-fluid sh-50 w-100" />
-                                        </a>
-                                    </li>
-                                    <li class="glide__slide p-0">
-                                        <a href="img/product/large/product-3.webp">
-                                            <img alt="detail" src="img/product/large/product-3.webp"
-                                                class="responsive border-0 rounded img-fluid sh-50 w-100" />
-                                        </a>
-                                    </li>
-                                    <li class="glide__slide p-0">
-                                        <a href="img/product/large/product-4.webp">
-                                            <img alt="detail" src="img/product/large/product-4.webp"
-                                                class="responsive border-0 rounded img-fluid sh-50 w-100" />
-                                        </a>
-                                    </li>
-                                    <li class="glide__slide p-0">
-                                        <a href="img/product/large/product-5.webp">
-                                            <img alt="detail" src="img/product/large/product-5.webp"
-                                                class="responsive border-0 rounded img-fluid sh-50 w-100" />
-                                        </a>
-                                    </li>
-                                    <li class="glide__slide p-0">
-                                        <a href="img/product/large/product-6.webp">
-                                            <img alt="detail" src="img/product/large/product-6.webp"
-                                                class="responsive border-0 rounded img-fluid sh-50 w-100" />
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
+                <!-- HERO SECTION - CAROUSEL -->
+                <div class="container mt-4 mb-5">
+                    <div id="heroCarousel" class="carousel slide carousel-fade rounded-4 overflow-hidden shadow-lg"
+                        data-bs-ride="carousel">
+
+                        <div class="carousel-indicators">
+                            <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0"
+                                class="active"></button>
+                            <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1"></button>
+                            <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2"></button>
                         </div>
-                        <!-- Large Images End -->
-                        <!-- Thumbs Start -->
-                        <div class="glide glide-thumb mb-3">
-                            <div class="glide__track" data-glide-el="track">
-                                <ul class="glide__slides">
-                                    <li class="glide__slide p-0">
-                                        <img alt="thumb" src="img/product/small/product-1.webp"
-                                            class="responsive rounded-md img-fluid shadow" />
-                                    </li>
-                                    <li class="glide__slide p-0">
-                                        <img alt="thumb" src="img/product/small/product-2.webp"
-                                            class="responsive rounded-md img-fluid shadow" />
-                                    </li>
-                                    <li class="glide__slide p-0">
-                                        <img alt="thumb" src="img/product/small/product-3.webp"
-                                            class="responsive rounded-md img-fluid shadow" />
-                                    </li>
-                                    <li class="glide__slide p-0">
-                                        <img alt="thumb" src="img/product/small/product-4.webp"
-                                            class="responsive rounded-md img-fluid shadow" />
-                                    </li>
-                                    <li class="glide__slide p-0">
-                                        <img alt="thumb" src="img/product/small/product-5.webp"
-                                            class="responsive rounded-md img-fluid shadow" />
-                                    </li>
-                                    <li class="glide__slide p-0">
-                                        <img alt="thumb" src="img/product/small/product-6.webp"
-                                            class="responsive rounded-md img-fluid shadow" />
-                                    </li>
-                                </ul>
+
+                        <div class="carousel-inner">
+
+                            <!-- SLIDE 1 -->
+                            <div class="carousel-item active" data-bs-interval="4000">
+                                <img src="img/hero/hero3.jpg" class="d-block w-100 hero-img" alt="">
+                                <div
+                                    class="carousel-caption d-flex flex-column justify-content-center align-items-start text-start">
+                                    <h1 class="fw-bold mb-3 text-white">Kurangi Food Waste Mulai dari Sekarang</h1>
+                                    <p class="mb-4 text-white">Bersama FoodCycle, kelola makanan dan limbah organik
+                                        menjadi lebih bermanfaat.</p>
+                                    <a href="register.html" class="btn btn-gradient-primary px-4 py-2">Gabung
+                                        Sekarang</a>
+                                </div>
                             </div>
-                            <div class="glide__arrows" data-glide-el="controls">
-                                <button class="btn btn-icon btn-icon-only btn-foreground-alternate shadow left-arrow"
-                                    data-glide-dir="<">
-                                    <i data-acorn-icon="chevron-left"></i>
-                                </button>
-                                <button class="btn btn-icon btn-icon-only btn-foreground-alternate shadow right-arrow"
-                                    data-glide-dir=">">
-                                    <i data-acorn-icon="chevron-right"></i>
-                                </button>
+
+                            <!-- SLIDE 2 -->
+                            <div class="carousel-item" data-bs-interval="4000">
+                                <img src="img/hero/hero1.jpg" class="d-block w-100 hero-img" alt="">
+                                <div
+                                    class="carousel-caption d-flex flex-column justify-content-center align-items-start text-start">
+                                    <h1 class="fw-bold mb-3 text-white">Makanan Layak, Hidup Lebih Baik</h1>
+                                    <p class="mb-4 text-white">Salurkan makanan berlebih untuk membantu sesama dan
+                                        menjaga lingkungan.</p>
+                                    <a href="katalog-makanan.html" class="btn btn-outline-light px-4 py-2">Lihat
+                                        Katalog</a>
+                                </div>
                             </div>
+
+                            <!-- SLIDE 3 -->
+                            <div class="carousel-item" data-bs-interval="4000">
+                                <img src="img/hero/hero2.jpg" class="d-block w-100 hero-img" alt="">
+                                <div
+                                    class="carousel-caption d-flex flex-column justify-content-center align-items-start text-start">
+                                    <h1 class="fw-bold mb-3 text-white">Manfaatkan Limbah Organik</h1>
+                                    <p class="mb-4 text-white">Kelola limbah organik menjadi pupuk dan bahan baru agar
+                                        lebih berguna.</p>
+                                    <a href="katalog-daur-ulang.html" class="btn btn-outline-light px-4 py-2">Pelajari
+                                        Lebih Lanjut</a>
+                                </div>
+                            </div>
+
                         </div>
+
+
+                        <!-- NAV -->
+                        <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel"
+                            data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon"></span>
+                        </button>
+
+                        <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel"
+                            data-bs-slide="next">
+                            <span class="carousel-control-next-icon"></span>
+                        </button>
+
                     </div>
-                </section>
+                </div>
 
                 <!-- Peran Kami & Statistik Section -->
                 <div class="row mb-5">
@@ -239,7 +218,7 @@
                             <div class="card mb-5 h-100">
                                 <div class="row g-0 h-100">
                                     <div class="col-sm-4">
-                                        <img src="img/product/small/product-2.webp"
+                                        <img src="img/hero/img3.jpg"
                                             class="card-img card-img-horizontal-sm h-100 object-fit-cover" />
                                     </div>
                                     <div class="col-sm-8">
@@ -332,36 +311,42 @@
                 </div>
 
                 <!-- Kategori Pengguna & Informasi Hari Ini Section -->
-                <div class="row mb-5">
-                    <!-- RIGHT SIDE -->
-                    <div class="col-12 col-lg-8 d-flex flex-column mb-5">
-                        <h2 class="card-title text-primary mb-4">Kategori Pengguna</h2>
-
-                        <!-- Make cards same height as left side -->
-                        <div class="row g-3 flex-grow-1 align-items-stretch">
-
+                <div class="row g-3 align-items-stretch mb-5">
+                    <!-- LEFT SIDE -->
+                    <div class="col-12 col-lg-8 d-flex mb-5">
+                        <div class="row g-3 flex-fill">
                             <!-- Kolaborator -->
                             <div class="col-12 col-md-6 d-flex">
-                                <div class="card h-100 flex-fill">
-                                    <div class="card-body text-center p-5 d-flex flex-column justify-content-center">
-                                        <h4 class="card-title text-primary mb-4">Kolaborator</h4>
+                                <div class="card flex-fill text-center py-4">
+                                    <div
+                                        class="card-body d-flex flex-column justify-content-center align-items-center h-100">
+                                        <div
+                                            class="sh-5 sw-5 rounded-circle bg-primary d-flex justify-content-center align-items-center mb-3">
+                                            <i data-acorn-icon="sync-horizontal" class="text-white"></i>
+                                        </div>
+                                        <h4 class="card-title text-success mb-3">Kolaborator</h4>
                                         <p class="card-text">
-                                            Menyediakan makanan layak serta limbah organik untuk dimanfaatkan kembali.
-                                            Termasuk menerima dan menyalurkan produk organik antar kolaborator.
+                                            Menyediakan produk makanan layak serta limbah organik untuk dimanfaatkan
+                                            kembali, serta dapat menerima produk dari kolaborator lain
                                         </p>
+
                                     </div>
                                 </div>
                             </div>
+
 
                             <!-- Aktivis -->
                             <div class="col-12 col-md-6 d-flex">
-                                <div class="card h-100 flex-fil">
-                                    <div class="card-body text-center p-5 d-flex flex-column justify-content-center">
-                                        <h4 class="card-title text-primary mb-4">Aktivis</h4>
+                                <div class="card flex-fill text-center py-4">
+                                    <div
+                                        class="card-body d-flex flex-column justify-content-center align-items-center h-100">
+                                        <div
+                                            class="sh-5 sw-5 rounded-circle bg-primary d-flex justify-content-center align-items-center mb-3">
+                                            <i data-acorn-icon="notification" class="text-white"></i>
+                                        </div>
+                                        <h4 class="card-title text-success mb-3">Aktivis</h4>
                                         <p class="card-text">
-                                            Membagikan artikel, edukasi lingkungan, dan mengadakan agenda peduli alam
-                                            seperti
-                                            gerakan tanam pohon serta kampanye kebersihan.
+                                            Membagikan artikel, edukasi lingkungan, dan mengadakan agenda peduli alam.
                                         </p>
                                     </div>
                                 </div>
@@ -369,36 +354,33 @@
 
                         </div>
                     </div>
-                    <!-- LEFT SIDE -->
-                    <div class="col-12 col-lg-4 d-flex flex-column mb-5">
-                        <h2 class="card-title text-primary mb-4">Informasi Hari Ini</h2>
 
-                        <div class="card flex-grow-1 position-relative overflow-hidden">
-                            <img src="img/product/small/product-6.webp"
-                                class="img-fluid rounded mb-1 me-1 w-100 h-100 object-fit-cover"
-                                alt="Responsive image" />
+                    <!-- RIGHT SIDE -->
+                    <div class="col-12 col-lg-4 d-flex mb-5">
+                        <div class="card flex-fill position-relative overflow-hidden">
+                            <img src="img/hero/img1.jpg" class="img-fluid w-100 h-100 object-fit-cover" />
 
-                            <div class="position-absolute top-0 start-0 w-100 h-100"
-                                style="background: rgba(0,0,0,0.45); border-radius: inherit;"></div>
+                            <div class="card-img-overlay d-flex flex-column justify-content-center">
+                                <h2 class="text-white mb-4">Informasi Hari Ini</h2>
 
-                            <div class="card-img-overlay d-flex flex-column justify-content-center bg-transparent">
-                                <div class="d-flex flex-column align-items-start gap-3 text-white">
-                                    <div>
-                                        <div class="cta-1 fw-bold mb-1">124</div>
-                                        <div class="lh-1-25 mb-0">Makanan</div>
+                                <div class="text-white">
+                                    <div class="mb-2">
+                                        <div class="cta-1 fw-bold">124</div>
+                                        <div>Makanan</div>
+                                    </div>
+                                    <div class="mb-2">
+                                        <div class="cta-1 fw-bold">64</div>
+                                        <div>Limbah</div>
                                     </div>
                                     <div>
-                                        <div class="cta-1 fw-bold mb-1">64</div>
-                                        <div class="lh-1-25 mb-0">Limbah</div>
-                                    </div>
-                                    <div>
-                                        <div class="cta-1 fw-bold mb-1">4</div>
-                                        <div class="lh-1-25 mb-0">Agenda</div>
+                                        <div class="cta-1 fw-bold">4</div>
+                                        <div>Agenda</div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+
                 </div>
 
                 <!-- CTA Section -->
@@ -434,91 +416,82 @@
                             <div class="glide" id="glideBasic">
                                 <div class="glide__track" data-glide-el="track">
                                     <div class="glide__slides">
+
                                         <div class="glide__slide">
-                                            <a href="login.html" class="text-decoration-none">
+                                            <a href="artikel.html" class="text-decoration-none">
                                                 <div class="card mb-5">
-                                                    <img src="img/product/small/product-3.webp" class="card-img-top"
-                                                        alt="card image" />
+                                                    <img src="img/kampanye/artikel/kompos.jpg" class="card-img-top"
+                                                        alt="image" />
                                                     <div class="card-body">
-                                                        <h5 class="card-title">Card title 1</h5>
-                                                        <p class="card-text">Liquorice caramels apple pie chupa.</p>
+                                                        <h5 class="card-title">Cara Membuat Kompos dari Sampah Dapur
+                                                        </h5>
                                                     </div>
                                                 </div>
                                             </a>
                                         </div>
+
                                         <div class="glide__slide">
-                                            <a href="login.html" class="text-decoration-none">
+                                            <a href="artikel.html" class="text-decoration-none">
                                                 <div class="card mb-5">
-                                                    <img src="img/product/small/product-3.webp" class="card-img-top"
-                                                        alt="card image" />
+                                                    <img src="img/kampanye/artikel/recycle2.jpg" class="card-img-top"
+                                                        alt="image" />
                                                     <div class="card-body">
-                                                        <h5 class="card-title">Card title 2</h5>
-                                                        <p class="card-text">Liquorice caramels apple pie chupa.</p>
+                                                        <h5 class="card-title">Manfaat Daur Ulang bagi Ekonomi</h5>
                                                     </div>
                                                 </div>
                                             </a>
                                         </div>
+
                                         <div class="glide__slide">
-                                            <a href="login.html" class="text-decoration-none">
+                                            <a href="artikel.html" class="text-decoration-none">
                                                 <div class="card mb-5">
-                                                    <img src="img/product/small/product-3.webp" class="card-img-top"
-                                                        alt="card image" />
+                                                    <img src="img/kampanye/artikel/urban-farming.jpg"
+                                                        class="card-img-top" alt="image" />
                                                     <div class="card-body">
-                                                        <h5 class="card-title">Card title 3</h5>
-                                                        <p class="card-text">Liquorice caramels apple pie chupa.</p>
+                                                        <h5 class="card-title">Urban Farming di Perkotaan</h5>
                                                     </div>
                                                 </div>
                                             </a>
                                         </div>
+
                                         <div class="glide__slide">
-                                            <a href="login.html" class="text-decoration-none">
+                                            <a href="artikel.html" class="text-decoration-none">
                                                 <div class="card mb-5">
-                                                    <img src="img/product/small/product-3.webp" class="card-img-top"
-                                                        alt="card image" />
+                                                    <img src="img/kampanye/artikel/zero-waste.jpg" class="card-img-top"
+                                                        alt="image" />
                                                     <div class="card-body">
-                                                        <h5 class="card-title">Card title 4</h5>
-                                                        <p class="card-text">Liquorice caramels apple pie chupa.</p>
+                                                        <h5 class="card-title">Mengenal Zero Waste Lifestyle</h5>
                                                     </div>
                                                 </div>
                                             </a>
                                         </div>
+
                                         <div class="glide__slide">
-                                            <a href="login.html" class="text-decoration-none">
+                                            <a href="artikel.html" class="text-decoration-none">
                                                 <div class="card mb-5">
-                                                    <img src="img/product/small/product-3.webp" class="card-img-top"
-                                                        alt="card image" />
+                                                    <img src="img/kampanye/artikel/bibit.jpg" class="card-img-top"
+                                                        alt="image" />
                                                     <div class="card-body">
-                                                        <h5 class="card-title">Card title 5</h5>
-                                                        <p class="card-text">Liquorice caramels apple pie chupa.</p>
+                                                        <h5 class="card-title">Teknik Merawat Bibit Tanaman</h5>
                                                     </div>
                                                 </div>
                                             </a>
                                         </div>
+
                                         <div class="glide__slide">
-                                            <a href="login.html" class="text-decoration-none">
+                                            <a href="artikel.html" class="text-decoration-none">
                                                 <div class="card mb-5">
-                                                    <img src="img/product/small/product-3.webp" class="card-img-top"
-                                                        alt="card image" />
+                                                    <img src="img/kampanye/artikel/ubi.jpg" class="card-img-top"
+                                                        alt="image" />
                                                     <div class="card-body">
-                                                        <h5 class="card-title">Card title 6</h5>
-                                                        <p class="card-text">Liquorice caramels apple pie chupa.</p>
+                                                        <h5 class="card-title">Jenis Karbohidrat Kaya Serat</h5>
                                                     </div>
                                                 </div>
                                             </a>
                                         </div>
-                                        <div class="glide__slide">
-                                            <a href="login.html" class="text-decoration-none">
-                                                <div class="card mb-5">
-                                                    <img src="img/product/small/product-3.webp" class="card-img-top"
-                                                        alt="card image" />
-                                                    <div class="card-body">
-                                                        <h5 class="card-title">Card title 7</h5>
-                                                        <p class="card-text">Liquorice caramels apple pie chupa.</p>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </div>
+
                                     </div>
+
                                 </div>
                                 <div class="text-center">
                                     <span class="glide__arrows slider-nav" data-glide-el="controls">
@@ -744,6 +717,101 @@
     <script src="js/cs/glide.custom.js"></script>
 
     <script src="js/plugins/carousels.js"></script>
+
+    <style>
+        /* wrapper full width + tanpa margin */
+        #heroCarousel {
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+
+        /* Pastikan slide membentuk frame yang rounded */
+        #heroCarousel .carousel-inner,
+        #heroCarousel .carousel-item {
+            border-radius: 25px;
+            overflow: hidden;
+            /* wajib biar gambar tidak keluar */
+        }
+
+        /* gambar */
+        .hero-img {
+            height: 70vh;
+            width: 100%;
+            object-fit: cover;
+            filter: brightness(0.55);
+            display: block;
+        }
+
+        /* caption */
+        .carousel-caption {
+            max-width: 600px;
+            margin-bottom: 120px;
+        }
+
+        /* mobile */
+        @media (max-width: 768px) {
+            .hero-img {
+                height: 55vh;
+            }
+
+            .carousel-caption {
+                margin-bottom: 80px;
+            }
+
+            .carousel-caption h1 {
+                font-size: 1.7rem;
+            }
+        }
+    </style>
+
+    <style>
+        /* Hapus background putih wrapper */
+        #heroCarousel,
+        #heroCarousel .carousel-inner,
+        #heroCarousel .carousel-item,
+        #heroCarousel .carousel-caption {
+            background: transparent !important;
+        }
+
+        /* Biar rounded muncul & tidak ada kotak putih */
+        #heroCarousel,
+        #heroCarousel .carousel-inner,
+        #heroCarousel .carousel-item {
+            border-radius: 25px;
+            overflow: hidden;
+        }
+
+        /* Gambar */
+        .hero-img {
+            height: 70vh;
+            width: 100%;
+            object-fit: cover;
+            filter: brightness(0.55);
+            display: block;
+        }
+
+        /* Caption */
+        .carousel-caption {
+            max-width: 600px;
+            margin-bottom: 120px;
+        }
+
+        /* Mobile settings */
+        @media (max-width: 768px) {
+            .hero-img {
+                height: 55vh;
+            }
+
+            .carousel-caption {
+                margin-bottom: 80px;
+            }
+
+            .carousel-caption h1 {
+                font-size: 1.7rem;
+            }
+        }
+    </style>
+
 
     <!-- Page Specific Scripts End -->
 </body>
