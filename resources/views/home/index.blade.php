@@ -721,7 +721,7 @@ $noScripts = true; // set true supaya scripts tidak dijalankan
 <script src="{{asset ('js/plugins/carousels.js')}}"></script>
 <script src="{{asset ('js/pages/blog.detail.js')}}"></script>
 
-<script>
+<!-- <script>
 document.addEventListener("DOMContentLoaded", function() {
     const glideElement = document.querySelector('#glidePenjualan');
     if (!glideElement) return; // Jika elemen tidak ada, jangan jalankan Glide
@@ -763,7 +763,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }).mount();
     }
 });
-</script>
+</script> -->
 
 
 <!-- menghitung mundur batas waktu -->
