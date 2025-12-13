@@ -21,6 +21,7 @@ class Artikel extends Model
         'slug',
         'kategori',
         'status',
+        'last_read_at',
     ];
 
     // Hook otomatis membuat slug saat membuat artikel
@@ -43,5 +44,12 @@ class Artikel extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function readers()
+    {
+        return $this->belongsToMany(User::class, 'artikel_user_reads')
+            ->withPivot('last_read_at')
+            ->withTimestamps();
     }
 }

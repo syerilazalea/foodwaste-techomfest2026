@@ -824,7 +824,6 @@ $currentUser = Auth::user();
                         @csrf
                         <button class="btn btn-warning w-100" type="submit">diambil</button>
                     </form>
-                    <a href="{{ route('dashboard.chat.index', ['start_chat' => $item->makanan->user->id, 'context_image' => $item->makanan->gambar, 'context_name' => $item->makanan->nama, 'context_expired' => $item->makanan->batas_waktu]) }}" class="btn btn-outline-primary w-100">Mulai mengobrol dengan {{ $item->makanan->user->name }}</a>
                     @else
                     <button class="btn btn-warning w-100" disabled>Menunggu</button>
                     @endif
@@ -988,7 +987,6 @@ $currentUser = Auth::user();
                         @csrf
                         <button class="btn btn-warning w-100" type="submit">diambil</button>
                     </form>
-                    <a href="{{ route('dashboard.chat.index', ['start_chat' => $item->makanan->user->id, 'context_image' => $item->makanan->gambar, 'context_name' => $item->makanan->nama, 'context_expired' => $item->makanan->batas_waktu]) }}" class="btn btn-outline-primary w-100">Mulai mengobrol dengan {{ $item->makanan->user->name }}</a>
                     @else
                     <button class="btn btn-warning w-100" disabled>Menunggu</button>
                     @endif

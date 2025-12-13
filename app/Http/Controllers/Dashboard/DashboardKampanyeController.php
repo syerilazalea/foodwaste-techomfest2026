@@ -15,19 +15,22 @@ class DashboardKampanyeController extends Controller
     // Method to show the dashboard kampanye page
     public function index()
     {
-        // Ambil artikel dan agenda user login
-        $artikels = Artikel::where('user_id', Auth::id())
+        $userId = Auth::id();
+
+        // Ambil artikel milik user login (bisa diganti paginate jika banyak)
+        $artikels = Artikel::where('user_id', $userId)
             ->orderBy('created_at', 'desc')
             ->get();
 
-        $agendas = Agenda::where('user_id', Auth::id())
+        // Ambil agenda milik user login
+        $agendas = Agenda::where('user_id', $userId)
             ->orderBy('created_at', 'desc')
             ->get();
 
         // Statistik
         $totalArtikel = $artikels->count();
         $totalAgenda = $agendas->count();
-        $totalArtikelAgenda = $artikels->count() + $agendas->count();
+        $totalArtikelAgenda = $totalArtikel + $totalAgenda;
 
         return view('dashboard.kampanye.index', compact(
             'artikels',

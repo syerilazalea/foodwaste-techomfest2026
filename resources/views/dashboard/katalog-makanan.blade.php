@@ -42,21 +42,34 @@
                 </div>
             </div>
 
+            @php
+            $categories = ['semua', 'restoran', 'rumah tangga', 'umkm', 'hotel'];
+            @endphp
             <!-- RIGHT SIDEBAR (Kategori) -->
             <div class="col-12 col-xl-4 col-xxl-3">
                 <section class="scroll-section" id="imagesHorizontal">
                     <h2 class="small-title">Kategori</h2>
                     <div class="row g-3">
-                        @php
-                        $categories = ['semua', 'restoran', 'rumah tangga', 'umkm', 'hotel'];
-                        @endphp
                         @foreach($categories as $cat)
                         <div class="col-12" style="cursor:pointer;">
                             <div class="card w-100 sh-12 hover-img-scale-up kategori-btn"
                                 data-kategori="{{ $cat }}"
                                 style="border-radius:10px; overflow:hidden;">
-                                <img src="{{ asset('img/banner/cta-horizontal-short-1.webp') }}"
-                                    class="card-img h-100 scale" alt="card image" />
+
+                                <!-- Ganti gambar sesuai kategori -->
+                                @php
+                                // opsional: bisa pakai switch untuk gambar spesifik kategori
+                                $imgPath = match(strtolower($cat)) {
+                                'semua' => 'img/kategori/Group 1.jpg',
+                                'restoran' => 'img/kategori/Group 4.jpg',
+                                'rumah tangga' => 'img/kategori/Group 2.jpg',
+                                'umkm' => 'img/kategori/Group 5.jpg',
+                                'hotel' => 'img/kategori/Group 3.jpg'
+                                };
+                                @endphp
+
+                                <img src="{{ asset($imgPath) }}" class="card-img h-100 scale" alt="card image" />
+
                                 <div class="card-img-overlay d-flex flex-column justify-content-center bg-transparent p-2 mx-5">
                                     <div class="cta-5 text-black w-75 w-md-50">{{ ucfirst($cat) }}</div>
                                 </div>

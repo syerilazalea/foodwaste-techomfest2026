@@ -56,7 +56,6 @@
 
     <!-- CKEditor5 -->
     <link rel="stylesheet" href="{{ asset('js/ckeditor5/ckeditor5.css') }}">
-
 </head>
 
 <style>

@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Validator;
 
 class DataMakananController extends Controller
 {
@@ -58,6 +59,30 @@ class DataMakananController extends Controller
         return view('dashboard.dashboard-makanan', compact('user', 'dataMakanan'));
     }
 
+    // search
+    public function search(Request $request)
+    {
+        $user = Auth::user();
+        $query = $request->input('q');
+
+        // Gunakan paginate, agar pagination tetap jalan
+        $dataMakanan = DataMakanan::where('user_id', $user->id)
+            ->when($query, function ($q) use ($query) {
+                $q->where(function ($subQuery) use ($query) {
+                    $subQuery->where('nama', 'LIKE', "%{$query}%")
+                        ->orWhere('penyedia', 'LIKE', "%{$query}%")
+                        ->orWhere('kategori', 'LIKE', "%{$query}%")
+                        ->orWhere('alamat', 'LIKE', "%{$query}%");
+                });
+            })
+            ->orderBy('nama', 'asc')
+            ->paginate(10)
+            ->appends(['q' => $query]); // biar pagination bawa query search
+
+        // return partial blade
+        return view('dashboard.partials.tabel-data-makanan', compact('dataMakanan'));
+    }
+
     public function store(Request $request)
     {
         $request->validate([
@@ -66,7 +91,7 @@ class DataMakananController extends Controller
             'kategori' => 'required|in:UMKM,Restoran,Hotel,Rumah Tangga',
             'porsi' => 'required|integer|min:1',
             'batas_waktu' => 'required',
-            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120',
+            'gambar' => 'required|image|mimes:jpeg,png,jpg,gif|max:5120',
         ]);
 
         $user = Auth::user();
@@ -101,7 +126,9 @@ class DataMakananController extends Controller
         if ($dataMakanan->user_id !== $user->id) {
             abort(403, 'Anda tidak memiliki izin untuk mengubah data ini.');
         }
-        $request->validate([
+
+        // VALIDASI MANUAL
+        $validator = Validator::make($request->all(), [
             'nama' => 'required|string|max:255',
             'penyedia' => 'required|string|max:255',
             'kategori' => 'required|in:UMKM,Restoran,Hotel,Rumah Tangga',
@@ -110,9 +137,14 @@ class DataMakananController extends Controller
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120',
         ]);
 
-        $user = Auth::user();
+        if ($validator->fails()) {
+            return back()
+                ->with('edit_id', $dataMakanan->id)
+                ->withErrors($validator)
+                ->withInput();
+        }
 
-        // Jika ada file baru, hapus lama dan simpan baru
+        // Jika ada file baru
         if ($request->hasFile('gambar')) {
             if ($dataMakanan->gambar && File::exists(public_path($dataMakanan->gambar))) {
                 File::delete(public_path($dataMakanan->gambar));
@@ -122,7 +154,7 @@ class DataMakananController extends Controller
             $path = 'img/dataMakanan/' . $filename;
             $file->move(public_path('img/dataMakanan'), $filename);
         } else {
-            $path = $dataMakanan->gambar; // tetap gambar lama
+            $path = $dataMakanan->gambar;
         }
 
         $dataMakanan->update([
@@ -135,10 +167,10 @@ class DataMakananController extends Controller
             'gambar' => $path,
         ]);
 
-
         return redirect()->route('dashboard.dataMakanan.index')
             ->with('success', 'Item berhasil diperbarui!');
     }
+
 
     public function destroy(DataMakanan $dataMakanan)
     {

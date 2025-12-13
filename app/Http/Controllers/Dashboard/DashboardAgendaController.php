@@ -14,7 +14,8 @@ class DashboardAgendaController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Agenda::query();
+        $user = Auth::user();
+        $query = Agenda::query()->where('user_id', $user->id); // hanya agenda milik user login
 
         if ($request->has('search') && $request->search != '') {
             $keyword = $request->search;
@@ -26,6 +27,32 @@ class DashboardAgendaController extends Controller
         $agendas->appends($request->all());
 
         return view('dashboard.kampanye.tabelAgenda', compact('agendas'));
+    }
+
+    public function search(Request $request)
+    {
+        $user = Auth::user();
+        $status = $request->input('status');
+        $keyword = $request->input('q');
+
+        $agendas = Agenda::where('user_id', $user->id)
+            ->when($status, function ($query) use ($status) {
+                $query->where('status', $status);
+            })
+            ->when($keyword, function ($query) use ($keyword) {
+                $query->where(function ($q) use ($keyword) {
+                    $q->where('nama_kegiatan', 'like', "%{$keyword}%")
+                        ->orWhere('lokasi', 'like', "%{$keyword}%");
+                });
+            })
+            ->orderBy('tanggal', 'desc')
+            ->paginate(10)
+            ->appends([
+                'status' => $status,
+                'q' => $keyword
+            ]);
+
+        return view('dashboard.partials.dashboard-tabel-agenda', compact('agendas'));
     }
 
     // ================= STORE =================
@@ -131,7 +158,6 @@ class DashboardAgendaController extends Controller
             'waktu_selesai' => $request->waktu_selesai,
             'lokasi' => $request->lokasi,
             'kuota' => $request->kuota,
-            'status' => $request->status,
             'gambar' => $path,
         ]);
 

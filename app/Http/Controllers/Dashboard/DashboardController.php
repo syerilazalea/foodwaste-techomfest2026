@@ -63,7 +63,7 @@ class DashboardController extends Controller
         // Total keseluruhan item dipesan
         $totalMemesan = $totalMemesanMakanan + $totalMemesanDaurUlang;
 
-         // Total PengambilMakanan dengan status menunggu
+        // Total PengambilMakanan dengan status menunggu
         $totalDipesanMakananMenunggu = PengambilMakanan::whereIn('status', ['menunggu'])
             ->whereHas('dataMakanan', function ($query) use ($user) {
                 $query->where('user_id', $user->id);
@@ -80,7 +80,7 @@ class DashboardController extends Controller
         // Total keseluruhan Status Menunggu
         $totalMemesanMenunggu = $totalDipesanMakananMenunggu + $totalDipesanDaurUlangMenunggu;
 
-         // Total PengambilMakanan dengan status perjalanan
+        // Total PengambilMakanan dengan status perjalanan
         $totalDipesanMakananPerjalanan = PengambilMakanan::whereIn('status', ['perjalanan'])
             ->whereHas('dataMakanan', function ($query) use ($user) {
                 $query->where('user_id', $user->id);
@@ -191,6 +191,19 @@ class DashboardController extends Controller
         // Hanya jika status perjalanan saat ini 
         if ($item->status === 'perjalanan') {
             $item->status = 'diambil';
+            $item->save();
+        }
+
+        return redirect()->back()->with('success', 'Status pengambilan telah diperbarui!');
+    }
+
+    public function daurUlangSudahDiambil($id)
+    {
+        $item = \App\Models\PengambilDaurUlang::findOrFail($id);
+
+        // Hanya jika status perjalanan saat ini 
+        if ($item->status === 'perjalanan') {
+            $item->status = 'diambil';  
             $item->save();
         }
 

@@ -38,7 +38,6 @@
         <div class="row">
             <div class="col-12">
                 <div class="page-title-container">
-                    <h1 class="mb-0 pb-0 display-4" id="title">Kelola Artikel</h1>
                     <p class="mb-0 text-muted">Kelola semua artikel edukasi lingkungan</p>
                 </div>
             </div>
@@ -53,15 +52,16 @@
                             <h5 class="mb-0 fw-bold">Daftar Artikel</h5>
                             <div class="d-flex gap-2">
                                 <div class="input-group" style="width: 250px;">
-                                    <input type="text" class="form-control" placeholder="Cari artikel...">
+                                    <input type="text" id="searchInput" class="form-control" placeholder="Cari agenda...">
                                     <button class="btn btn-outline-secondary" type="button">
                                         <i data-acorn-icon="search"></i>
                                     </button>
                                 </div>
-                                <select class="form-select" style="width: 150px;">
+                                <!-- Select Status Filter -->
+                                <select id="filterStatus" class="form-select" style="width: 150px;">
                                     <option value="">Semua Status</option>
-                                    <option value="published">Published</option>
-                                    <option value="draft">Draft</option>
+                                    <option value="Published">Published</option>
+                                    <option value="Draft">Draft</option>
                                 </select>
                                 <button class="btn btn-primary d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#buatArtikel">
                                     <i data-acorn-icon="plus"></i>
@@ -71,6 +71,16 @@
                         </div>
 
                         <div class="table-responsive table-scroll">
+                            @php
+                            $userArtikels = $artikels->where('user_id', auth()->id());
+                            @endphp
+
+                            @if($userArtikels->isEmpty())
+                            <div class="d-flex flex-column justify-content-center align-items-center" style="min-height: 250px;">
+                                <img src="{{ asset('img/page/no-data.svg') }}" alt="Tidak ada agenda" class="img-fluid mb-3" style="max-height: 150px;">
+                                <p class="text-center text-muted mb-0">Belum ada agenda terbaru.</p>
+                            </div>
+                            @else
                             <table class="table align-middle" id="dataTable">
                                 <thead>
                                     <tr>
@@ -82,8 +92,12 @@
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
-
-                                <tbody id="tableBody">
+                                <div id="loadingSpinner" class="text-center my-3" style="display: none;">
+                                    <div class="spinner-border text-primary" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                </div>
+                                <tbody id="artikelTableBody">
                                     @foreach($artikels as $artikel)
                                     <tr>
                                         <td>
@@ -111,13 +125,18 @@
                                         <td class="text-nowrap">
                                             <button class="btn btn-sm btn-icon btn-icon-only btn-outline-secondary me-1"
                                                 data-bs-toggle="modal" data-bs-target="#modalEditArtikel{{ $artikel->id }}">
-                                                <i data-acorn-icon="pen"></i>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
+                                                    <path d="M12.854.146a.5.5 0 0 1 .646.058l2.292 2.292a.5.5 0 0 1-.058.646L4.207 14.793 1 15l.207-3.207L12.854.146z" />
+                                                </svg>
                                             </button>
                                             <button class="btn btn-sm btn-icon btn-icon-only btn-outline-danger btnDelete"
                                                 data-slug="{{ $artikel->slug }}"
                                                 data-bs-toggle="modal"
                                                 data-bs-target="#modalDelete">
-                                                <i data-acorn-icon="bin"></i>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                                    <path d="M5.5 5.5A.5.5 0 0 1 6 5h4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0V6H6v6.5a.5.5 0 0 1-1 0v-7z" />
+                                                    <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1 0-2h3.5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1H14a1 1 0 0 1 1 1zm-3.5 1V4h-5v-.5h5z" />
+                                                </svg>
                                             </button>
                                         </td>
                                     </tr>
@@ -139,7 +158,7 @@
                                                         </div>
                                                         <div class="mb-3">
                                                             <label class="form-label">Konten Artikel</label>
-                                                            <textarea class="form-control" name="deskripsi" id="editor-edit" rows="6">{!! $artikel->deskripsi !!}</textarea>
+                                                            <textarea class="form-control" name="deskripsi" id="editor-edit" rows="6">{!! \Illuminate\Support\Str::limit(strip_tags($artikel->deskripsi), 100) !!}</textarea>
                                                         </div>
                                                         <div class="mb-3 row align-items-center">
                                                             <div class="col-md-6">
@@ -163,28 +182,7 @@
                                                                 <option value="tutorial" {{ $artikel->kategori == 'tutorial' ? 'selected' : '' }}>Tutorial</option>
                                                             </select>
                                                         </div>
-                                                        @php
-                                                        $statusOptions = ['Draft', 'Published']; // enum values
-                                                        @endphp
 
-                                                        <div class="mb-3">
-                                                            <label class="form-label">Status</label>
-                                                            <div>
-                                                                @php
-                                                                $statusOptions = ['Draft', 'Published'];
-                                                                @endphp
-                                                                @foreach($statusOptions as $status)
-                                                                <div class="form-check form-check-inline">
-                                                                    <input class="form-check-input" type="radio"
-                                                                        name="status"
-                                                                        id="status_{{ $status }}_{{ $artikel->id }}"
-                                                                        value="{{ $status }}"
-                                                                        {{ $artikel->status == $status ? 'checked' : '' }}>
-                                                                    <label class="form-check-label" for="status_{{ $status }}_{{ $artikel->id }}">{{ $status }}</label>
-                                                                </div>
-                                                                @endforeach
-                                                            </div>
-                                                        </div>
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
@@ -197,6 +195,7 @@
                                     @endforeach
                                 </tbody>
                             </table>
+                            @endif
                         </div>
 
                         <!-- Pagination -->
@@ -300,6 +299,83 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.getElementById('searchInput');
+        const filterStatus = document.getElementById('filterStatus');
+        const tableBody = document.getElementById('artikelTableBody');
+        const spinner = document.getElementById('loadingSpinner');
+        let timeout = null;
+
+        function fetchData() {
+            const status = filterStatus.value;
+            const keyword = searchInput.value;
+            const url = `{{ route('dashboard.artikel.search') }}?status=${encodeURIComponent(status)}&q=${encodeURIComponent(keyword)}`;
+
+            if (spinner) spinner.style.display = 'block';
+
+            fetch(url)
+                .then(response => response.text())
+                .then(html => {
+                    tableBody.innerHTML = html;
+                    if (spinner) spinner.style.display = 'none';
+
+                    // Bind pagination
+                    document.querySelectorAll('#artikelTableBody .pagination a').forEach(link => {
+                        link.addEventListener('click', function(e) {
+                            e.preventDefault();
+                            fetchPage(this.href);
+                        });
+                    });
+                })
+                .catch(err => {
+                    console.error(err);
+                    if (spinner) spinner.style.display = 'none';
+                });
+        }
+
+        function fetchPage(url) {
+            if (spinner) spinner.style.display = 'block';
+            fetch(url)
+                .then(response => response.text())
+                .then(html => {
+                    tableBody.innerHTML = html;
+                    if (spinner) spinner.style.display = 'none';
+
+                    // Ambil query string dari URL
+                    const params = new URL(url).searchParams;
+                    searchInput.value = params.get('q') || '';
+                    filterStatus.value = params.get('status') || '';
+
+                    // Bind pagination baru
+                    document.querySelectorAll('#artikelTableBody .pagination a').forEach(link => {
+                        link.addEventListener('click', function(e) {
+                            e.preventDefault();
+                            fetchPage(this.href);
+                        });
+                    });
+                });
+        }
+
+        // Event input search dengan delay
+        searchInput.addEventListener('keyup', function() {
+            clearTimeout(timeout);
+            timeout = setTimeout(fetchData, 300);
+        });
+
+        // Event select change
+        filterStatus.addEventListener('change', fetchData);
+
+        // Bind pagination awal
+        document.querySelectorAll('#artikelTableBody .pagination a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                fetchPage(this.href);
+            });
+        });
+    });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
         const deleteButtons = document.querySelectorAll('.btnDelete');
         const deleteForm = document.getElementById('deleteForm');
 
@@ -313,24 +389,27 @@
 </script>
 
 <script type="text/javascript">
-  tinymce.init({
-    selector: '#editor-create',
-    plugins: [
-      'advlist', 'autolink', 'link', 'image', 'lists', 'charmap', 'preview', 'anchor', 'pagebreak',
-      'searchreplace', 'wordcount', 'visualblocks', 'visualchars', 'code', 'fullscreen', 'insertdatetime',
-      'media', 'table', 'emoticons', 'help'
-    ],
-    toolbar: 'undo redo | styles | bold italic | alignleft aligncenter alignright alignjustify | ' +
-      'bullist numlist outdent indent | link image | print preview media fullscreen | ' +
-      'forecolor backcolor emoticons | help',
-    menu: {
-      favs: { title: 'My Favorites', items: 'code visualaid | searchreplace | emoticons' }
-    },
-    menubar: 'favs file edit view insert format tools table help',
-  });
-  </script>
+    tinymce.init({
+        selector: '#editor-create',
+        plugins: [
+            'advlist', 'autolink', 'link', 'image', 'lists', 'charmap', 'preview', 'anchor', 'pagebreak',
+            'searchreplace', 'wordcount', 'visualblocks', 'visualchars', 'code', 'fullscreen', 'insertdatetime',
+            'media', 'table', 'emoticons', 'help'
+        ],
+        toolbar: 'undo redo | styles | bold italic | alignleft aligncenter alignright alignjustify | ' +
+            'bullist numlist outdent indent | link image | print preview media fullscreen | ' +
+            'forecolor backcolor emoticons | help',
+        menu: {
+            favs: {
+                title: 'My Favorites',
+                items: 'code visualaid | searchreplace | emoticons'
+            }
+        },
+        menubar: 'favs file edit view insert format tools table help',
+    });
+</script>
 
-  <script type="text/javascript">
+<script type="text/javascript">
     tinymce.init({
         selector: '#editor-edit',
         plugins: [

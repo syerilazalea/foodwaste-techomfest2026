@@ -11,7 +11,9 @@
     "require": {
         "php": "^8.2",
         "ladumor/laravel-pwa": "^0.0.5",
+        "laravel-lang/lang": "^15.26",
         "laravel/framework": "^12.0",
+        "laravel/octane": "^2.13",
         "laravel/reverb": "^1.6",
         "laravel/tinker": "^2.10.1",
         "mews/purifier": "^3.4",
@@ -75,6 +77,12 @@
         ],
         "pre-package-uninstall": [
             "Illuminate\\Foundation\\ComposerScripts::prePackageUninstall"
+        ],
+        "post-install-cmd": [
+            "php artisan config:clear",
+            "php artisan route:clear",
+            "php artisan view:clear",
+            "php artisan optimize"
         ]
     },
     "extra": {

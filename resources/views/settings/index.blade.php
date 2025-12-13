@@ -116,7 +116,16 @@
                                 <div class="mb-3 row">
                                     <label class="col-lg-2 col-md-3 col-sm-4 col-form-label">No Telpon</label>
                                     <div class="col-sm-8 col-md-9 col-lg-10">
-                                        <input type="text" class="form-control" name="phone" value="{{ old('phone', $user->phone) }}" />
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            name="phone"
+                                            id="phoneInput"
+                                            value="{{ old('phone', $user->phone) }}"
+                                            inputmode="numeric"
+                                            minlength="10"
+                                            maxlength="13"
+                                            oninput="this.value = this.value.replace(/[^0-9]/g, '')" />
                                     </div>
                                 </div>
                                 <div class="mb-3 row mt-5">
@@ -185,4 +194,84 @@
     });
 </script>
 
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const form = document.querySelector('form[action="{{ route('settings.updateProfile') }}"]');
+
+    form.addEventListener('submit', function (e) {
+        Swal.fire({
+            title: 'Menyimpan...',
+            text: 'Mohon tunggu sebentar',
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        });
+    });
+});
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const form = document.querySelector('form[action="{{ route('settings.updateKontak') }}"]');
+
+    form.addEventListener('submit', function (e) {
+        Swal.fire({
+            title: 'Menyimpan...',
+            text: 'Mohon tunggu sebentar',
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        });
+    });
+});
+document.getElementById('updateForm').addEventListener('submit', function(e) {
+    const phone = document.getElementById('phoneInput').value;
+
+    if (phone.length < 10) {
+        e.preventDefault(); // hentikan submit
+
+        Swal.fire({
+            icon: 'warning',
+            title: 'Minimal 10 Digit',
+            text: 'Nomor telepon harus memiliki minimal 10 digit.',
+        });
+
+        return false;
+    }
+
+    if (phone.length > 13) {
+        e.preventDefault();
+
+        Swal.fire({
+            icon: 'warning',
+            title: 'Maksimal 13 Digit',
+            text: 'Nomor telepon tidak boleh lebih dari 13 digit.',
+        });
+
+        return false;
+    }
+});
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const form = document.querySelector('form[action="{{ route('settings.updatePassword') }}"]');
+
+    form.addEventListener('submit', function (e) {
+        Swal.fire({
+            title: 'Menyimpan...',
+            text: 'Mohon tunggu sebentar',
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        });
+    });
+});
+</script>
 @endpush
