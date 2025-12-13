@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('agenda', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->string('nama_kegiatan');
             $table->string('slug')->unique();
             $table->text('deskripsi')->nullable();
@@ -21,7 +22,7 @@ return new class extends Migration
             $table->time('waktu_selesai');
             $table->string('lokasi');
             $table->integer('kuota');
-            $table->string('status')->default('Aktif'); // Aktif/Nonaktif
+            $table->string('status')->default('Nonaktif');
             $table->string('gambar')->nullable();
             $table->timestamps();
         });

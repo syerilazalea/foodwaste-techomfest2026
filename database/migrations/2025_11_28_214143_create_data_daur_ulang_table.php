@@ -13,12 +13,16 @@ return new class extends Migration
     {
         Schema::create('data_daur_ulang', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')
+                ->constrained()
+                ->cascadeOnDelete();
+            $table->unsignedBigInteger('data_makanan_id')->nullable();
             $table->string('nama');
             $table->string('penyedia');
             $table->enum('kategori', ['UMKM', 'Restoran', 'Hotel', 'Rumah Tangga']);
             $table->string('alamat');
-            $table->decimal('berat', 8, 2); // misal 2.4 kg
-            $table->time('batas_waktu');
+            $table->decimal('berat', 8, 2);
+            $table->dateTime('batas_waktu');
             $table->string('gambar')->nullable();
             $table->timestamps();
         });

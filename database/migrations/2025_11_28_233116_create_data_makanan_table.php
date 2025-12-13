@@ -13,14 +13,17 @@ return new class extends Migration
     {
         Schema::create('data_makanan', function (Blueprint $table) {
             $table->id();
-            $table->string('nama'); // nama item
-            $table->string('penyedia'); // nama penyedia
-            $table->enum('kategori', ['UMKM','Restoran','Hotel','Rumah Tangga']); // kategori
-            $table->string('alamat'); // alamat penyedia
-            $table->integer('porsi'); // jumlah porsi
-            $table->time('batas_waktu'); // batas waktu pengambilan
-            $table->string('gambar')->nullable(); // path foto
-            $table->timestamps(); // created_at & updated_at
+            $table->foreignId('user_id')
+                ->constrained()
+                ->cascadeOnDelete();
+            $table->string('nama');
+            $table->string('penyedia');
+            $table->enum('kategori', ['UMKM','Restoran','Hotel','Rumah Tangga']);
+            $table->string('alamat');
+            $table->integer('porsi');
+            $table->dateTime('batas_waktu');
+            $table->string('gambar')->nullable();
+            $table->timestamps();
         });
     }
 

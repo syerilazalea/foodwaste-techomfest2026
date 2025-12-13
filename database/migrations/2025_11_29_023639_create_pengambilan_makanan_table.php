@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('pengambilan_makanan', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade'); // user yang mengambil
-            $table->foreignId('data_makanan_id')->constrained('data_makanan')->onDelete('cascade'); // makanan yang diambil
-            $table->integer('jumlah'); // jumlah yang diambil
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('data_makanan_id')->constrained('data_makanan')->onDelete('cascade');
+            $table->integer('jumlah');
             $table->enum('status', ['menunggu', 'perjalanan', 'diambil'])->default('menunggu');
             $table->timestamps();
         });

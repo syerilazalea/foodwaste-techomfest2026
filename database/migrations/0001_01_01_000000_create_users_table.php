@@ -21,7 +21,8 @@ return new class extends Migration
             $table->enum('role', ['user', 'aktivis'])->default('user');
             $table->string('alamat')->nullable();
             $table->string('organisasi')->nullable();
-            $table->string('gambar')->default('default.png'); // Tambahan gambar
+            $table->string('gambar')->default('img/user/default.png');
+             $table->text('iframe_maps')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

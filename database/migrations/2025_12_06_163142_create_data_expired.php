@@ -11,8 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('data_expired', function (Blueprint $table) {
+        Schema::create('data_expired', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->unsignedBigInteger('data_makanan_id')->nullable();
             $table->timestamp('expired_at')->nullable();
             $table->timestamps();
         });

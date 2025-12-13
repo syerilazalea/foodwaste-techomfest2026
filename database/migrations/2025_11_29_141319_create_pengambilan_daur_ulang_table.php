@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('pengambilan_daur_ulang', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade'); // user yang mengambil
-            $table->foreignId('data_daur_ulang_id')->constrained('data_daur_ulang')->onDelete('cascade'); // makanan yang diambil
-            $table->decimal('jumlah', 8, 2); // misal 2.4 kg
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('data_daur_ulang_id')->constrained('data_daur_ulang')->onDelete('cascade');
+            $table->decimal('jumlah', 8, 2);
             $table->enum('status', ['menunggu', 'perjalanan', 'diambil'])->default('menunggu');
             $table->timestamps();
         });

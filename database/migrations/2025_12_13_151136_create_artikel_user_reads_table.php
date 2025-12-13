@@ -18,7 +18,7 @@ return new class extends Migration
             $table->timestamp('last_read_at')->nullable();
             $table->timestamps();
 
-            $table->unique(['user_id', 'artikel_id']); // agar tiap user-artikel unik
+            $table->unique(['user_id', 'artikel_id']);
         });
     }
 
