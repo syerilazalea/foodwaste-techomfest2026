@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.3
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Dec 10, 2025 at 05:01 AM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- Host: localhost:3306
+-- Generation Time: Dec 13, 2025 at 08:15 AM
+-- Server version: 8.0.44
+-- PHP Version: 8.3.28
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -28,18 +28,18 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `agenda` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `user_id` bigint(20) UNSIGNED NOT NULL,
-  `nama_kegiatan` varchar(255) NOT NULL,
-  `slug` varchar(255) NOT NULL,
-  `deskripsi` text DEFAULT NULL,
+  `id` bigint UNSIGNED NOT NULL,
+  `user_id` bigint UNSIGNED NOT NULL,
+  `nama_kegiatan` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `slug` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `deskripsi` text COLLATE utf8mb4_unicode_ci,
   `tanggal` date NOT NULL,
   `waktu_mulai` time NOT NULL,
   `waktu_selesai` time NOT NULL,
-  `lokasi` varchar(255) NOT NULL,
-  `kuota` int(11) NOT NULL,
-  `status` enum('Aktif','Nonaktif') NOT NULL DEFAULT 'Aktif',
-  `gambar` varchar(255) DEFAULT NULL,
+  `lokasi` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `kuota` int NOT NULL,
+  `status` enum('Aktif','Nonaktif') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Aktif',
+  `gambar` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -52,7 +52,6 @@ INSERT INTO `agenda` (`id`, `user_id`, `nama_kegiatan`, `slug`, `deskripsi`, `ta
 (2, 4, 'sbouaadsvausd ausda sdaosdjas da sd', 'sbouaadsvausd-ausda-sdaosdjas-da-sd', 'asdoaus dausdbasd oabsjd', '2025-12-04', '18:16:00', '09:10:00', 'Malang', 12, 'Aktif', 'img/agenda/sbouaadsvausd-ausda-sdaosdjas-da-sd_1764450683.jpeg', '2025-11-29 14:11:06', '2025-11-29 14:11:23'),
 (3, 4, 'hahahahahhhaaaa', 'hahahahahhhaaaa', 'asdbasoda sduahsdoasndpas diapsbdiasd babsbbbabbas ahhhh', '2025-11-08', '10:12:00', '04:18:00', 'Surabaya', 22, 'Aktif', 'img/agenda/garcia-ferandan-aldsa-sakda_1764450780.jpeg', '2025-11-29 14:13:00', '2025-12-07 13:01:04'),
 (4, 4, 'sbouaadsvausdsdaosdjas da sd', 'sbouaadsvausdsdaosdjas da sd', 'asdoaus dausdbasd oabsjd', '2025-12-04', '18:16:00', '09:10:00', 'Malang', 12, 'Aktif', 'img/agenda/sbouaadsvausd-ausda-sdaosdjas-da-sd_1764450683.jpeg', '2025-11-29 14:11:06', '2025-11-29 14:11:23'),
-(5, 4, 'bawahsoibdaosoasbuoa sudasdbk', 'bawahsoibdaosoasbuoa sudasdbk', 'asdbasoda sduahsdoasndpas diapsbdiasd babsbbbabbas ahhhh', '2025-11-08', '10:12:00', '04:18:00', 'Surabaya', 22, 'Nonaktif', 'img/agenda/garcia-ferandan-aldsa-sakda_1764450780.jpeg', '2025-11-29 14:13:00', '2025-11-29 19:29:07'),
 (6, 4, 'sbouaadsvausd ausda sdaoasdasdsdjas da sd', 'sbouaadsvausd ausda sdaoasdasdsdjas da sd', 'asdoaus dausdbasd oabsjd', '2025-12-04', '18:16:00', '09:10:00', 'Malang', 12, 'Aktif', 'img/agenda/sbouaadsvausd-ausda-sdaosdjas-da-sd_1764450683.jpeg', '2025-11-29 14:11:06', '2025-11-29 14:11:23'),
 (7, 4, 'bawahsoibdaosoasbuodbasdou aa sudasdbk', 'bawahsoibdaosoasbuodbasdou aa sudasdbk', 'asdbasoda sduahsdoasndpas diapsbdiasd babsbbbabbas ahhhh', '2025-11-08', '10:12:00', '04:18:00', 'Surabaya', 22, 'Nonaktif', 'img/agenda/garcia-ferandan-aldsa-sakda_1764450780.jpeg', '2025-11-29 14:13:00', '2025-11-29 19:29:07'),
 (13, 4, 'valen', 'valen', 'dsad', '2025-12-03', '22:43:00', '23:43:00', 'Malang', 12, 'Aktif', 'img/agenda/valen_1764778591.png', '2025-12-03 08:43:21', '2025-12-03 09:16:31'),
@@ -66,30 +65,56 @@ INSERT INTO `agenda` (`id`, `user_id`, `nama_kegiatan`, `slug`, `deskripsi`, `ta
 --
 
 CREATE TABLE `artikels` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `user_id` bigint(20) UNSIGNED NOT NULL,
-  `gambar` varchar(255) DEFAULT NULL,
-  `judul` varchar(255) NOT NULL,
-  `deskripsi` text DEFAULT NULL,
-  `kategori` varchar(255) NOT NULL,
-  `status` enum('Published','Draft') NOT NULL DEFAULT 'Draft',
-  `slug` varchar(255) NOT NULL,
+  `id` bigint UNSIGNED NOT NULL,
+  `user_id` bigint UNSIGNED NOT NULL,
+  `gambar` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `judul` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `deskripsi` text COLLATE utf8mb4_unicode_ci,
+  `kategori` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` enum('Published','Draft') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Draft',
+  `slug` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `last_read_at` timestamp NULL DEFAULT NULL COMMENT 'Waktu terakhir artikel dibaca oleh user'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `artikels`
 --
 
-INSERT INTO `artikels` (`id`, `user_id`, `gambar`, `judul`, `deskripsi`, `kategori`, `status`, `slug`, `created_at`, `updated_at`) VALUES
-(4, 4, 'img/artikel/asdasndibasidbasidbais-garcia_1764458997.png', 'asdasndibasidbasidbais garcia asda', 'dasbdoaasdl asldasdkasnd', 'edukasi', 'Published', 'asdasndibasidbasidbais-garcia-asda', '2025-11-29 16:29:57', '2025-11-29 19:15:33'),
-(5, 4, 'img/artikel/asbdaoudbaso-dauosvdaosdbas-d-asipdhaisda-spdh_1764459229.png', 'asbdaoudbaso dauosvdaosdbas d asipdhaisda spdh', 'askdbapsidas daisdhasidas d-asojda sdpahsidpb', 'edukasi', 'Published', 'asbdaoudbaso-dauosvdaosdbas-d-asipdhaisda-spdh', '2025-11-29 16:33:49', '2025-12-07 12:55:22'),
-(10, 4, 'img/artikel/asdasndibasidbasidbais-garcia_1764458997.png', 'garcia asda', 'dasbdoaasdl asldasdkasnd', 'edukasi', 'Published', 'garcia asda', '2025-11-29 16:29:57', '2025-11-29 19:15:33'),
-(11, 4, 'img/artikel/asbdaoudbaso-dauosvdaosdbas-d-asipdhaisda-spdh_1764459229.png', 'dauosvdaosdbas d asipdhaisda spdh', 'askdbapsidas daisdhasidas d-asojda sdpahsidpb', 'edukasi', 'Published', 'dauosvdaosdbas-d-asipdhaisda-spdh', '2025-11-29 16:33:49', '2025-12-07 13:32:41'),
-(12, 4, 'img/artikel/asbdaoudbaso-dauosvdaosdbas-d-asipdhaisda-spdh_1764459229.png', 'asbdaoudbasod asipdhaisda spdh', 'askdbapsidas daisdhasidas d-asojda sdpahsidpb', 'edukasi', 'Draft', 'asbdaoudbasod asipdhaisda spdh', '2025-11-29 16:33:49', '2025-11-29 19:16:29'),
-(13, 4, 'img/artikel/asbdaoudbaso-dauosvdaosdbas-d-asipdhaisda-spdh_1764459229.png', 'dauosvdaosd spdh', 'askdbapsidas daisdhasidas d-asojda sdpahsidpb', 'edukasi', 'Draft', 'dauosvdaosd spdh', '2025-11-19 16:33:49', '2025-11-29 19:16:29'),
-(15, 4, 'img/artikel/asdbasdvsa_1764786099.png', 'asdbasdvsa', '<p>ausvdaiusdv Vdshdad<strong>uagsduasgd<em>siuauvdausdbau<br>1. asudausdb<br></em></strong></p>', 'tips & trik', 'Published', 'asdbasdvsa', '2025-12-03 11:21:39', '2025-12-07 13:32:38');
+INSERT INTO `artikels` (`id`, `user_id`, `gambar`, `judul`, `deskripsi`, `kategori`, `status`, `slug`, `created_at`, `updated_at`, `last_read_at`) VALUES
+(4, 4, 'img/artikel/asdasndibasidbasidbais-garcia_1764458997.png', 'asdasndibasidbasidbais garcia asda', 'dasbdoaasdl asldasdkasnd', 'edukasi', 'Published', 'asdasndibasidbasidbais-garcia-asda', '2025-11-29 16:29:57', '2025-11-29 19:15:33', NULL),
+(5, 4, 'img/artikel/asbdaoudbaso-dauosvdaosdbas-d-asipdhaisda-spdh_1764459229.png', 'asbdaoudbaso dauosvdaosdbas d asipdhaisda spdh', 'askdbapsidas daisdhasidas d-asojda sdpahsidpb', 'edukasi', 'Published', 'asbdaoudbaso-dauosvdaosdbas-d-asipdhaisda-spdh', '2025-11-29 16:33:49', '2025-12-07 12:55:22', NULL),
+(10, 4, 'img/artikel/asdasndibasidbasidbais-garcia_1764458997.png', 'garcia asda', 'dasbdoaasdl asldasdkasnd', 'edukasi', 'Published', 'garcia asda', '2025-11-29 16:29:57', '2025-11-29 19:15:33', NULL),
+(11, 4, 'img/artikel/asbdaoudbaso-dauosvdaosdbas-d-asipdhaisda-spdh_1764459229.png', 'dauosvdaosdbas d asipdhaisda spdh', 'askdbapsidas daisdhasidas d-asojda sdpahsidpb', 'edukasi', 'Published', 'dauosvdaosdbas-d-asipdhaisda-spdh', '2025-11-29 16:33:49', '2025-12-07 13:32:41', NULL),
+(12, 4, 'img/artikel/asbdaoudbaso-dauosvdaosdbas-d-asipdhaisda-spdh_1764459229.png', 'asbdaoudbasod asipdhaisda spdh', 'askdbapsidas daisdhasidas d-asojda sdpahsidpb', 'edukasi', 'Draft', 'asbdaoudbasod asipdhaisda spdh', '2025-11-29 16:33:49', '2025-11-29 19:16:29', NULL),
+(13, 4, 'img/artikel/asbdaoudbaso-dauosvdaosdbas-d-asipdhaisda-spdh_1764459229.png', 'dauosvdaosd spdh', 'askdbapsidas daisdhasidas d-asojda sdpahsidpb', 'edukasi', 'Draft', 'dauosvdaosd spdh', '2025-11-19 16:33:49', '2025-11-29 19:16:29', NULL),
+(15, 4, 'img/artikel/asdbasdvsa_1764786099.png', 'asdbasdvsa', '<p>ausvdaiusdv Vdshdad<strong>uagsduasgd<em>siuauvdausdbau<br>1. asudausdb<br></em></strong></p>', 'berita', 'Published', 'asdbasdvsa', '2025-12-03 11:21:39', '2025-12-13 08:10:44', '2025-12-13 08:10:44'),
+(16, 4, 'img/artikel/asdasndibasidbasidbais_1765611810.png', 'asdasndibasidbasidbais', '<p>asdddasd</p>', 'education', 'Published', 'asdasndibasidbasidbais', '2025-12-13 07:43:30', '2025-12-13 08:10:39', '2025-12-13 08:10:39');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `artikel_user_reads`
+--
+
+CREATE TABLE `artikel_user_reads` (
+  `id` bigint UNSIGNED NOT NULL,
+  `user_id` bigint UNSIGNED NOT NULL,
+  `artikel_id` bigint UNSIGNED NOT NULL,
+  `last_read_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `artikel_user_reads`
+--
+
+INSERT INTO `artikel_user_reads` (`id`, `user_id`, `artikel_id`, `last_read_at`, `created_at`, `updated_at`) VALUES
+(1, 4, 15, '2025-12-13 08:14:06', '2025-12-13 08:13:54', '2025-12-13 08:14:06'),
+(2, 4, 16, '2025-12-13 08:14:12', '2025-12-13 08:14:12', '2025-12-13 08:14:12'),
+(3, 6, 16, '2025-12-13 08:15:02', '2025-12-13 08:14:57', '2025-12-13 08:15:02');
 
 -- --------------------------------------------------------
 
@@ -98,9 +123,9 @@ INSERT INTO `artikels` (`id`, `user_id`, `gambar`, `judul`, `deskripsi`, `katego
 --
 
 CREATE TABLE `cache` (
-  `key` varchar(255) NOT NULL,
-  `value` mediumtext NOT NULL,
-  `expiration` int(11) NOT NULL
+  `key` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `value` mediumtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `expiration` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -110,9 +135,9 @@ CREATE TABLE `cache` (
 --
 
 CREATE TABLE `cache_locks` (
-  `key` varchar(255) NOT NULL,
-  `owner` varchar(255) NOT NULL,
-  `expiration` int(11) NOT NULL
+  `key` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `owner` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `expiration` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -122,16 +147,16 @@ CREATE TABLE `cache_locks` (
 --
 
 CREATE TABLE `data_daur_ulang` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `user_id` bigint(20) UNSIGNED NOT NULL,
-  `data_makanan_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `nama` varchar(255) NOT NULL,
-  `penyedia` varchar(255) NOT NULL,
-  `kategori` enum('UMKM','Restoran','Hotel','Rumah Tangga') NOT NULL,
-  `alamat` varchar(255) NOT NULL,
+  `id` bigint UNSIGNED NOT NULL,
+  `user_id` bigint UNSIGNED NOT NULL,
+  `data_makanan_id` bigint UNSIGNED DEFAULT NULL,
+  `nama` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `penyedia` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `kategori` enum('UMKM','Restoran','Hotel','Rumah Tangga') COLLATE utf8mb4_unicode_ci NOT NULL,
+  `alamat` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `berat` decimal(8,2) NOT NULL,
   `batas_waktu` time NOT NULL,
-  `gambar` varchar(255) DEFAULT NULL,
+  `gambar` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -142,13 +167,17 @@ CREATE TABLE `data_daur_ulang` (
 
 INSERT INTO `data_daur_ulang` (`id`, `user_id`, `data_makanan_id`, `nama`, `penyedia`, `kategori`, `alamat`, `berat`, `batas_waktu`, `gambar`, `created_at`, `updated_at`) VALUES
 (57, 4, NULL, 'asdad', 'asbd', 'Restoran', 'jl. tanimbar no.23', 17.00, '23:35:00', 'img/dataDaurUlang/asdad_1765024545.png', '2025-12-06 12:35:45', '2025-12-06 12:36:12'),
-(58, 4, NULL, 'asdad', 'asbd', 'Restoran', 'jl. tanimbar no.23', 17.00, '23:35:00', 'img/dataDaurUlang/asdad_1765024545.png', '2025-12-06 12:35:45', '2025-12-06 12:36:12'),
+(58, 4, NULL, 'asdad', 'asbd', 'Rumah Tangga', 'jl. tanimbar no.23', 17.00, '23:35:00', 'img/dataDaurUlang/asdad_1765024545.png', '2025-12-06 12:35:45', '2025-12-12 14:40:49'),
 (59, 4, NULL, 'asdad', 'asbd', 'Restoran', 'jl. tanimbar no.23', 17.00, '23:35:00', 'img/dataDaurUlang/asdad_1765024545.png', '2025-12-06 12:35:45', '2025-12-06 12:36:12'),
 (60, 4, NULL, 'asdad', 'asbd', 'Restoran', 'jl. tanimbar no.23', 17.00, '23:35:00', 'img/dataDaurUlang/asdad_1765024545.png', '2025-12-06 12:35:45', '2025-12-06 12:36:12'),
 (61, 4, NULL, 'asdad', 'asbd', 'Restoran', 'jl. tanimbar no.23', 17.00, '23:35:00', 'img/dataDaurUlang/asdad_1765024545.png', '2025-12-06 12:35:45', '2025-12-06 12:36:12'),
 (62, 4, NULL, 'asdad', 'asbd', 'Restoran', 'jl. tanimbar no.23', 17.00, '23:35:00', 'img/dataDaurUlang/asdad_1765024545.png', '2025-12-06 12:35:45', '2025-12-06 12:36:12'),
 (63, 4, NULL, 'asdad', 'asbd', 'Restoran', 'jl. tanimbar no.23', 17.00, '23:35:00', 'img/dataDaurUlang/asdad_1765024545.png', '2025-12-06 12:35:45', '2025-12-06 12:36:12'),
-(64, 4, NULL, 'asdad', 'asbd', 'Restoran', 'jl. tanimbar no.23', 17.00, '23:35:00', 'img/dataDaurUlang/asdad_1765024545.png', '2025-12-06 12:35:45', '2025-12-06 12:36:12');
+(64, 4, NULL, 'asdad', 'asbd', 'Restoran', 'jl. tanimbar no.23', 17.00, '23:35:00', 'img/dataDaurUlang/asdad_1765024545.png', '2025-12-06 12:35:45', '2025-12-06 12:36:12'),
+(69, 4, 41, 'Ayam Geprek', 'Pribadi', 'Rumah Tangga', 'jl. tanimbar no.23', 1.00, '22:28:00', 'img/dataMakanan/ayam-geprek_1765548673.png', '2025-12-12 16:04:49', '2025-12-12 16:04:49'),
+(70, 4, 42, 'Ayam Geprek', 'Pribadi', 'Restoran', 'jl. tanimbar no.23', 1.00, '22:28:00', 'img/dataMakanan/ayam-geprek_1765548856.png', '2025-12-12 16:04:49', '2025-12-12 16:04:49'),
+(71, 4, 44, 'Ayam Geprek', 'Pribadi', 'Rumah Tangga', 'jl. tanimbar no.23', 1.00, '22:28:00', 'img/dataMakanan/ayam-geprek_1765016906.png', '2025-12-12 16:04:49', '2025-12-12 16:04:49'),
+(72, 4, 46, 'Ayam Geprek', 'Pribadi', 'Rumah Tangga', 'jl. tanimbar no.23', 1.00, '22:28:00', 'img/dataMakanan/ayam-geprek_1765016906.png', '2025-12-12 16:04:49', '2025-12-12 16:04:49');
 
 -- --------------------------------------------------------
 
@@ -157,13 +186,26 @@ INSERT INTO `data_daur_ulang` (`id`, `user_id`, `data_makanan_id`, `nama`, `peny
 --
 
 CREATE TABLE `data_expired` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `user_id` bigint(20) UNSIGNED NOT NULL,
-  `data_makanan_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `id` bigint UNSIGNED NOT NULL,
+  `user_id` bigint UNSIGNED NOT NULL,
+  `data_makanan_id` bigint UNSIGNED DEFAULT NULL,
   `expired_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `data_expired`
+--
+
+INSERT INTO `data_expired` (`id`, `user_id`, `data_makanan_id`, `expired_at`, `created_at`, `updated_at`) VALUES
+(6, 12, 50, '2025-12-12 12:35:00', '2025-12-12 12:35:00', '2025-12-12 12:35:00'),
+(7, 12, 51, '2025-12-12 12:40:30', '2025-12-12 12:40:30', '2025-12-12 12:40:30'),
+(8, 12, 52, '2025-12-12 12:43:49', '2025-12-12 12:43:49', '2025-12-12 12:43:49'),
+(9, 4, 41, '2025-12-12 16:04:49', '2025-12-12 16:04:49', '2025-12-12 16:04:49'),
+(10, 4, 42, '2025-12-12 16:04:49', '2025-12-12 16:04:49', '2025-12-12 16:04:49'),
+(11, 4, 44, '2025-12-12 16:04:49', '2025-12-12 16:04:49', '2025-12-12 16:04:49'),
+(12, 4, 46, '2025-12-12 16:04:49', '2025-12-12 16:04:49', '2025-12-12 16:04:49');
 
 -- --------------------------------------------------------
 
@@ -172,15 +214,15 @@ CREATE TABLE `data_expired` (
 --
 
 CREATE TABLE `data_makanan` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `user_id` bigint(20) UNSIGNED NOT NULL,
-  `nama` varchar(255) NOT NULL,
-  `penyedia` varchar(255) NOT NULL,
-  `kategori` enum('UMKM','Restoran','Hotel','Rumah Tangga') NOT NULL,
-  `alamat` varchar(255) NOT NULL,
-  `porsi` int(11) NOT NULL,
+  `id` bigint UNSIGNED NOT NULL,
+  `user_id` bigint UNSIGNED NOT NULL,
+  `nama` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `penyedia` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `kategori` enum('UMKM','Restoran','Hotel','Rumah Tangga') COLLATE utf8mb4_unicode_ci NOT NULL,
+  `alamat` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `porsi` int NOT NULL,
   `batas_waktu` time NOT NULL,
-  `gambar` varchar(255) DEFAULT NULL,
+  `gambar` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -190,13 +232,7 @@ CREATE TABLE `data_makanan` (
 --
 
 INSERT INTO `data_makanan` (`id`, `user_id`, `nama`, `penyedia`, `kategori`, `alamat`, `porsi`, `batas_waktu`, `gambar`, `created_at`, `updated_at`) VALUES
-(41, 4, 'Ayam Geprek', 'Pribadi', 'Rumah Tangga', 'jl. tanimbar no.23', 1, '22:28:00', 'img/dataMakanan/ayam-geprek_1765016906.png', '2025-12-06 10:28:26', '2025-12-06 10:29:12'),
-(42, 4, 'Ayam Geprek', 'Pribadi', 'Rumah Tangga', 'jl. tanimbar no.23', 1, '22:28:00', 'img/dataMakanan/ayam-geprek_1765016906.png', '2025-12-06 10:28:26', '2025-12-06 10:29:12'),
-(43, 4, 'Ayam Geprek', 'Pribadi', 'Rumah Tangga', 'jl. tanimbar no.23', 1, '22:28:00', 'img/dataMakanan/ayam-geprek_1765016906.png', '2025-12-06 10:28:26', '2025-12-06 10:29:12'),
-(44, 4, 'Ayam Geprek', 'Pribadi', 'Rumah Tangga', 'jl. tanimbar no.23', 1, '22:28:00', 'img/dataMakanan/ayam-geprek_1765016906.png', '2025-12-06 10:28:26', '2025-12-06 10:29:12'),
-(45, 4, 'Ayam Geprek', 'Pribadi', 'Rumah Tangga', 'jl. tanimbar no.23', 1, '22:28:00', 'img/dataMakanan/ayam-geprek_1765016906.png', '2025-12-06 10:28:26', '2025-12-06 10:29:12'),
-(46, 4, 'Ayam Geprek', 'Pribadi', 'Rumah Tangga', 'jl. tanimbar no.23', 1, '22:28:00', 'img/dataMakanan/ayam-geprek_1765016906.png', '2025-12-06 10:28:26', '2025-12-06 10:29:12'),
-(47, 4, 'Ayam Geprek', 'Pribadi', 'Rumah Tangga', 'jl. tanimbar no.23', 1, '22:28:00', 'img/dataMakanan/ayam-geprek_1765016906.png', '2025-12-06 10:28:26', '2025-12-06 10:29:12');
+(54, 12, 'PT. Indofood', '123asasd', 'Hotel', 'Jl. tower', 10, '23:45:00', 'img/dataMakanan/pt-indofood_1765544942.png', '2025-12-12 12:45:14', '2025-12-12 16:31:55');
 
 -- --------------------------------------------------------
 
@@ -205,13 +241,13 @@ INSERT INTO `data_makanan` (`id`, `user_id`, `nama`, `penyedia`, `kategori`, `al
 --
 
 CREATE TABLE `failed_jobs` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `uuid` varchar(255) NOT NULL,
-  `connection` text NOT NULL,
-  `queue` text NOT NULL,
-  `payload` longtext NOT NULL,
-  `exception` longtext NOT NULL,
-  `failed_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `id` bigint UNSIGNED NOT NULL,
+  `uuid` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `connection` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `queue` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `exception` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `failed_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -221,13 +257,13 @@ CREATE TABLE `failed_jobs` (
 --
 
 CREATE TABLE `jobs` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `queue` varchar(255) NOT NULL,
-  `payload` longtext NOT NULL,
-  `attempts` tinyint(3) UNSIGNED NOT NULL,
-  `reserved_at` int(10) UNSIGNED DEFAULT NULL,
-  `available_at` int(10) UNSIGNED NOT NULL,
-  `created_at` int(10) UNSIGNED NOT NULL
+  `id` bigint UNSIGNED NOT NULL,
+  `queue` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `attempts` tinyint UNSIGNED NOT NULL,
+  `reserved_at` int UNSIGNED DEFAULT NULL,
+  `available_at` int UNSIGNED NOT NULL,
+  `created_at` int UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -237,16 +273,16 @@ CREATE TABLE `jobs` (
 --
 
 CREATE TABLE `job_batches` (
-  `id` varchar(255) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `total_jobs` int(11) NOT NULL,
-  `pending_jobs` int(11) NOT NULL,
-  `failed_jobs` int(11) NOT NULL,
-  `failed_job_ids` longtext NOT NULL,
-  `options` mediumtext DEFAULT NULL,
-  `cancelled_at` int(11) DEFAULT NULL,
-  `created_at` int(11) NOT NULL,
-  `finished_at` int(11) DEFAULT NULL
+  `id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `total_jobs` int NOT NULL,
+  `pending_jobs` int NOT NULL,
+  `failed_jobs` int NOT NULL,
+  `failed_job_ids` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `options` mediumtext COLLATE utf8mb4_unicode_ci,
+  `cancelled_at` int DEFAULT NULL,
+  `created_at` int NOT NULL,
+  `finished_at` int DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -256,13 +292,13 @@ CREATE TABLE `job_batches` (
 --
 
 CREATE TABLE `messages` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `user_id` bigint(20) UNSIGNED NOT NULL,
-  `receiver_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `message` text NOT NULL,
+  `id` bigint UNSIGNED NOT NULL,
+  `user_id` bigint UNSIGNED NOT NULL,
+  `receiver_id` bigint UNSIGNED DEFAULT NULL,
+  `message` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `is_read` tinyint(1) NOT NULL DEFAULT 0
+  `is_read` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -285,9 +321,9 @@ INSERT INTO `messages` (`id`, `user_id`, `receiver_id`, `message`, `created_at`,
 --
 
 CREATE TABLE `migrations` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `migration` varchar(255) NOT NULL,
-  `batch` int(11) NOT NULL
+  `id` int UNSIGNED NOT NULL,
+  `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `batch` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -318,7 +354,9 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (21, '2025_12_06_164150_update_data_makanan_id_on_data_expired', 19),
 (22, '2025_12_06_164836_update_data_daur_ulang_for_safe_delete', 20),
 (23, '2025_12_06_165026_update_data_expired_for_safe_delete', 21),
-(24, '2025_12_09_041646_add_is_read_to_messages_table', 22);
+(24, '2025_12_09_041646_add_is_read_to_messages_table', 22),
+(25, '2025_12_13_150358_add_last_read_at_to_artikels_table', 23),
+(26, '2025_12_13_151136_create_artikel_user_reads_table', 24);
 
 -- --------------------------------------------------------
 
@@ -327,8 +365,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 --
 
 CREATE TABLE `password_reset_tokens` (
-  `email` varchar(255) NOT NULL,
-  `token` varchar(255) NOT NULL,
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -339,11 +377,11 @@ CREATE TABLE `password_reset_tokens` (
 --
 
 CREATE TABLE `pengambilan_daur_ulang` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `user_id` bigint(20) UNSIGNED NOT NULL,
-  `data_daur_ulang_id` bigint(20) UNSIGNED NOT NULL,
+  `id` bigint UNSIGNED NOT NULL,
+  `user_id` bigint UNSIGNED NOT NULL,
+  `data_daur_ulang_id` bigint UNSIGNED NOT NULL,
   `jumlah` decimal(8,2) NOT NULL,
-  `status` enum('menunggu','perjalanan','diambil') NOT NULL DEFAULT 'menunggu',
+  `status` enum('menunggu','perjalanan','diambil') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'menunggu',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -353,7 +391,7 @@ CREATE TABLE `pengambilan_daur_ulang` (
 --
 
 INSERT INTO `pengambilan_daur_ulang` (`id`, `user_id`, `data_daur_ulang_id`, `jumlah`, `status`, `created_at`, `updated_at`) VALUES
-(5, 6, 57, 4.00, 'menunggu', '2025-12-06 12:36:12', '2025-12-06 12:36:12');
+(5, 6, 57, 4.00, 'perjalanan', '2025-12-06 12:36:12', '2025-12-12 16:12:46');
 
 -- --------------------------------------------------------
 
@@ -362,11 +400,11 @@ INSERT INTO `pengambilan_daur_ulang` (`id`, `user_id`, `data_daur_ulang_id`, `ju
 --
 
 CREATE TABLE `pengambilan_makanan` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `user_id` bigint(20) UNSIGNED NOT NULL,
-  `data_makanan_id` bigint(20) UNSIGNED NOT NULL,
-  `jumlah` int(11) NOT NULL,
-  `status` enum('menunggu','perjalanan','diambil') NOT NULL DEFAULT 'menunggu',
+  `id` bigint UNSIGNED NOT NULL,
+  `user_id` bigint UNSIGNED NOT NULL,
+  `data_makanan_id` bigint UNSIGNED NOT NULL,
+  `jumlah` int NOT NULL,
+  `status` enum('menunggu','perjalanan','diambil') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'menunggu',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -376,7 +414,7 @@ CREATE TABLE `pengambilan_makanan` (
 --
 
 INSERT INTO `pengambilan_makanan` (`id`, `user_id`, `data_makanan_id`, `jumlah`, `status`, `created_at`, `updated_at`) VALUES
-(5, 6, 41, 1, 'menunggu', '2025-12-06 10:29:12', '2025-12-06 10:51:54');
+(6, 6, 54, 2, 'perjalanan', '2025-12-12 16:31:55', '2025-12-12 16:32:08');
 
 -- --------------------------------------------------------
 
@@ -385,12 +423,12 @@ INSERT INTO `pengambilan_makanan` (`id`, `user_id`, `data_makanan_id`, `jumlah`,
 --
 
 CREATE TABLE `sessions` (
-  `id` varchar(255) NOT NULL,
-  `user_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `ip_address` varchar(45) DEFAULT NULL,
-  `user_agent` text DEFAULT NULL,
-  `payload` longtext NOT NULL,
-  `last_activity` int(11) NOT NULL
+  `id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `user_id` bigint UNSIGNED DEFAULT NULL,
+  `ip_address` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `user_agent` text COLLATE utf8mb4_unicode_ci,
+  `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `last_activity` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -409,6 +447,7 @@ INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, 
 ('e49kci5j3aubTLNHEZ8jdqLpwFNBBE81zFEXWMjR', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiaWFSbGhRb2VOb1huRm5VcUVzQXpoN3k3V0w0TkFGM3lnc1hiYlBKNiI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MjY6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9ob21lIjtzOjU6InJvdXRlIjtzOjEwOiJob21lLmluZGV4Ijt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1764486270),
 ('eJsriyufttCqPJppHnks20xfqf5ml4VdnhMvFB5x', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiaThsV2NGUFR1eHpTN1dvblVmTWxYc1JTTVlkcnRkRDVsSmRja25ZRSI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6NDM6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9hcnRpa2VsL21hbmlmZXN0Lmpzb24iO3M6NToicm91dGUiO3M6MTI6ImFydGlrZWwuc2hvdyI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1764474652),
 ('fROcNhsQPHncdhwt3HKMOJN42lNLBi0bhAUVQSEW', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiRVhpZkRQR2VXbXlHOWhaTjFKNEV0dVVGaUxuckJacXllQVJjRnR1bCI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6NDM6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9hcnRpa2VsL21hbmlmZXN0Lmpzb24iO3M6NToicm91dGUiO3M6MTI6ImFydGlrZWwuc2hvdyI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1764474640),
+('GOi8duQG0lvZoLAUzWiWFL29X0xCRxlH0x5WIBn8', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoicVgwV1U4YjdmVXcwU1pPejh6NDFoMkQwZURtZXVJbG9SczJyNXYzVCI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6MjY6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9ob21lIjtzOjU6InJvdXRlIjtzOjEwOiJob21lLmluZGV4Ijt9fQ==', 1765613712),
 ('hNtw7dc0BY7pkl8bCbW8xFlGiwATNEqjjBarD57O', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoiMFBjSFczS1B4a0tOMEpFOFJIVjM4dEgyZHoya1hrY2pFYjlYSzNXUSI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6Mjk6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9vZmZsaW5lIjtzOjU6InJvdXRlIjtzOjExOiJsYXJhdmVscHdhLiI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fX0=', 1764486072),
 ('k3gZgoKfqjDQxjDnMWaB6sDrTeox0nx2jyTCJVtd', 4, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiSGhuUHl6WWlsRzViS0hLUXZ1S1VtaXlyZ0RUOFI1VmY3cW1SOFE5OCI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6Mjk6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9vZmZsaW5lIjtzOjU6InJvdXRlIjtzOjExOiJsYXJhdmVscHdhLiI7fXM6NTA6ImxvZ2luX3dlYl81OWJhMzZhZGRjMmIyZjk0MDE1ODBmMDE0YzdmNThlYTRlMzA5ODlkIjtpOjQ7fQ==', 1764484371),
 ('kHSvwGIwGJd88ufvzM3DQVwgGdqn6P8otHYuOmkR', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoieEtoS1pmU0xLWVFUdkZDMkxCTTQzeURnQjhpWjgwYnZoRXROT0xtNSI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6NDM6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9hcnRpa2VsL21hbmlmZXN0Lmpzb24iO3M6NToicm91dGUiO3M6MTc6ImhvbWUuYXJ0aWtlbC5zaG93Ijt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1764475420),
@@ -432,18 +471,18 @@ INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, 
 --
 
 CREATE TABLE `users` (
-  `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `email` varchar(255) NOT NULL,
+  `id` bigint UNSIGNED NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL,
-  `phone` varchar(255) DEFAULT NULL,
-  `password` varchar(255) NOT NULL,
-  `role` enum('user','aktivis') NOT NULL DEFAULT 'user',
-  `alamat` varchar(255) DEFAULT NULL,
-  `iframe_maps` text DEFAULT NULL,
-  `organisasi` varchar(255) DEFAULT NULL,
-  `gambar` varchar(255) NOT NULL DEFAULT 'default.png',
-  `remember_token` varchar(100) DEFAULT NULL,
+  `phone` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `role` enum('user','aktivis') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'user',
+  `alamat` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `iframe_maps` text COLLATE utf8mb4_unicode_ci,
+  `organisasi` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `gambar` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'default.png',
+  `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -454,9 +493,10 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `phone`, `password`, `role`, `alamat`, `iframe_maps`, `organisasi`, `gambar`, `remember_token`, `created_at`, `updated_at`) VALUES
 (4, 'GARCIA FERNANDA VALENCA ARCHADEA', 'garciavalencza@gmail.com', NULL, '081339059343', '$2y$12$5ino.bys7dPsuEi3EDFqZ.kB6Kb6uBGeuzWf0Y0Sc5kqhHIGCd5wi', 'user', 'jl. tanimbar no.23', 'https://www.google.com/maps?q=jl.+tanimbar+no.23&output=embed', NULL, 'img/user/garcia-fernanda-valenca-archadea_1764773691.jpg', NULL, '2025-12-03 07:21:06', '2025-12-03 07:54:51'),
-(5, 'valencza', 'valencza@gmail.com', NULL, '081339059343', '$2y$12$oYpTH.Z/hCPoaAVioF5Pee5LG5KirF24zbmmS/QSZNKVoMWDCW4DG', 'aktivis', 'CW COFFEE & EATERY Kendal Sari', 'https://www.google.com/maps?q=CW+COFFEE+%26+EATERY+Kendal+Sari&output=embed', 'pt garcia', 'img/user/default.png', NULL, '2025-11-28 19:01:41', '2025-11-29 08:30:12'),
+(5, 'valencza', 'valencza@gmail.com', NULL, '081339059343', '$2y$12$oYpTH.Z/hCPoaAVioF5Pee5LG5KirF24zbmmS/QSZNKVoMWDCW4DG', 'aktivis', 'CW COFFEE & EATERY Kendal Sari', 'https://www.google.com/maps?q=CW+COFFEE+%26+EATERY+Kendal+Sari&output=embed', 'pt garcia', 'img/user/valencza_1765612595.png', NULL, '2025-11-28 19:01:41', '2025-12-13 07:56:35'),
 (6, 'lenn', 'lenn@gmail.com', NULL, '08121212321', '$2y$12$jbBgvPt0O2yXSvMe3yrfh.Z/21v/6f0rg8qRyPixBUBVKiJord8Em', 'user', 'sekolah menengah kejuruan negeri 4 malang', 'https://www.google.com/maps?q=sekolah+menengah+kejuruan+negeri+4+malang&output=embed', NULL, 'img/user/default.png', NULL, '2025-11-29 05:51:56', '2025-11-29 05:54:04'),
-(10, 'valen', 'valen@gmail.com', NULL, '081339828321', '$2y$12$/uiBZ8627R23nDLxkQJPRuH3WlFZ36efCSZxTEGHhbKHL5/2Xqfi6', 'user', 'Jl. Tower Gg. duren', 'https://www.google.com/maps?q=Jl.+Tower+Gg.+duren&output=embed', NULL, 'img/user/default.png', NULL, '2025-12-05 11:36:20', '2025-12-05 11:36:20');
+(10, 'valen', 'valen@gmail.com', NULL, '081339828321', '$2y$12$/uiBZ8627R23nDLxkQJPRuH3WlFZ36efCSZxTEGHhbKHL5/2Xqfi6', 'user', 'Jl. Tower Gg. duren', 'https://www.google.com/maps?q=Jl.+Tower+Gg.+duren&output=embed', NULL, 'img/user/default.png', NULL, '2025-12-05 11:36:20', '2025-12-05 11:36:20'),
+(12, 'azaa', 'aza@gmail.com', NULL, '0812312312', '$2y$12$jIU6n/ZvCsCWPWxYlef2Cue6AZ7KTw3D.e6XjsxD/7dLknKv.tfqW', 'user', 'Jl. tower', 'https://www.google.com/maps?q=Jl.+tower&output=embed', NULL, 'img/user/aza_1765540107.jpg', NULL, '2025-12-12 11:40:30', '2025-12-12 11:58:23');
 
 --
 -- Indexes for dumped tables
@@ -475,6 +515,14 @@ ALTER TABLE `agenda`
 ALTER TABLE `artikels`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `artikels_slug_unique` (`slug`);
+
+--
+-- Indexes for table `artikel_user_reads`
+--
+ALTER TABLE `artikel_user_reads`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `artikel_user_reads_user_id_artikel_id_unique` (`user_id`,`artikel_id`),
+  ADD KEY `artikel_user_reads_artikel_id_foreign` (`artikel_id`);
 
 --
 -- Indexes for table `cache`
@@ -588,77 +636,90 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `agenda`
 --
 ALTER TABLE `agenda`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `artikels`
 --
 ALTER TABLE `artikels`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+
+--
+-- AUTO_INCREMENT for table `artikel_user_reads`
+--
+ALTER TABLE `artikel_user_reads`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `data_daur_ulang`
 --
 ALTER TABLE `data_daur_ulang`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
 
 --
 -- AUTO_INCREMENT for table `data_expired`
 --
 ALTER TABLE `data_expired`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `data_makanan`
 --
 ALTER TABLE `data_makanan`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
 --
 ALTER TABLE `failed_jobs`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `jobs`
 --
 ALTER TABLE `jobs`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `messages`
 --
 ALTER TABLE `messages`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `pengambilan_daur_ulang`
 --
 ALTER TABLE `pengambilan_daur_ulang`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `pengambilan_makanan`
 --
 ALTER TABLE `pengambilan_makanan`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `artikel_user_reads`
+--
+ALTER TABLE `artikel_user_reads`
+  ADD CONSTRAINT `artikel_user_reads_artikel_id_foreign` FOREIGN KEY (`artikel_id`) REFERENCES `artikels` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `artikel_user_reads_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `data_makanan`

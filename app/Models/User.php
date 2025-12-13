@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
-    
+
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
@@ -71,5 +71,11 @@ class User extends Authenticatable
     public function daurMakanans()
     {
         return $this->hasMany(DataMakanan::class);
+    }
+    public function artikelReads()
+    {
+        return $this->belongsToMany(Artikel::class, 'artikel_user_reads')
+            ->withPivot('last_read_at')
+            ->withTimestamps();
     }
 }

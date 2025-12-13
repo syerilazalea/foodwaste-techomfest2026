@@ -202,6 +202,7 @@
                 </li>
                 <!-- Jika user belum login -->
                 @guest
+                <!-- Untuk user yang belum login -->
                 <li>
                     <a href="{{ route('home.kampanye') }}">
                         <i data-acorn-icon="menu-bookmark" class="icon" data-acorn-size="18"></i>
@@ -210,8 +211,17 @@
                 </li>
                 @endguest
 
-                <!-- Jika user sudah login -->
                 @auth
+                @if(Auth::user()->role === 'user')
+                <!-- User login tapi role 'user' -->
+                <li>
+                    <a href="{{ route('home.kampanye') }}">
+                        <i data-acorn-icon="menu-bookmark" class="icon" data-acorn-size="18"></i>
+                        <span class="label">Kampanye</span>
+                    </a>
+                </li>
+                @elseif(Auth::user()->role === 'aktivis')
+                <!-- User login dengan role 'aktivis' -->
                 <li>
                     <a href="#menu-kampanye" data-bs-toggle="collapse" class="dropdown-toggle">
                         <i data-acorn-icon="menu-bookmark" class="icon" data-acorn-size="18"></i>
@@ -223,6 +233,7 @@
                         <li><a href="{{ route('dashboard.artikel.index') }}"><span class="label">Artikel</span></a></li>
                     </ul>
                 </li>
+                @endif
                 @endauth
 
                 <li>

@@ -193,7 +193,7 @@ Carbon::setLocale('id'); // set locale ke Indonesia
                                             <div class="col-12 col-md-7 d-flex flex-column mb-2 mb-md-0">
                                                 <span class="fw-bold">{{ $agenda->nama_kegiatan }}</span>
                                                 <div class="text-small text-muted">
-                                                    <i data-acorn-icon="clock" class="me-1"></i> {{ \Carbon\Carbon::parse($agenda->tanggal)->format('d M Y') }}
+                                                    <i data-acorn-icon="clock" class="me-1"></i> Dibuat: {{ Carbon::parse($agenda->created_at)->diffForHumans() }}
                                                 </div>
                                             </div>
                                             <div class="col-12 col-md-5 d-flex align-items-center justify-content-md-end">

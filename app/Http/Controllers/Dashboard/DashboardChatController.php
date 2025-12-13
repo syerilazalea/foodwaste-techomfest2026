@@ -15,7 +15,24 @@ class DashboardChatController extends Controller
 {
     public function index(Request $request)
     {
+        $userId = Auth::id();
         $targetUser = null;
+
+        // Ambil daftar chat / kontak user
+        $chats = Message::where('user_id', $userId)
+            ->orWhere('receiver_id', $userId)
+            ->with(['user', 'receiver']) // eager load relasi
+            ->orderBy('created_at', 'desc')
+            ->get()
+            ->map(function ($msg) use ($userId) {
+                $otherUser = $msg->user_id == $userId ? $msg->receiver : $msg->user;
+                return (object)[
+                    'user' => $otherUser,
+                    'last_message_at' => $msg->created_at
+                ];
+            })
+            ->unique('user.id')
+            ->values();
 
         if ($request->has('start_chat')) {
             // Ambil user yang memesan berdasarkan id yang dikirim di start_chat
@@ -34,7 +51,7 @@ class DashboardChatController extends Controller
             }
         }
 
-        return view('dashboard.chat.index', compact('targetUser'));
+        return view('dashboard.chat.index', compact('targetUser', 'chats'));
     }
 
     public function getContacts()

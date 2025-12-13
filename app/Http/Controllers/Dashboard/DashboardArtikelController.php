@@ -14,7 +14,8 @@ class DashboardArtikelController extends Controller
 {
     public function index()
     {
-        $query = Artikel::query();
+        $user = Auth::user();
+        $query = Artikel::query()->where('user_id', $user->id); // hanya agenda milik user login
 
         $artikels = Artikel::latest()->get();
         // urut terbaru

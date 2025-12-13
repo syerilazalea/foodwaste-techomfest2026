@@ -14,7 +14,8 @@ class DashboardAgendaController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Agenda::query();
+        $user = Auth::user();
+        $query = Agenda::query()->where('user_id', $user->id); // hanya agenda milik user login
 
         if ($request->has('search') && $request->search != '') {
             $keyword = $request->search;
@@ -157,7 +158,6 @@ class DashboardAgendaController extends Controller
             'waktu_selesai' => $request->waktu_selesai,
             'lokasi' => $request->lokasi,
             'kuota' => $request->kuota,
-            'status' => $request->status,
             'gambar' => $path,
         ]);
 

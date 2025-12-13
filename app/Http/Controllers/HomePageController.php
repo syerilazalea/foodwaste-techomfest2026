@@ -14,6 +14,7 @@ class HomePageController extends Controller
     public function index()
     {
         $cekStatusArtikel = ['Published', 'Draft'];
+        $cekStatusAgenda = ['Aktif', 'Nonaktif'];
 
         // Ambil artikel terbaru maksimal 7 hari terakhir
         $artikels = Artikel::where('created_at', '>=', Carbon::now()->subDays(7))
@@ -21,6 +22,19 @@ class HomePageController extends Controller
             ->where('status', 'Published')
             ->orderBy('created_at', 'desc')
             ->get();
+        $totalArtikel = Artikel::whereIn('status', $cekStatusArtikel)
+            ->where('status', 'Published')
+            ->count();
+        $totalAgenda = Agenda::whereIn('status', $cekStatusAgenda)
+            ->where('status', 'Aktif')
+            ->count();
+        $totalMakanan = DataMakanan::count();
+        $totalDaurUlang = DataDaurUlang::count();
+        $totalMakananInDay = DataMakanan::whereDate('created_at', Carbon::today())->count();
+        $totalDaurUlangInDay = DataDaurUlang::whereDate('created_at', Carbon::today())->count();
+        $totalAgendaInDay = Agenda::where('status', 'Aktif')
+            ->whereDate('created_at', Carbon::today())
+            ->count();
 
         // Ambil 5 data terbaru dari masing-masing model
         $makanan = DataMakanan::latest()->take(5)->get();
@@ -28,7 +42,17 @@ class HomePageController extends Controller
         // menggambil data makanan dan daur ulang dari terbaru sampai terlama
         $dataItem = $makanan->merge($daurUlang)->sortByDesc('created_at');
 
-        return view('home.index', compact('artikels', 'dataItem'));
+        return view('home.index', compact(
+            'artikels',
+            'dataItem',
+            'totalArtikel',
+            'totalAgenda',
+            'totalMakanan',
+            'totalDaurUlang',
+            'totalMakananInDay',
+            'totalDaurUlangInDay',
+            'totalAgendaInDay'
+        ));
     }
 
     public function tentangKami()
@@ -59,7 +83,7 @@ class HomePageController extends Controller
             ->where('status', 'Aktif')
             ->orderBy('created_at', 'desc')->take(4)->get(); // Ambil 4 pertama
 
-        return view('home.kampanye.index', compact('artikels', 'agendas', 'totalArtikel','totalAgenda'));
+        return view('home.kampanye.index', compact('artikels', 'agendas', 'totalArtikel', 'totalAgenda'));
     }
 
     // Route AJAX untuk load more
@@ -134,8 +158,16 @@ class HomePageController extends Controller
     {
         // Ambil artikel berdasarkan slug
         $artikel = Artikel::where('slug', $slug)
-            ->where('status', 'Published') // Ensure the article is published
+            ->where('status', 'Published') // Pastikan artikel sudah dipublish
             ->firstOrFail();
+
+        // ==== Catat waktu terakhir dibaca ====
+        if (auth()->check()) {
+            // Catat waktu terakhir dibaca untuk user ini
+            auth()->user()->artikelReads()->syncWithoutDetaching([
+                $artikel->id => ['last_read_at' => now()]
+            ]);
+        }
 
         return view('home.kampanye.detail-artikel', compact('artikel'));
     }

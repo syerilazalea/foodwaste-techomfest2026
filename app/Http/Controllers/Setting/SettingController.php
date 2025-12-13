@@ -43,13 +43,10 @@ class SettingController extends Controller
         if ($request->hasFile('gambar')) {
             $defaultImage = 'img/user/default.png';
 
-            // Hapus file lama jika bukan default
+            // Hapus file lama jika ada dan bukan default.png
             if ($user->gambar && $user->gambar !== $defaultImage) {
-                // konversi URL ke path relatif storage
-                $oldPath = str_replace(url('/storage') . '/', '', $user->gambar);
-
-                if (Storage::disk('public')->exists($oldPath)) {
-                    Storage::disk('public')->delete($oldPath);
+                if (Storage::disk('public')->exists($user->gambar)) {
+                    Storage::disk('public')->delete($user->gambar);
                 }
             }
 
@@ -58,10 +55,9 @@ class SettingController extends Controller
             $filename = Str::slug($user->name) . '_' . time() . '.' . $file->getClientOriginalExtension();
             $file->storeAs('img/user', $filename, 'public');
 
-            // Simpan URL lengkap ke database agar tetap bisa dipakai di asset()
+            // Simpan path ke database
             $user->gambar = 'img/user/' . $filename;
         }
-
 
         $user->save();
 

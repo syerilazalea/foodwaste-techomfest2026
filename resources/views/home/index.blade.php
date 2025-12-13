@@ -5,82 +5,9 @@ $noScripts = true; // set true supaya scripts tidak dijalankan
 @endphp
 
 @push('styles')
-
-<style>
-    .article-card {
-        display: flex;
-        flex-direction: column;
-        height: 100%;
-    }
-
-    .card-img-wrapper {
-        height: 200px;
-        /* tinggi gambar tetap */
-        overflow: hidden;
-    }
-
-    .card-img-wrapper img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        /* menjaga gambar tetap proporsional tapi mengisi div */
-    }
-
-    .card-body {
-        display: flex;
-        flex-direction: column;
-        flex-grow: 1;
-    }
-
-    .card-title {
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-
-    .card-text {
-        display: -webkit-box;
-        -webkit-line-clamp: 3;
-        /* maksimal 3 baris teks */
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-    }
-
-    /* untuk glidejs */
-    .glide__arrows button {
-        width: 45px;
-        height: 45px;
-        border-radius: 50%;
-        backdrop-filter: blur(6px);
-        background: rgba(255, 255, 255, 0.6);
-        border: none;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: .3s ease;
-    }
-
-    .glide__arrows button:hover {
-        background: rgba(255, 255, 255, 0.85);
-        transform: scale(1.1);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    }
-
-    .glide__arrows .left-arrow {
-        position: absolute;
-        left: -25px;
-        top: 50%;
-        transform: translateY(-10%);
-    }
-
-    .glide__arrows .right-arrow {
-        position: absolute;
-        right: -25px;
-        top: 50%;
-        transform: translateY(-10%);
-    }
-</style>
-
+<link rel="stylesheet" href="{{asset ('css/home.css')}}">
+<!-- slide card -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
 @endpush
 
 @section('content')
@@ -88,81 +15,74 @@ $noScripts = true; // set true supaya scripts tidak dijalankan
 <main>
     <div class="container">
         <!-- Galeri Gambar Section -->
-        <section class="scroll-section mb-5" id="gallery">
-            <div class="glide" id="glideGallery">
-                <!-- Large Images Start -->
-                <div class="glide glide-large shadow rounded mb-4">
-                    <div class="glide__track mb-0" data-glide-el="track">
-                        <ul class="glide__slides gallery-glide-custom mb-0">
-                            <li class="glide__slide p-0">
-                                <a href="{{asset ('img/product/large/product-1.webp')}}">
-                                    <img alt="detail" src="{{asset ('img/product/large/product-1.webp')}}" class="responsive border-0 rounded img-fluid sh-50 w-100" />
-                                </a>
-                            </li>
-                            <li class="glide__slide p-0">
-                                <a href="{{asset ('img/product/large/product-2.webp')}}">
-                                    <img alt="detail" src="{{asset ('img/product/large/product-2.webp')}}" class="responsive border-0 rounded img-fluid sh-50 w-100" />
-                                </a>
-                            </li>
-                            <li class="glide__slide p-0">
-                                <a href="{{asset ('img/product/large/product-3.webp')}}">
-                                    <img alt="detail" src="{{asset ('img/product/large/product-3.webp')}}" class="responsive border-0 rounded img-fluid sh-50 w-100" />
-                                </a>
-                            </li>
-                            <li class="glide__slide p-0">
-                                <a href="{{asset ('img/product/large/product-4.webp')}}">
-                                    <img alt="detail" src="{{asset ('img/product/large/product-4.webp')}}" class="responsive border-0 rounded img-fluid sh-50 w-100" />
-                                </a>
-                            </li>
-                            <li class="glide__slide p-0">
-                                <a href="{{asset ('img/product/large/product-5.webp')}}">
-                                    <img alt="detail" src="{{asset ('img/product/large/product-5.webp')}}" class="responsive border-0 rounded img-fluid sh-50 w-100" />
-                                </a>
-                            </li>
-                            <li class="glide__slide p-0">
-                                <a href="{{asset ('img/product/large/product-6.webp')}}">
-                                    <img alt="detail" src="{{asset ('img/product/large/product-6.webp')}}" class="responsive border-0 rounded img-fluid sh-50 w-100" />
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
+        <div class="container mt-4 mb-5">
+            <div id="heroCarousel" class="carousel slide carousel-fade rounded-4 overflow-hidden shadow-lg"
+                data-bs-ride="carousel">
+
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0"
+                        class="active"></button>
+                    <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1"></button>
+                    <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2"></button>
                 </div>
-                <!-- Large Images End -->
-                <!-- Thumbs Start -->
-                <div class="glide glide-thumb mb-3">
-                    <div class="glide__track" data-glide-el="track">
-                        <ul class="glide__slides">
-                            <li class="glide__slide p-0">
-                                <img alt="thumb" src="{{asset ('img/product/small/product-1.webp')}}" class="responsive rounded-md img-fluid shadow" />
-                            </li>
-                            <li class="glide__slide p-0">
-                                <img alt="thumb" src="{{asset ('img/product/small/product-2.webp')}}" class="responsive rounded-md img-fluid shadow" />
-                            </li>
-                            <li class="glide__slide p-0">
-                                <img alt="thumb" src="{{asset ('img/product/small/product-3.webp')}}" class="responsive rounded-md img-fluid shadow" />
-                            </li>
-                            <li class="glide__slide p-0">
-                                <img alt="thumb" src="{{asset ('img/product/small/product-4.webp')}}" class="responsive rounded-md img-fluid shadow" />
-                            </li>
-                            <li class="glide__slide p-0">
-                                <img alt="thumb" src="{{asset ('img/product/small/product-5.webp')}}" class="responsive rounded-md img-fluid shadow" />
-                            </li>
-                            <li class="glide__slide p-0">
-                                <img alt="thumb" src="{{asset ('img/product/small/product-6.webp')}}" class="responsive rounded-md img-fluid shadow" />
-                            </li>
-                        </ul>
+
+                <div class="carousel-inner">
+
+                    <!-- SLIDE 1 -->
+                    <div class="carousel-item active" data-bs-interval="4000">
+                        <img src="{{asset ('img/hero/hero3.jpg')}}" class="d-block w-100 hero-img" alt="">
+                        <div
+                            class="carousel-caption d-flex flex-column justify-content-center align-items-start text-start">
+                            <h1 class="fw-bold mb-3 text-white">Kurangi Food Waste Mulai dari Sekarang</h1>
+                            <p class="mb-4 text-white">Bersama FoodCycle, kelola makanan dan limbah organik
+                                menjadi lebih bermanfaat.</p>
+                            <a href="{{route ('auth.register')}}" class="btn btn-gradient-primary px-4 py-2">Gabung
+                                Sekarang</a>
+                        </div>
                     </div>
-                    <div class="glide__arrows" data-glide-el="controls">
-                        <button class="btn btn-icon btn-icon-only btn-foreground-alternate shadow left-arrow" data-glide-dir="<">
-                            <i data-acorn-icon="chevron-left"></i>
-                        </button>
-                        <button class="btn btn-icon btn-icon-only btn-foreground-alternate shadow right-arrow" data-glide-dir=">">
-                            <i data-acorn-icon="chevron-right"></i>
-                        </button>
+
+                    <!-- SLIDE 2 -->
+                    <div class="carousel-item" data-bs-interval="4000">
+                        <img src="{{asset ('img/hero/hero1.jpg')}}" class="d-block w-100 hero-img" alt="">
+                        <div
+                            class="carousel-caption d-flex flex-column justify-content-center align-items-start text-start">
+                            <h1 class="fw-bold mb-3 text-white">Makanan Layak, Hidup Lebih Baik</h1>
+                            <p class="mb-4 text-white">Salurkan makanan berlebih untuk membantu sesama dan
+                                menjaga lingkungan.</p>
+                            <a href="{{route ('katalog.katalogMakanan.index')}}" class="btn btn-outline-light px-4 py-2">Lihat
+                                Katalog</a>
+                        </div>
                     </div>
+
+                    <!-- SLIDE 3 -->
+                    <div class="carousel-item" data-bs-interval="4000">
+                        <img src="{{asset ('img/hero/hero2.jpg')}}" class="d-block w-100 hero-img" alt="">
+                        <div
+                            class="carousel-caption d-flex flex-column justify-content-center align-items-start text-start">
+                            <h1 class="fw-bold mb-3 text-white">Manfaatkan Limbah Organik</h1>
+                            <p class="mb-4 text-white">Kelola limbah organik menjadi pupuk dan bahan baru agar
+                                lebih berguna.</p>
+                            <a href="{{route ('katalog.katalogDaurUlang.index')}}" class="btn btn-outline-light px-4 py-2">Pelajari
+                                Lebih Lanjut</a>
+                        </div>
+                    </div>
+
                 </div>
+
+
+                <!-- NAV -->
+                <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel"
+                    data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon"></span>
+                </button>
+
+                <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel"
+                    data-bs-slide="next">
+                    <span class="carousel-control-next-icon"></span>
+                </button>
+
             </div>
-        </section>
+        </div>
 
         <!-- Peran Kami & Statistik Section -->
         <div class="row mb-5">
@@ -172,17 +92,20 @@ $noScripts = true; // set true supaya scripts tidak dijalankan
                     <div class="card mb-5 h-100">
                         <div class="row g-0 h-100">
                             <div class="col-sm-4">
-                                <img src="{{asset ('img/product/small/product-2.webp')}}" class="card-img card-img-horizontal-sm h-100 object-fit-cover" />
+                                <img src="{{asset ('img/hero/img3.jpg')}}" class="card-img card-img-horizontal-sm h-100 object-fit-cover" />
                             </div>
                             <div class="col-sm-8">
                                 <div class="card-body d-flex flex-column h-100 p-4">
                                     <h3 class="card-title text-primary mb-4 mt-4">Peran Kami</h3>
                                     <p class="card-text mb-2">
-                                        Econect hadir sebagai penghubung antara masyarakat, kolaborator, dan aktivis untuk mengurangi masalah food waste berlebih serta mendukung kegiatan ramah lingkungan.
+                                        Econect hadir sebagai penghubung antara masyarakat, kolaborator, dan
+                                        aktivis
+                                        untuk mengurangi masalah food waste berlebih serta mendukung kegiatan
+                                        ramah
+                                        lingkungan.
                                     </p>
                                     <p class="card-text">
-                                        Bersama, kita kurangi jumlah food waste dengan <strong>Food
-                                            Cycle!</strong>
+                                        Bersama, kita kurangi jumlah food waste dengan <strong>Econect!</strong>
                                     </p>
                                 </div>
                             </div>
@@ -203,7 +126,7 @@ $noScripts = true; // set true supaya scripts tidak dijalankan
                                                     <i data-acorn-icon="loaf" class="text-white"></i>
                                                 </div>
                                                 <p class="mb-0 lh-1">Makanan Disalurkan</p>
-                                                <p class="cta-3 mb-0 text-primary fw-bold">1.234</p>
+                                                <p class="cta-3 mb-0 text-primary fw-bold"> {{ $totalMakanan != null ? $totalMakanan : '0' }}</p>
                                             </div>
                                         </div>
                                     </div>
@@ -215,7 +138,7 @@ $noScripts = true; // set true supaya scripts tidak dijalankan
                                                     <i data-acorn-icon="pear" class="text-white"></i>
                                                 </div>
                                                 <p class="mb-0 lh-1">Limbah Dimanfaatkan</p>
-                                                <p class="cta-3 mb-0 text-primary fw-bold">7.675</p>
+                                                <p class="cta-3 mb-0 text-primary fw-bold">{{ $totalDaurUlang != null ? $totalDaurUlang : '0' }}</p>
                                             </div>
                                         </div>
                                     </div>
@@ -227,7 +150,7 @@ $noScripts = true; // set true supaya scripts tidak dijalankan
                                                     <i data-acorn-icon="book-open" class="text-white"></i>
                                                 </div>
                                                 <p class="mb-0 lh-1">Artikel Informatif</p>
-                                                <p class="cta-3 mb-0 text-primary fw-bold">938</p>
+                                                <p class="cta-3 mb-0 text-primary fw-bold">{{ $totalArtikel != null ? $totalArtikel : '0' }}</p>
                                             </div>
                                         </div>
                                     </div>
@@ -239,7 +162,7 @@ $noScripts = true; // set true supaya scripts tidak dijalankan
                                                     <i data-acorn-icon="calendar" class="text-white"></i>
                                                 </div>
                                                 <p class="mb-0 lh-1">Agenda Terlaksana</p>
-                                                <p class="cta-3 mb-0 text-primary fw-bold">37</p>
+                                                <p class="cta-3 mb-0 text-primary fw-bold">{{ $totalAgenda != null ? $totalAgenda : '0' }}</p>
                                             </div>
                                         </div>
                                     </div>
@@ -252,33 +175,42 @@ $noScripts = true; // set true supaya scripts tidak dijalankan
         </div>
 
         <!-- Kategori Pengguna & Informasi Hari Ini Section -->
-        <div class="row mb-5">
-            <!-- RIGHT SIDE -->
-            <div class="col-12 col-lg-8 d-flex flex-column mb-5">
-                <h2 class="card-title text-primary mb-4">Kategori Pengguna</h2>
-
-                <!-- Make cards same height as left side -->
-                <div class="row g-3 flex-grow-1 align-items-stretch">
-
+        <div class="row g-3 align-items-stretch mb-5">
+            <!-- LEFT SIDE -->
+            <div class="col-12 col-lg-8 d-flex mb-5">
+                <div class="row g-3 flex-fill">
                     <!-- Kolaborator -->
                     <div class="col-12 col-md-6 d-flex">
-                        <div class="card h-100 flex-fill">
-                            <div class="card-body text-center p-5 d-flex flex-column justify-content-center">
-                                <h4 class="card-title text-primary mb-4">Kolaborator</h4>
+                        <div class="card flex-fill text-center py-4">
+                            <div
+                                class="card-body d-flex flex-column justify-content-center align-items-center h-100">
+                                <div
+                                    class="sh-5 sw-5 rounded-circle bg-primary d-flex justify-content-center align-items-center mb-3">
+                                    <i data-acorn-icon="sync-horizontal" class="text-white"></i>
+                                </div>
+                                <h4 class="card-title text-success mb-3">Kolaborator</h4>
                                 <p class="card-text">
-                                    Menyediakan makanan layak serta limbah organik untuk dimanfaatkan kembali. Termasuk menerima dan menyalurkan produk organik antar kolaborator.
+                                    Menyediakan produk makanan layak serta limbah organik untuk dimanfaatkan
+                                    kembali, serta dapat menerima produk dari kolaborator lain
                                 </p>
+
                             </div>
                         </div>
                     </div>
+
 
                     <!-- Aktivis -->
                     <div class="col-12 col-md-6 d-flex">
-                        <div class="card h-100 flex-fil">
-                            <div class="card-body text-center p-5 d-flex flex-column justify-content-center">
-                                <h4 class="card-title text-primary mb-4">Aktivis</h4>
+                        <div class="card flex-fill text-center py-4">
+                            <div
+                                class="card-body d-flex flex-column justify-content-center align-items-center h-100">
+                                <div
+                                    class="sh-5 sw-5 rounded-circle bg-primary d-flex justify-content-center align-items-center mb-3">
+                                    <i data-acorn-icon="notification" class="text-white"></i>
+                                </div>
+                                <h4 class="card-title text-success mb-3">Aktivis</h4>
                                 <p class="card-text">
-                                    Membagikan artikel, edukasi lingkungan, dan mengadakan agenda peduli alam seperti gerakan tanam pohon serta kampanye kebersihan.
+                                    Membagikan artikel, edukasi lingkungan, dan mengadakan agenda peduli alam.
                                 </p>
                             </div>
                         </div>
@@ -286,109 +218,97 @@ $noScripts = true; // set true supaya scripts tidak dijalankan
 
                 </div>
             </div>
-            <!-- LEFT SIDE -->
-            <div class="col-12 col-lg-4 d-flex flex-column mb-5">
-                <h2 class="card-title text-primary mb-4">Informasi Hari Ini</h2>
 
-                <div class="card flex-grow-1 position-relative overflow-hidden">
-                    <img src="{{asset ('img/product/small/product-6.webp')}}" class="img-fluid rounded mb-1 me-1 w-100 h-100 object-fit-cover" alt="Responsive image" />
+            <!-- RIGHT SIDE -->
+            <div class="col-12 col-lg-4 d-flex mb-5">
+                <div class="card flex-fill position-relative overflow-hidden">
+                    <img src="img/hero/img1.jpg" class="img-fluid w-100 h-100 object-fit-cover" />
 
-                    <div class="position-absolute top-0 start-0 w-100 h-100" style="background: rgba(0,0,0,0.45); border-radius: inherit;"></div>
+                    <div class="card-img-overlay d-flex flex-column justify-content-center">
+                        <h2 class="text-white mb-4">Informasi Hari Ini</h2>
 
-                    <div class="card-img-overlay d-flex flex-column justify-content-center bg-transparent">
-                        <div class="d-flex flex-column align-items-start gap-3 text-white">
-                            <div>
-                                <div class="cta-1 fw-bold mb-1">124</div>
-                                <div class="lh-1-25 mb-0">Makanan</div>
+                        <div class="text-white">
+                            <div class="mb-2">
+                                <div class="cta-1 fw-bold">{{ $totalMakananInDay != null ? $totalMakananInDay : '0' }}</div>
+                                <div>Makanan</div>
+                            </div>
+                            <div class="mb-2">
+                                <div class="cta-1 fw-bold">{{ $totalDaurUlangInDay != null ? $totalDaurUlangInDay : '0' }}</div>
+                                <div>Limbah</div>
                             </div>
                             <div>
-                                <div class="cta-1 fw-bold mb-1">64</div>
-                                <div class="lh-1-25 mb-0">Limbah</div>
-                            </div>
-                            <div>
-                                <div class="cta-1 fw-bold mb-1">4</div>
-                                <div class="lh-1-25 mb-0">Agenda</div>
+                                <div class="cta-1 fw-bold"> {{ $totalAgendaInDay != null ? $totalAgendaInDay : '0' }}</div>
+                                <div>Agenda</div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
         </div>
 
-        <!-- Data Yang Disumbangkan  -->
+        <!-- Data Yang Disumbangkan -->
         <div class="row mb-5">
-            <div class="d-flex justify-content-between">
+            <div class="d-flex justify-content-between align-items-center mb-3">
                 <h2 class="card-title text-primary">Rekomendasi Katalog</h2>
-                <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">
-                    <div class="card-title">Lihat Lebih Banyak</div>
-                </button>
-                <div class="dropdown-menu dropdown-menu-sm dropdown-menu-end shadow">
-                    <a class="dropdown-item" href="{{route ('katalog.katalogMakanan.index')}}">Makanan</a>
-                    <a class="dropdown-item" href="{{route ('katalog.katalogDaurUlang.index')}}">Daur Ulang</a>
+                <div class="dropdown">
+                    <button class="btn btn-sm btn-outline-primary" type="button" data-bs-toggle="dropdown">
+                        Lihat Lebih Banyak
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-sm dropdown-menu-end shadow">
+                        <a class="dropdown-item" href="{{ route('katalog.katalogMakanan.index') }}">Makanan</a>
+                        <a class="dropdown-item" href="{{ route('katalog.katalogDaurUlang.index') }}">Daur Ulang</a>
+                    </div>
                 </div>
             </div>
-            <div class="glide" id="glidePenjualan">
-                <!-- BULLETS / DOTS -->
-                <div class="glide__bullets" data-glide-el="controls[nav]"></div>
 
-                <div class="glide__track" data-glide-el="track">
-                    <ul class="glide__slides">
-                        @php
-                        $perSlide = 4;
-                        $chunks = $dataItem->chunk($perSlide);
-                        @endphp
-
-                        @foreach($chunks as $chunk)
-                        <li class="glide__slide">
-                            <div class="row g-4">
-                                @foreach($chunk as $item)
-                                <div class="col-12 col-lg-3 col-xxl-6 sh-40" data-bs-toggle="modal" data-bs-target="{{ $item instanceof \App\Models\DataMakanan ? '#modalDetailMakanan'.$item->id : '#modalDetailDaurUlang'.$item->id }}">
-                                    <div class="card h-100">
-                                        <img src="{{ asset($item->gambar ?? 'null') }}" class="card-img-top sh-22" alt="{{ $item->nama }}" />
-                                        <div class="card-body pb-0">
-                                            <a href="javascript:void(0)" role="button" class="h5 heading body-link stretched-link">
-                                                {{ $item->nama ?? 'Tanpa Judul' }}
-                                            </a>
-                                        </div>
-                                        <div class="card-footer border-0 pt-0">
-                                            <div class="row g-0">
-                                                <div class="col-auto pe-3">
-                                                    <i data-acorn-icon="user" class="text-primary me-1"></i>
-                                                    <span class="align-middle">
-                                                        @if ($item->porsi ?? false)
-                                                        {{ $item->porsi }} Porsi
-                                                        @elseif ($item->berat ?? false)
-                                                        {{ $item->berat }} kg
-                                                        @else
-                                                        -
-                                                        @endif
-                                                    </span>
-                                                </div>
-                                                <div class="col">
-                                                    <i data-acorn-icon="clock" class="text-primary me-1"></i>
-                                                    <span class="align-middle countdown" data-time="{{ $item->batas_waktu }}"></span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                @endforeach
+            @if($dataItem->isEmpty())
+            <div class="d-flex flex-column justify-content-center align-items-center" style="min-height: 250px;">
+                <img src="{{ asset('img/page/no-data.svg') }}" alt="Tidak ada data" class="img-fluid mb-3" style="max-height: 150px;">
+                <p class="text-muted mb-0">Belum ada item katalog tersedia.</p>
+            </div>
+            @else
+            <div class="swiper katalogSwiper">
+                <div class="swiper-wrapper">
+                    @foreach($dataItem as $item)
+                    <div class="swiper-slide">
+                        <div class="card h-100 card-clickable" data-modal-target="{{ $item instanceof \App\Models\DataMakanan ? '#modalDetailMakanan'.$item->id : '#modalDetailDaurUlang'.$item->id }}">
+                            <img src="{{ asset($item->gambar ?? 'img/default-artikel.webp') }}"
+                                class="card-img-top card-img-consistent"
+                                alt="{{ $item->nama }}">
+                            <div class="card-body pb-2">
+                                <a href="javascript:void(0)" role="button" class="h5 heading body-link stretched-link">
+                                    {{ $item->nama ?? 'Tanpa Judul' }}
+                                </a>
                             </div>
-                        </li>
-                        @endforeach
-                    </ul>
+                            <div class="card-footer border-0 pt-2 d-flex justify-content-between flex-wrap align-items-center">
+                                <div class="d-flex align-items-center mb-1 mb-md-0">
+                                    <i data-acorn-icon="user" class="text-primary me-1"></i>
+                                    <span class="align-middle">
+                                        @if ($item->porsi ?? false)
+                                        {{ $item->porsi }} Porsi
+                                        @elseif ($item->berat ?? false)
+                                        {{ $item->berat }} kg
+                                        @else
+                                        -
+                                        @endif
+                                    </span>
+                                </div>
+                                <div class="d-flex align-items-center">
+                                    <i data-acorn-icon="clock" class="text-primary me-1"></i>
+                                    <span class="align-middle countdown" data-time="{{ $item->batas_waktu }}"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @endforeach
                 </div>
 
-                <!-- NAV -->
-                <div class="glide__arrows" data-glide-el="controls">
-                    <button class="btn btn-icon btn-icon-only btn-foreground-alternate shadow left-arrow" data-glide-dir="<">
-                        <i data-acorn-icon="chevron-left"></i>
-                    </button>
-                    <button class="btn btn-icon btn-icon-only btn-foreground-alternate shadow right-arrow" data-glide-dir=">">
-                        <i data-acorn-icon="chevron-right"></i>
-                    </button>
-                </div>
+                <!-- Navigation -->
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-button-next"></div>
             </div>
+            @endif
         </div>
 
         <!-- CTA Section -->
@@ -415,15 +335,25 @@ $noScripts = true; // set true supaya scripts tidak dijalankan
 
         <!-- Artikel Terbaru Section -->
         <section class="scroll-section mb-5 mt-5" id="basic">
-            <h2 class="card-title text-center text-primary mb-5 mt-5">
+            <h2 class="card-title justify-content-center text-center text-primary mb-5 mt-5">
                 Artikel Terbaru Minggu Ini
             </h2>
+
             <div class="row">
                 <div class="col-12 p-0 mb-5">
+
+                    @if($artikels->isEmpty())
+                    {{-- Tampilan jika tidak ada artikel --}}
+                    <div class="d-flex flex-column justify-content-center align-items-center" style="min-height: 250px;">
+                        <img src="{{ asset('img/page/no-data.svg') }}" alt="Tidak ada artikel" class="img-fluid mb-3" style="max-height: 150px;">
+                        <p class="text-center text-muted mb-0">Belum ada artikel terbaru dalam 7 hari terakhir.</p>
+                    </div>
+                    @else
+                    {{-- Tampilan Glide jika ada artikel --}}
                     <div class="glide" id="glideBasic">
                         <div class="glide__track" data-glide-el="track">
                             <div class="glide__slides">
-                                @forelse($artikels as $artikel)
+                                @foreach($artikels as $artikel)
                                 <div class="glide__slide">
                                     <a href="{{ route('home.artikel.show', $artikel->slug) }}" class="text-decoration-none">
                                         <div class="card mb-5 article-card h-100 d-flex flex-column">
@@ -436,7 +366,7 @@ $noScripts = true; // set true supaya scripts tidak dijalankan
                                             </div>
                                             <div class="card-body flex-grow-1 d-flex flex-column">
                                                 <h5 class="card-title text-truncate" title="{{ $artikel->judul }}">{{ $artikel->judul }}</h5>
-                                                <p class="card-text text-truncate mb-2">{{ Str::limit($artikel->konten, 100) }}</p>
+                                                <p class="card-text text-truncate mb-2">{!! \Illuminate\Support\Str::limit(strip_tags($artikel->deskripsi), 100) !!}</p>
                                                 <div class="text-muted small mt-auto">
                                                     <i data-acorn-icon="clock" class="me-1"></i>
                                                     {{ \Carbon\Carbon::parse($artikel->created_at)->diffForHumans() }}
@@ -445,14 +375,11 @@ $noScripts = true; // set true supaya scripts tidak dijalankan
                                         </div>
                                     </a>
                                 </div>
-                                @empty
-                                <div class="glide__slide">
-                                    <p class="text-center text-muted">Belum ada artikel terbaru dalam 7 hari terakhir.</p>
-                                </div>
-                                @endforelse
+                                @endforeach
                             </div>
                         </div>
 
+                        {{-- Navigasi Glide jika artikel lebih dari 3 --}}
                         @if(count($artikels) > 3)
                         <div class="text-center mt-3">
                             <span class="glide__arrows slider-nav" data-glide-el="controls">
@@ -469,6 +396,8 @@ $noScripts = true; // set true supaya scripts tidak dijalankan
                         </div>
                         @endif
                     </div>
+                    @endif
+
                 </div>
             </div>
         </section>
@@ -720,75 +649,94 @@ $noScripts = true; // set true supaya scripts tidak dijalankan
 <script src="{{asset ('js/scripts.js')}}"></script>
 <script src="{{asset ('js/plugins/carousels.js')}}"></script>
 <script src="{{asset ('js/pages/blog.detail.js')}}"></script>
-
+<!-- Swiper JS -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        new Glide('#glidePenjualan', {
-            type: 'carousel',
-            autoplay: 3500,
-            hoverpause: true,
-            animationDuration: 600,
-            perView: 1,
-            swipeThreshold: 80,
-            dragThreshold: 120
-        }).mount();
-    });
-</script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Swiper
+        const katalogSwiper = new Swiper('.katalogSwiper', {
+            slidesPerView: 4, // tetap 4 per slide
+            spaceBetween: 15,
+            loop: false,
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+            pagination: false,
+            breakpoints: {
+                0: {
+                    slidesPerView: 4
+                }, // mobile tetap 4
+                576: {
+                    slidesPerView: 4
+                },
+                992: {
+                    slidesPerView: 4
+                },
+                1200: {
+                    slidesPerView: 4
+                },
+            },
+            allowTouchMove: true, // tetap bisa swipe
+        });
 
-<!-- menghitung mundur batas waktu -->
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const countdownElements = document.querySelectorAll(".countdown");
+        // Klik aman untuk modal
+        let startX, startY;
+        document.querySelectorAll('.card-clickable').forEach(card => {
+            card.addEventListener('pointerdown', e => {
+                startX = e.clientX;
+                startY = e.clientY;
+            });
+            card.addEventListener('pointerup', e => {
+                const dx = Math.abs(e.clientX - startX);
+                const dy = Math.abs(e.clientY - startY);
+                const threshold = 10;
+                if (dx < threshold && dy < threshold) {
+                    const modalTarget = card.getAttribute('data-modal-target');
+                    const modalEl = document.querySelector(modalTarget);
+                    if (modalEl) {
+                        const modal = new bootstrap.Modal(modalEl);
+                        modal.show();
+                    }
+                }
+            });
+        });
 
-        countdownElements.forEach(el => {
-            const timeOnly = el.dataset.time;
+        // Countdown HH:MM:SS
+        document.querySelectorAll('.countdown').forEach(el => {
+            const timeData = el.dataset.time;
 
             function getTargetDate() {
                 const now = new Date();
-                const [hour, minute, second] = timeOnly.split(":").map(Number);
-
+                const parts = timeData.split(":").map(Number);
                 let target = new Date();
-                target.setHours(hour);
-                target.setMinutes(minute || 0);
-                target.setSeconds(second || 0);
+                target.setHours(parts[0]);
+                target.setMinutes(parts[1] || 0);
+                target.setSeconds(parts[2] || 0);
                 target.setMilliseconds(0);
-
-                // Jika waktu sudah lewat → hitung untuk besok
-                if (target < now) {
-                    target.setDate(target.getDate() + 1);
-                }
+                if (target < now) target.setDate(target.getDate() + 1);
                 return target;
             }
-
             const targetTime = getTargetDate();
 
             function updateCountdown() {
                 const now = new Date().getTime();
                 const distance = targetTime.getTime() - now;
-
                 if (distance <= 0) {
-                    el.textContent = "Waktu Habis";
+                    el.textContent = "00:00:00";
                     return;
                 }
-
-                const hours = Math.floor(distance / (1000 * 60 * 60));
-                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-                if (hours > 0) {
-                    el.textContent = `${hours} Jam ${minutes} Menit`;
-                } else if (minutes > 0) {
-                    el.textContent = `${minutes} Menit ${seconds} Detik`;
-                } else {
-                    el.textContent = `${seconds} Detik`;
-                }
+                const hh = String(Math.floor(distance / (1000 * 60 * 60))).padStart(2, '0');
+                const mm = String(Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, '0');
+                const ss = String(Math.floor((distance % (1000 * 60)) / 1000)).padStart(2, '0');
+                el.textContent = `${hh}:${mm}:${ss}`;
             }
-
             updateCountdown();
             setInterval(updateCountdown, 1000);
         });
     });
 </script>
+
 
 <script>
     document.addEventListener('click', function(e) {

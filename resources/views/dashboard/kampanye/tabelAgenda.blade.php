@@ -72,6 +72,16 @@
                         </div>
 
                         <div class="table-responsive table-scroll">
+                            @php
+                            $userAgendas = $agendas->where('user_id', auth()->id());
+                            @endphp
+
+                            @if($userAgendas->isEmpty())
+                            <div class="d-flex flex-column justify-content-center align-items-center" style="min-height: 250px;">
+                                <img src="{{ asset('img/page/no-data.svg') }}" alt="Tidak ada agenda" class="img-fluid mb-3" style="max-height: 150px;">
+                                <p class="text-center text-muted mb-0">Belum ada agenda terbaru.</p>
+                            </div>
+                            @else
                             <table class="table align-middle" id="dataTableAgenda">
                                 <thead>
                                     <tr>
@@ -152,7 +162,7 @@
                                                         </div>
                                                         <div class="mb-3">
                                                             <label class="form-label">Konten Agenda</label>
-                                                            <textarea name="deskripsi" id="editor-edit" class="form-control" rows="6">{!! $agenda->deskripsi !!}</textarea>
+                                                            <textarea name="deskripsi" id="editor-edit" class="form-control" rows="6">{!! \Illuminate\Support\Str::limit(strip_tags($agenda->deskripsi), 100) !!}</textarea>
                                                         </div>
                                                         <div class="mb-3 row align-items-center">
                                                             <div class="col-md-6">
@@ -202,6 +212,7 @@
                                     @endforeach
                                 </tbody>
                             </table>
+                            @endif
                         </div>
 
                         <nav class="mt-3">

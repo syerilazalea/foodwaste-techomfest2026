@@ -48,11 +48,26 @@
                                     @endif
                                     <div class="card-body">
                                         <h5 class="card-title">{{ $artikel->judul }}</h5>
-                                        <p class="card-text">{{ Str::limit($artikel->konten, 100) }}</p>
+                                        <p class="card-text">{!! \Illuminate\Support\Str::limit(strip_tags($artikel->deskripsi), 100) !!}</p>
+                                        @php
+                                        $lastRead = auth()->check()
+                                        ? $artikel->readers()->where('user_id', auth()->id())->first()?->pivot->last_read_at
+                                        : null;
+                                        @endphp
+
                                         <div class="text-muted small">
                                             <i data-acorn-icon="clock" class="me-1"></i>
+                                            @guest
                                             {{ \Carbon\Carbon::parse($artikel->created_at)->diffForHumans() }}
+                                            @else
+                                            @if($lastRead)
+                                            {{ \Carbon\Carbon::parse($lastRead)->diffForHumans() }}
+                                            @else
+                                            {{ \Carbon\Carbon::parse($artikel->created_at)->diffForHumans() }}
+                                            @endif
+                                            @endguest
                                         </div>
+
                                     </div>
                                 </div>
                             </a>
@@ -94,10 +109,10 @@
                                     <div class="row g-0">
                                         <div class="col pe-2">
                                             <a href="{{ route('home.agenda.show', $agenda->slug) }}" class="stretched-link">
-                                                <h5 class="heading text-white mb-1">{{ $agenda->nama_kegiatan }}</h5>
+                                                <h5 class="heading text-white mb-1">{{ $agenda->user->name }}</h5>
                                             </a>
                                             <div class="d-inline-block">
-                                                <div class="text-white text-muted">{{ Str::limit(strip_tags($agenda->deskripsi), 80) }}</div>
+                                                <div class="text-white text-muted">{{ $agenda->nama_kegiatan }}</div>
                                             </div>
                                         </div>
                                     </div>

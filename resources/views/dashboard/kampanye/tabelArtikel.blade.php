@@ -71,6 +71,16 @@
                         </div>
 
                         <div class="table-responsive table-scroll">
+                            @php
+                            $userArtikels = $artikels->where('user_id', auth()->id());
+                            @endphp
+
+                            @if($userArtikels->isEmpty())
+                            <div class="d-flex flex-column justify-content-center align-items-center" style="min-height: 250px;">
+                                <img src="{{ asset('img/page/no-data.svg') }}" alt="Tidak ada agenda" class="img-fluid mb-3" style="max-height: 150px;">
+                                <p class="text-center text-muted mb-0">Belum ada agenda terbaru.</p>
+                            </div>
+                            @else
                             <table class="table align-middle" id="dataTable">
                                 <thead>
                                     <tr>
@@ -148,7 +158,7 @@
                                                         </div>
                                                         <div class="mb-3">
                                                             <label class="form-label">Konten Artikel</label>
-                                                            <textarea class="form-control" name="deskripsi" id="editor-edit" rows="6">{!! $artikel->deskripsi !!}</textarea>
+                                                            <textarea class="form-control" name="deskripsi" id="editor-edit" rows="6">{!! \Illuminate\Support\Str::limit(strip_tags($artikel->deskripsi), 100) !!}</textarea>
                                                         </div>
                                                         <div class="mb-3 row align-items-center">
                                                             <div class="col-md-6">
@@ -185,6 +195,7 @@
                                     @endforeach
                                 </tbody>
                             </table>
+                            @endif
                         </div>
 
                         <!-- Pagination -->

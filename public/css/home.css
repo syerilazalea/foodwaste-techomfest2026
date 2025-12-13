@@ -1,0 +1,193 @@
+/* wrapper full width + tanpa margin */
+        #heroCarousel {
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+
+        /* Pastikan slide membentuk frame yang rounded */
+        #heroCarousel .carousel-inner,
+        #heroCarousel .carousel-item {
+            border-radius: 25px;
+            overflow: hidden;
+            /* wajib biar gambar tidak keluar */
+        }
+
+        /* gambar */
+        .hero-img {
+            height: 70vh;
+            width: 100%;
+            object-fit: cover;
+            filter: brightness(0.55);
+            display: block;
+        }
+
+        /* caption */
+        .carousel-caption {
+            max-width: 600px;
+            margin-bottom: 120px;
+        }
+
+        /* mobile */
+        @media (max-width: 768px) {
+            .hero-img {
+                height: 55vh;
+            }
+
+            .carousel-caption {
+                margin-bottom: 80px;
+            }
+
+            .carousel-caption h1 {
+                font-size: 1.7rem;
+            }
+        }
+    </style>
+
+    <style>
+        /* Hapus background putih wrapper */
+        #heroCarousel,
+        #heroCarousel .carousel-inner,
+        #heroCarousel .carousel-item,
+        #heroCarousel .carousel-caption {
+            background: transparent !important;
+        }
+
+        /* Biar rounded muncul & tidak ada kotak putih */
+        #heroCarousel,
+        #heroCarousel .carousel-inner,
+        #heroCarousel .carousel-item {
+            border-radius: 25px;
+            overflow: hidden;
+        }
+
+        /* Gambar */
+        .hero-img {
+            height: 70vh;
+            width: 100%;
+            object-fit: cover;
+            filter: brightness(0.55);
+            display: block;
+        }
+
+        /* Caption */
+        .carousel-caption {
+            max-width: 600px;
+            margin-bottom: 120px;
+        }
+
+        /* Mobile settings */
+        @media (max-width: 768px) {
+            .hero-img {
+                height: 55vh;
+            }
+
+            .carousel-caption {
+                margin-bottom: 80px;
+            }
+
+            .carousel-caption h1 {
+                font-size: 1.7rem;
+            }
+        }
+
+    .article-card {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+    }
+
+    .card-img-wrapper {
+        height: 200px;
+        /* tinggi gambar tetap */
+        overflow: hidden;
+    }
+
+    .card-img-wrapper img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        /* menjaga gambar tetap proporsional tapi mengisi div */
+    }
+
+    .card-body {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+    }
+
+    .card-title {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .card-text {
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        /* maksimal 3 baris teks */
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    /* untuk glidejs */
+    .glide__arrows button {
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        backdrop-filter: blur(6px);
+        background: rgba(255, 255, 255, 0.6);
+        border: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: .3s ease;
+    }
+
+    .glide__arrows button:hover {
+        background: rgba(255, 255, 255, 0.85);
+        transform: scale(1.1);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .glide__arrows .left-arrow {
+        position: absolute;
+        left: -25px;
+        top: 50%;
+        transform: translateY(-10%);
+    }
+
+    .glide__arrows .right-arrow {
+        position: absolute;
+        right: -25px;
+        top: 50%;
+        transform: translateY(-10%);
+    }
+    /* Pastikan card tidak terlalu sempit */
+.swiper .swiper-slide {
+    min-width: 200px; /* card minimal lebar 200px */
+}
+
+/* Footer rapi di mobile */
+.card-footer {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+}
+/* Buat tinggi gambar konsisten */
+.card-img-consistent {
+    width: 100%;
+    height: 180px; /* atur tinggi sesuai kebutuhan */
+    object-fit: cover; /* menjaga rasio dan memotong bagian yang berlebih */
+    object-position: center; /* fokus di tengah gambar */
+    border-top-left-radius: .25rem;
+    border-top-right-radius: .25rem;
+}
+
+@media (max-width: 576px) {
+    .card-footer {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .card-footer .countdown {
+        margin-top: 0.25rem;
+    }
+}
