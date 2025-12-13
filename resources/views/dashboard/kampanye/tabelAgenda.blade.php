@@ -79,7 +79,7 @@
                             @if($userAgendas->isEmpty())
                             <div class="d-flex flex-column justify-content-center align-items-center" style="min-height: 250px;">
                                 <img src="{{ asset('img/page/no-data.svg') }}" alt="Tidak ada agenda" class="img-fluid mb-3" style="max-height: 150px;">
-                                <p class="text-center text-muted mb-0">Belum ada agenda terbaru.</p>
+                                <p class="text-center text-muted mb-0">Belum ada data agenda.</p>
                             </div>
                             @else
                             <table class="table align-middle" id="dataTableAgenda">

@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\Message;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -21,6 +22,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        if (app()->environment('production')) {
+            URL::forceScheme('https');
+        }
         view()->composer('dashboard.layouts.topbar', function ($view) {
 
             // Default unread = 0
