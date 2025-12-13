@@ -17,6 +17,7 @@
         "laravel/reverb": "^1.6",
         "laravel/tinker": "^2.10.1",
         "mews/purifier": "^3.4",
+        "ext-bcmath": "*",
         "silviolleite/laravelpwa": "^2.0"
     },
     "require-dev": {

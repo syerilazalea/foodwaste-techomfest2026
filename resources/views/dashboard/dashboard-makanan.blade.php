@@ -32,7 +32,7 @@
                             <h5 class="mb-0 fw-bold">Daftar Makanan</h5>
                             <div class="d-flex gap-2">
                                 <div class="input-group" style="width: 250px;">
-                                    <input type="text" id="searchInput" class="form-control" placeholder="Cari agenda...">
+                                    <input type="text" id="searchInput" class="form-control" placeholder="Cari makanan...">
                                     <button class="btn btn-outline-secondary" type="button">
                                         <i data-acorn-icon="search"></i>
                                     </button>
@@ -64,7 +64,7 @@
                                     </div>
                                 </div>
                                 <tbody id="tableBody">
-                                    @foreach($dataMakanan as $item)
+                                    @forelse($dataMakanan as $item)
                                     <tr>
                                         <td>
                                             @if($item->gambar)
@@ -99,7 +99,22 @@
                                             </button>
                                         </td>
                                     </tr>
-                                    @endforeach
+                                    @empty
+                                    <!-- EMPTY STATE TABLE -->
+                                    <tr>
+                                        <td colspan="8">
+                                            <div class="d-flex flex-column justify-content-center align-items-center py-5">
+                                                <img src="{{ asset('img/page/no-data.svg') }}"
+                                                    alt="Tidak ada data"
+                                                    class="img-fluid mb-3"
+                                                    style="max-height: 120px;">
+                                                <p class="text-muted mb-0 text-center">
+                                                    Belum ada data makanan yang tersedia.
+                                                </p>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    @endforelse
                                 </tbody>
                             </table>
                         </div>

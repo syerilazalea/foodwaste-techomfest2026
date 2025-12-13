@@ -109,8 +109,8 @@ Carbon::setLocale('id'); // set locale ke Indonesia
                 </div>
                 <div class="scroll-out">
                     <div class="scroll-by-count" data-count="4">
-                        @foreach($artikels as $artikel)
-                        @if($artikel->user_id == auth()->id())
+
+                        @forelse($artikels as $artikel)
                         <div class="card mb-2">
                             <div class="row g-0 sh-12">
                                 <div class="col-auto" style="flex-shrink: 0; width: 150px; height: 100px; position: relative;">
@@ -120,6 +120,7 @@ Carbon::setLocale('id'); // set locale ke Indonesia
                                     <span class="badge rounded-pill {{ $badgeClass }} me-1 position-absolute s-n2 t-2 z-index-1">
                                         {{ $artikel->status }}
                                     </span>
+
                                     <img src="{{ asset($artikel->gambar) }}"
                                         alt="Artikel"
                                         class="card-img card-img-horizontal"
@@ -130,38 +131,48 @@ Carbon::setLocale('id'); // set locale ke Indonesia
                                     <div class="card-body pt-0 pb-0 h-100">
                                         <div class="row g-0 h-100 align-content-center">
                                             <div class="col-12 col-md-7 d-flex flex-column mb-2 mb-md-0">
-                                                <span class="fw-bold">{{ $artikel->judul}}</span>
+                                                <span class="fw-bold">{{ $artikel->judul }}</span>
                                                 <div class="text-small text-muted">
-                                                    <i data-acorn-icon="clock" class="me-1"></i> Dibuat: {{ Carbon::parse($artikel->created_at)->diffForHumans() }}
+                                                    <i data-acorn-icon="clock" class="me-1"></i>
+                                                    Dibuat: {{ Carbon::parse($artikel->created_at)->diffForHumans() }}
                                                 </div>
                                             </div>
+
                                             <div class="col-12 col-md-5 d-flex align-items-center justify-content-md-end">
-                                                <div class="col-12 col-md-5 d-flex align-items-center justify-content-md-end">
-                                                    <button class="btn btn-sm btn-icon btn-icon-only btn-outline-primary mb-1 me-2"
-                                                        type="button"
-                                                        data-bs-toggle="modal"
-                                                        data-bs-target="#modalEditArtikel{{ $artikel->id }}">
-                                                        <i data-acorn-icon="edit"></i>
+                                                <button class="btn btn-sm btn-icon btn-icon-only btn-outline-primary me-2"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#modalEditArtikel{{ $artikel->id }}">
+                                                    <i data-acorn-icon="edit"></i>
+                                                </button>
+
+                                                @if(strtolower($artikel->status) === 'draft')
+                                                <form action="{{ route('dashboard.kampanyeArtikel.updateStatusArtikel', $artikel->id) }}"
+                                                    method="POST" class="d-inline">
+                                                    @csrf
+                                                    <button class="btn btn-sm btn-icon btn-icon-only btn-outline-primary">
+                                                        <i data-acorn-icon="upload"></i>
                                                     </button>
-                                                    @if(strtolower($artikel->status) === 'draft')
-                                                    <form action="{{ route('dashboard.kampanyeArtikel.updateStatusArtikel', $artikel->id) }}" method="POST" class="d-inline">
-                                                        @csrf
-                                                        @method('POST')
-                                                        <button class="btn btn-sm btn-icon btn-icon-only btn-outline-primary mb-1"
-                                                            type="submit">
-                                                            <i data-acorn-icon="upload"></i>
-                                                        </button>
-                                                    </form>
-                                                    @endif
-                                                </div>
+                                                </form>
+                                                @endif
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        @endif
-                        @endforeach
+
+                        @empty
+                        <!-- FULL EMPTY STATE -->
+                        <div class="d-flex flex-column justify-content-center align-items-center text-center"
+                            style="min-height: 300px;">
+                            <img src="{{ asset('img/page/no-data.svg') }}"
+                                class="img-fluid mb-3"
+                                style="max-height: 160px;">
+                            <p class="text-muted mb-0">
+                                Kamu belum memiliki artikel.
+                            </p>
+                        </div>
+                        @endforelse
                     </div>
                 </div>
             </div>
@@ -174,8 +185,7 @@ Carbon::setLocale('id'); // set locale ke Indonesia
                 </div>
                 <div class="scroll-out">
                     <div class="scroll-by-count" data-count="4">
-                        @foreach($agendas as $agenda)
-                        @if($agenda->user_id == auth()->id())
+                        @forelse($agendas as $agenda)
                         <div class="card mb-2">
                             <div class="row g-0 sh-12">
                                 <div class="col-auto" style="flex-shrink: 0; width: 150px; height: 100px; position: relative;">
@@ -218,8 +228,18 @@ Carbon::setLocale('id'); // set locale ke Indonesia
                                 </div>
                             </div>
                         </div>
-                        @endif
-                        @endforeach
+                        @empty
+                        <!-- FULL EMPTY STATE -->
+                        <div class="d-flex flex-column justify-content-center align-items-center text-center"
+                            style="min-height: 300px;">
+                            <img src="{{ asset('img/page/no-data.svg') }}"
+                                class="img-fluid mb-3"
+                                style="max-height: 160px;">
+                            <p class="text-muted mb-0">
+                                Kamu belum memiliki artikel.
+                            </p>
+                        </div>
+                        @endforelse
                     </div>
                 </div>
             </div>

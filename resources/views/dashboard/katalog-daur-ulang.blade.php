@@ -27,18 +27,40 @@
             <!-- LEFT CONTENT -->
             <div class="col-12 col-xl-8 col-xxl-9 mb-5" id="daurUlangContainer">
 
+                @if($daurUlang->count())
+                <!-- GRID DATA -->
                 <div id="daurUlangList" class="row row-cols-1 row-cols-sm-2 row-cols-xl-3 g-3">
-
                     @foreach($daurUlang as $data)
                     @include('dashboard.partials.katalog-daurUlang-card', ['data' => $data])
                     @endforeach
-
                 </div>
+
+                <!-- LOAD MORE -->
                 <div class="row mt-5">
                     <div class="col-12 text-center">
-                        <button id="loadMoreBtn" class="btn btn-xl btn-outline-primary sw-30" data-skip="6" @if($totalDaurUlang <=6) style="display:none" @endif>Lebih Banyak</button>
+                        <button id="loadMoreBtn"
+                            class="btn btn-xl btn-outline-primary sw-30"
+                            data-skip="6"
+                            @if($totalDaurUlang <=6) style="display:none" @endif>
+                            Lebih Banyak
+                        </button>
                     </div>
                 </div>
+
+                @else
+                <!-- FULL PAGE EMPTY STATE -->
+                <div class="d-flex flex-column justify-content-center align-items-center text-center"
+                    style="min-height: 65vh;">
+                    <img src="{{ asset('img/page/no-data.svg') }}"
+                        alt="Tidak ada data"
+                        class="img-fluid mb-4"
+                        style="max-height: 200px;">
+                    <h5 class="text-muted">Belum ada data daur ulang</h5>
+                    <p class="text-muted mb-0">
+                        Data akan muncul setelah tersedia.
+                    </p>
+                </div>
+                @endif
             </div>
 
             @php

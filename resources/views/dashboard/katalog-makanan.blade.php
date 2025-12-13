@@ -26,6 +26,7 @@
         <div class="row">
             <!-- LEFT CONTENT -->
             <div class="col-12 col-xl-8 col-xxl-9 mb-5">
+                @if($makanan->count())
                 <div id="makananList" class="row row-cols-1 row-cols-sm-2 row-cols-xl-3 g-3">
                     @foreach($makanan as $data)
                     @include('dashboard.partials.katalog-makanan-card', ['data' => $data])
@@ -40,6 +41,20 @@
                         </button>
                     </div>
                 </div>
+                @else
+                <!-- FULL PAGE EMPTY STATE -->
+                <div class="d-flex flex-column justify-content-center align-items-center text-center"
+                    style="min-height: 65vh;">
+                    <img src="{{ asset('img/page/no-data.svg') }}"
+                        alt="Tidak ada data"
+                        class="img-fluid mb-4"
+                        style="max-height: 200px;">
+                    <h5 class="text-muted">Belum ada data makanan</h5>
+                    <p class="text-muted mb-0">
+                        Data akan muncul setelah tersedia.
+                    </p>
+                </div>
+                @endif
             </div>
 
             @php

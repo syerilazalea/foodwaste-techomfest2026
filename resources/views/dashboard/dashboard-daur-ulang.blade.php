@@ -32,7 +32,7 @@
                             <h5 class="mb-0 fw-bold">Daftar Produk Daur Ulang</h5>
                             <div class="d-flex gap-2">
                                 <div class="input-group" style="width: 250px;">
-                                    <input type="text" id="searchInput" class="form-control" placeholder="Cari agenda...">
+                                    <input type="text" id="searchInput" class="form-control" placeholder="Cari daur ulang...">
                                     <button class="btn btn-outline-secondary" type="button">
                                         <i data-acorn-icon="search"></i>
                                     </button>
@@ -65,7 +65,7 @@
                                     </div>
                                 </div>
                                 <tbody id="tableBody">
-                                    @foreach($dataDaurUlang as $item)
+                                    @forelse($dataDaurUlang as $item)
                                     <tr>
                                         <td>
                                             @if($item->gambar)
@@ -84,7 +84,7 @@
                                             <button class="btn btn-sm btn-icon btn-icon-only btn-outline-secondary"
                                                 data-bs-toggle="modal" data-bs-target="#modalEdit"
                                                 onclick='setEdit(@json($item))'>
-                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
                                                     <path d="M12.854.146a.5.5 0 0 1 .646.058l2.292 2.292a.5.5 0 0 1-.058.646L4.207 14.793 1 15l.207-3.207L12.854.146z" />
                                                 </svg>
                                             </button>
@@ -99,7 +99,22 @@
                                             </button>
                                         </td>
                                     </tr>
-                                    @endforeach
+                                    @empty
+                                    <!-- EMPTY STATE TABLE -->
+                                    <tr>
+                                        <td colspan="8">
+                                            <div class="d-flex flex-column justify-content-center align-items-center py-5">
+                                                <img src="{{ asset('img/page/no-data.svg') }}"
+                                                    alt="Tidak ada data"
+                                                    class="img-fluid mb-3"
+                                                    style="max-height: 120px;">
+                                                <p class="text-muted mb-0 text-center">
+                                                    Belum ada data daur ulang yang tersedia.
+                                                </p>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    @endforelse
                                 </tbody>
                             </table>
                         </div>
