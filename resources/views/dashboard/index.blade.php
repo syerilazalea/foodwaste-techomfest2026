@@ -118,7 +118,7 @@ $currentUser = Auth::user();
                 </div>
                 <div class="scroll-out">
                     <div class="scroll-by-count" data-count="4">
-                        @foreach ($pesananMakanan as $item)
+                        @forelse ($pesananMakanan as $item)
                         <div class="card mb-2">
                             <div class="row g-0 sh-12">
                                 <div class="col-auto">
@@ -156,7 +156,15 @@ $currentUser = Auth::user();
 
                             </div>
                         </div>
-                        @endforeach
+                        @empty
+                        <!-- EMPTY STATE -->
+                        <div class="d-flex flex-column justify-content-center align-items-center" style="min-height: 250px;">
+                            <img src="{{ asset('img/page/no-data.svg') }}" alt="Tidak ada makanan" class="img-fluid mb-3" style="max-height: 150px;">
+                            <p class="text-center text-muted mb-0">
+                                Belum ada pesanan makanan saat ini.
+                            </p>
+                        </div>
+                        @endforelse
                     </div>
                 </div>
             </div>
@@ -176,7 +184,7 @@ $currentUser = Auth::user();
                 </div>
                 <div class="scroll-out">
                     <div class="scroll-by-count" data-count="4">
-                        @foreach ($pesananDaurUlang as $item)
+                        @forelse ($pesananDaurUlang as $item)
                         <div class="card mb-2">
                             <div class="row g-0 sh-12">
                                 <div class="col-auto">
@@ -213,7 +221,15 @@ $currentUser = Auth::user();
                                 </div>
                             </div>
                         </div>
-                        @endforeach
+                        @empty
+                        <!-- EMPTY STATE -->
+                        <div class="d-flex flex-column justify-content-center align-items-center" style="min-height: 250px;">
+                            <img src="{{ asset('img/page/no-data.svg') }}" alt="Tidak ada makanan" class="img-fluid mb-3" style="max-height: 150px;">
+                            <p class="text-center text-muted mb-0">
+                                Belum ada pesanan makanan saat ini.
+                            </p>
+                        </div>
+                        @endforelse
                     </div>
                 </div>
             </div>
@@ -293,7 +309,7 @@ $currentUser = Auth::user();
 
                 <div class="scroll-out">
                     <div class="scroll-by-count" data-count="4">
-                        @foreach($dipesanMakanan as $item) @if($item->makanan)
+                        @forelse($dipesanMakanan as $item) @if($item->makanan)
                         <div class="card mb-2">
                             <div class="row g-0 sh-12">
                                 <div class="col-auto position-relative">
@@ -332,7 +348,16 @@ $currentUser = Auth::user();
 
                             </div>
                         </div>
-                        @endif @endforeach
+                        @endif
+                        @empty
+                        <!-- EMPTY STATE -->
+                        <div class="d-flex flex-column justify-content-center align-items-center" style="min-height: 250px;">
+                            <img src="{{ asset('img/page/no-data.svg') }}" alt="Tidak ada makanan" class="img-fluid mb-3" style="max-height: 150px;">
+                            <p class="text-center text-muted mb-0">
+                                Belum ada pesanan makanan saat ini.
+                            </p>
+                        </div>
+                        @endforelse
                     </div>
                 </div>
             </div>
@@ -353,7 +378,7 @@ $currentUser = Auth::user();
 
                 <div class="scroll-out">
                     <div class="scroll-by-count" data-count="4">
-                        @foreach($dipesanDaurUlang as $item) @if($item->daurUlang)
+                        @forelse($dipesanDaurUlang as $item) @if($item->daurUlang)
                         <div class="card mb-2">
                             <div class="row g-0 sh-12">
                                 <div class="col-auto position-relative">
@@ -392,7 +417,16 @@ $currentUser = Auth::user();
 
                             </div>
                         </div>
-                        @endif @endforeach
+                        @endif
+                        @empty
+                        <!-- EMPTY STATE -->
+                        <div class="d-flex flex-column justify-content-center align-items-center" style="min-height: 250px;">
+                            <img src="{{ asset('img/page/no-data.svg') }}" alt="Tidak ada makanan" class="img-fluid mb-3" style="max-height: 150px;">
+                            <p class="text-center text-muted mb-0">
+                                Belum ada pesanan makanan saat ini.
+                            </p>
+                        </div>
+                        @endforelse
                     </div>
                 </div>
             </div>
