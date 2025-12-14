@@ -62,6 +62,16 @@ Route::prefix('dashboard')->name('dashboard.')->middleware(AuthCheck::class)->gr
     Route::post('/konfirmasiMakanan/{id}/mulai', [DashboardController::class, 'makananSudahDiambil'])->name('konfirmasiMakanan.mulai');
     Route::post('/konfirmasiDaurUlang/{id}/mulai', [DashboardController::class, 'daurUlangSudahDiambil'])->name('konfirmasiDaurUlang.mulai');
 
+    //search
+    Route::get('/pesanan-makanan/search', [DashboardController::class, 'searchPesananMakanan'])
+    ->name('pesanan-makanan.search');
+    Route::get('/dipesan-makanan/search', [DashboardController::class, 'searchDipesanMakanan'])
+    ->name('dipesan-makanan.search');
+    Route::get('/pesanan-daur-ulang/search', [DashboardController::class, 'searchPesananDaurUlang'])
+    ->name('pesanan-daur-ulang.search');
+    Route::get('/dipesan-daur-ulang/search', [DashboardController::class, 'searchDipesanDaurUlang'])
+    ->name('dipesan-daur-ulang.search');
+
     Route::get('/topbar', [DashboardController::class, 'topbar'])->name('topbar');
 
     //Page pesan

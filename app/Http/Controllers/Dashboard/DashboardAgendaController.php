@@ -9,6 +9,8 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Auth;
 use Mews\Purifier\Facades\Purifier;
+use Illuminate\Validation\ValidationException;
+use Carbon\Carbon;
 
 class DashboardAgendaController extends Controller
 {
@@ -62,16 +64,46 @@ class DashboardAgendaController extends Controller
             'nama_kegiatan' => 'required|string|max:255',
             'deskripsi' => 'nullable|string',
             'tanggal' => 'required|date',
-            'waktu_mulai' => 'required',
-            'waktu_selesai' => 'required',
+            'waktu_mulai' => 'required|date_format:H:i',
+            'waktu_selesai' => 'required|date_format:H:i',
             'lokasi' => 'required|string',
-            'kuota' => 'required|integer',
+            'kuota' => 'required|integer|min:1',
             'status' => 'required|string',
             'gambar' => 'nullable|image|mimes:jpg,png,jpeg,webp|max:2048',
         ]);
 
-        $path = null;
+        $today = Carbon::today();
+        $now = Carbon::now();
 
+        $tanggal = Carbon::parse($request->tanggal);
+        $waktuMulai = Carbon::parse($request->tanggal . ' ' . $request->waktu_mulai);
+        $waktuSelesai = Carbon::parse($request->tanggal . ' ' . $request->waktu_selesai);
+
+        /** ❌ Tanggal sudah lewat */
+        if ($tanggal->lt($today)) {
+            throw ValidationException::withMessages([
+                'tanggal' => 'Tanggal agenda tidak boleh sebelum hari ini.',
+            ]);
+        }
+
+        /** ❌ Jika hari ini, waktu mulai tidak boleh kurang dari sekarang */
+        if ($tanggal->isSameDay($today) && $waktuMulai->lt($now)) {
+            throw ValidationException::withMessages([
+                'waktu_mulai' => 'Waktu mulai tidak boleh kurang dari waktu sekarang.',
+            ]);
+        }
+
+        /** ❌ Waktu selesai harus setelah waktu mulai */
+        if ($waktuSelesai->lte($waktuMulai)) {
+            throw ValidationException::withMessages([
+                'waktu_selesai' => 'Waktu selesai harus lebih besar dari waktu mulai.',
+            ]);
+        }
+
+        // =============================
+        // Upload Gambar
+        // =============================
+        $path = null;
         if ($request->hasFile('gambar')) {
             $file = $request->file('gambar');
             $filename = Str::slug($request->nama_kegiatan) . '_' . time() . '.' . $file->getClientOriginalExtension();
@@ -95,7 +127,9 @@ class DashboardAgendaController extends Controller
             'gambar' => $path,
         ]);
 
-        return redirect()->route('dashboard.agenda.index')->with('success', 'Agenda berhasil dibuat!');
+        return redirect()
+            ->route('dashboard.agenda.index')
+            ->with('success', 'Agenda berhasil dibuat!');
     }
 
     // ================= UPDATE =================
@@ -103,56 +137,48 @@ class DashboardAgendaController extends Controller
     {
         $agenda = Agenda::findOrFail($id);
 
-        // Debug: tampilkan semua request input
-        // dd($request->all());
-
         $request->validate([
             'nama_kegiatan' => 'required|string|max:255',
             'deskripsi' => 'nullable|string',
             'tanggal' => 'required|date',
             'waktu_mulai' => 'required',
-            'waktu_selesai' => 'required',
+            'waktu_selesai' => 'required|after:waktu_mulai',
             'lokasi' => 'required|string',
-            'kuota' => 'required|integer',
+            'kuota' => 'required|integer|min:1',
             'gambar' => 'nullable|image|mimes:jpg,png,jpeg,webp|max:2048',
         ]);
 
-        // Default path tetap gambar lama
-        $path = $agenda->gambar;
+        // ⛔ VALIDASI LOGIKA TANGGAL & WAKTU
+        $now = Carbon::now();
+        $tanggalInput = Carbon::parse($request->tanggal);
 
-        // Debug: cek apakah file gambar dikirim
-        if ($request->hasFile('gambar')) {
-            $file = $request->file('gambar');
-
-            // Debug: info file
-            info('File uploaded: ' . $file->getClientOriginalName());
-            info('File type: ' . $file->getClientMimeType());
-            info('File size: ' . $file->getSize());
-
-            // Hapus file lama jika ada
-            if ($agenda->gambar && File::exists(public_path($agenda->gambar))) {
-                File::delete(public_path($agenda->gambar));
-                info('Old file deleted: ' . $agenda->gambar);
+        if ($tanggalInput->isToday()) {
+            if ($request->waktu_mulai < $now->format('H:i')) {
+                return back()
+                    ->withErrors(['waktu_mulai' => 'Waktu mulai tidak boleh kurang dari waktu sekarang'])
+                    ->withInput();
             }
-
-            $filename = Str::slug($request->nama_kegiatan) . '_' . time() . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('img/agenda'), $filename);
-
-            $path = 'img/agenda/' . $filename;
-
-            // Debug: path baru
-            info('New file path: ' . $path);
-        } else {
-            info('No new file uploaded');
         }
 
-        $deskripsi = Purifier::clean($request->deskripsi);
+        // ====== GAMBAR ======
+        $path = $agenda->gambar;
+
+        if ($request->hasFile('gambar')) {
+            if ($agenda->gambar && File::exists(public_path($agenda->gambar))) {
+                File::delete(public_path($agenda->gambar));
+            }
+
+            $file = $request->file('gambar');
+            $filename = Str::slug($request->nama_kegiatan) . '_' . time() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('img/agenda'), $filename);
+            $path = 'img/agenda/' . $filename;
+        }
 
         $agenda->update([
             'user_id' => Auth::id(),
             'nama_kegiatan' => $request->nama_kegiatan,
             'slug' => Str::slug($request->nama_kegiatan),
-            'deskripsi' => $deskripsi,
+            'deskripsi' => Purifier::clean($request->deskripsi),
             'tanggal' => $request->tanggal,
             'waktu_mulai' => $request->waktu_mulai,
             'waktu_selesai' => $request->waktu_selesai,
@@ -161,12 +187,10 @@ class DashboardAgendaController extends Controller
             'gambar' => $path,
         ]);
 
-        info('Agenda updated successfully: ID ' . $agenda->id);
-
-        return redirect()->route('dashboard.agenda.index')->with('success', 'Agenda berhasil diupdate!');
+        return redirect()
+            ->route('dashboard.agenda.index')
+            ->with('success', 'Agenda berhasil diupdate!');
     }
-
-
 
     // ================= DESTROY =================
     public function destroy($slug)

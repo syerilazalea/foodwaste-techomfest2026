@@ -47,13 +47,8 @@
     const chatJsonUrl = "{{ asset('json/chat.json') }}";
 </script>
 <!-- TinyMCE API -->
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        src = "https://cdn.tiny.cloud/1/YOUR_API/tinymce/8/tinymce.min.js"
-        referrerpolicy = "origin"
-        crossorigin = "anonymous"
-    });
-</script>
+<script src="{{ asset('js/tinymce2/tinymce.min.js') }}"></script>
+
 <!-- Dropify JS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js"></script>
 <script>

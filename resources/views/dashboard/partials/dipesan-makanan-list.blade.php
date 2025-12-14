@@ -1,0 +1,77 @@
+@if ($dipesanMakanan->count())
+    <div class="scroll-out">
+        <div class="scroll-by-count" data-count="4">
+            @foreach ($dipesanMakanan as $item)
+                @if ($item->makanan)
+                <div class="card mb-2">
+                    <div class="row g-0 sh-12">
+                        <div class="col-auto position-relative">
+                            <span class="badge rounded-pill
+                                @if($item->status == 'diambil') bg-primary
+                                @elseif($item->status == 'perjalanan') bg-info
+                                @elseif($item->status == 'menunggu') bg-warning
+                                @endif
+                                position-absolute s-n2 t-2 z-index-1">
+                                {{ ucfirst($item->status) }}
+                            </span>
+
+                            <img src="{{ asset($item->makanan->gambar ?? 'default.png') }}"
+                                 alt="{{ $item->makanan->nama ?? '-' }}"
+                                 class="card-img card-img-horizontal sw-13 sw-lg-15" />
+                        </div>
+
+                        <div class="col">
+                            <div class="card-body pt-0 pb-0 h-100">
+                                <div class="row g-0 h-100 align-content-center">
+                                    <div class="col-12 col-md-7 d-flex flex-column">
+                                        <span class="fw-bold">{{ $item->makanan->nama ?? '-' }}</span>
+
+                                        <div class="text-muted small">
+                                            penyedia -
+                                            @if ($item->makanan->user && $item->makanan->user->role === 'aktivis')
+                                                {{ $item->makanan->user->organisasi }}
+                                            @elseif ($item->makanan->user)
+                                                {{ $item->makanan->user->name }}
+                                            @else
+                                                -
+                                            @endif
+                                        </div>
+
+                                        <div class="text-small text-primary">
+                                            Batas Pengambilan:
+                                            {{ $item->makanan->batas_waktu
+                                                ? \Carbon\Carbon::parse($item->makanan->batas_waktu)->format('H:i')
+                                                : '-' }} WIB
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 col-md-5 d-flex justify-content-md-end align-items-center">
+                                        <button class="btn btn-sm btn-outline-primary"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#modalMakanan{{ $item->id }}">
+                                            Detail
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @endif
+            @endforeach
+
+        </div>
+    </div>
+
+@else
+    {{-- EMPTY STATE DI LUAR SCROLL --}}
+    <div class="d-flex flex-column justify-content-center align-items-center py-5">
+        <img src="{{ asset('img/page/no-data.svg') }}"
+             alt="Tidak ada makanan"
+             class="img-fluid mb-3"
+             style="max-height: 150px;">
+        <p class="text-muted mb-0 text-center">
+            Belum ada pesanan makanan saat ini.
+        </p>
+    </div>
+@endif

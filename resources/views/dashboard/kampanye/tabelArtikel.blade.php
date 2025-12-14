@@ -123,8 +123,8 @@
                                         </td>
                                         <td>{{ $artikel->created_at->translatedFormat('d M Y') }}</td>
                                         <td class="text-nowrap">
-                                            <button class="btn btn-sm btn-icon btn-icon-only btn-outline-secondary me-1"
-                                                data-bs-toggle="modal" data-bs-target="#modalEditArtikel{{ $artikel->id }}">
+                                            <button class="btn btn-sm btn-icon btn-icon-only btn-outline-secondary me-1 btn-edit-artikel"
+                                                data-artikel='@json($artikel)'>
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
                                                     <path d="M12.854.146a.5.5 0 0 1 .646.058l2.292 2.292a.5.5 0 0 1-.058.646L4.207 14.793 1 15l.207-3.207L12.854.146z" />
                                                 </svg>
@@ -140,58 +140,6 @@
                                             </button>
                                         </td>
                                     </tr>
-                                    <!-- Modal Edit Artikel -->
-                                    <div class="modal fade" id="modalEditArtikel{{ $artikel->id }}" tabindex="-1" aria-hidden="true">
-                                        <div class="modal-dialog modal-lg">
-                                            <div class="modal-content">
-                                                <form action="{{ route('dashboard.artikel.update', $artikel->slug) }}" method="POST" enctype="multipart/form-data">
-                                                    @csrf
-                                                    @method('PUT')
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title">Edit Artikel</h5>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <div class="mb-3">
-                                                            <label class="form-label">Judul Artikel</label>
-                                                            <input type="text" class="form-control" name="judul" value="{{ $artikel->judul }}">
-                                                        </div>
-                                                        <div class="mb-3">
-                                                            <label class="form-label">Konten Artikel</label>
-                                                            <textarea class="form-control" name="deskripsi" id="editor-edit" rows="6">{!! \Illuminate\Support\Str::limit(strip_tags($artikel->deskripsi), 100) !!}</textarea>
-                                                        </div>
-                                                        <div class="mb-3 row align-items-center">
-                                                            <div class="col-md-6">
-                                                                <label class="form-label">Gambar Utama</label>
-                                                                <input type="file" name="gambar" id="dropifyInput" class="form-control"
-                                                                    data-default-file="{{ $artikel->gambar ? asset($artikel->gambar) : '' }}"
-                                                                    accept="image/*">
-                                                            </div>
-                                                            <div class="col-md-6">
-                                                                <label class="form-label d-block">&nbsp;</label>
-                                                                <img src="{{ asset($artikel->gambar) }}" class="rounded img-thumbnail"
-                                                                    style="width: 200px; height: 200px; object-fit: cover;">
-                                                            </div>
-                                                        </div>
-                                                        <div class="mb-3">
-                                                            <label class="form-label">Kategori</label>
-                                                            <select class="form-select" name="kategori">
-                                                                <option value="edukasi" {{ $artikel->kategori == 'edukasi' ? 'selected' : '' }}>Edukasi</option>
-                                                                <option value="tips & trik" {{ $artikel->kategori == 'tips & trik' ? 'selected' : '' }}>Tips & Trik</option>
-                                                                <option value="berita" {{ $artikel->kategori == 'berita' ? 'selected' : '' }}>Berita</option>
-                                                                <option value="tutorial" {{ $artikel->kategori == 'tutorial' ? 'selected' : '' }}>Tutorial</option>
-                                                            </select>
-                                                        </div>
-
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                                                        <button type="submit" class="btn btn-primary">Update Artikel</button>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
                                     @endforeach
                                 </tbody>
                             </table>
@@ -213,6 +161,72 @@
     </div>
 </main>
 
+<!-- Modal Edit Artikel -->
+<!-- Modal Edit Makanan -->
+<div class="modal fade" id="modalEditMakanan" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content border-0 shadow">
+            <form id="formEditMakanan" method="POST" enctype="multipart/form-data">
+                @csrf
+                @method('PUT')
+                <div class="modal-header">
+                    <h5 class="modal-title fw-bold">Edit Data Makanan</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body">
+                    <!-- Hidden ID -->
+                    <input type="hidden" name="id" id="edit_id">
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Foto Produk Daur Ulang</label>
+                        <input type="file" class="form-control dropify-edit" name="gambar" id="edit_gambar" accept="image/*">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Nama Makanan</label>
+                        <input type="text" class="form-control" name="nama" id="edit_nama" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Nama Penyedia / Instansi</label>
+                        <input type="text" class="form-control" name="penyedia" id="edit_penyedia" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Alamat</label>
+                        <input type="text" class="form-control" name="alamat" id="edit_alamat" value="{{ Auth::user()->alamat }}" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Kategori Penyedia</label>
+                        <select class="form-select" name="kategori" id="edit_kategori" required>
+                            <option value="UMKM">UMKM</option>
+                            <option value="Restoran">Restoran</option>
+                            <option value="Hotel">Hotel</option>
+                            <option value="Rumah Tangga">Rumah Tangga</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Porsi</label>
+                        <input type="number" class="form-control" name="porsi" id="edit_porsi" min="1" step="1" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Batas Waktu Pengambilan</label>
+                        <input type="datetime-local" class="form-control" name="batas_waktu" id="edit_batas_waktu" required>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-primary">Simpan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 <!-- Modal Buat Artikel -->
 <div class="modal fade" id="buatArtikel" tabindex="-1" aria-labelledby="buatArtikelLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
@@ -230,7 +244,7 @@
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Konten Artikel</label>
-                        <textarea name="deskripsi" id="editor-create" class="form-control" rows="6" placeholder="Tulis konten artikel di sini..."></textarea>
+                        <textarea name="deskripsi" id="editor-create" class="form-control" rows="6" placeholder="Tulis konten artikel di sini..." reuired></textarea>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Gambar</label>
@@ -388,45 +402,127 @@
     });
 </script>
 
-<script type="text/javascript">
-    tinymce.init({
-        selector: '#editor-create',
-        plugins: [
-            'advlist', 'autolink', 'link', 'image', 'lists', 'charmap', 'preview', 'anchor', 'pagebreak',
-            'searchreplace', 'wordcount', 'visualblocks', 'visualchars', 'code', 'fullscreen', 'insertdatetime',
-            'media', 'table', 'emoticons', 'help'
-        ],
-        toolbar: 'undo redo | styles | bold italic | alignleft aligncenter alignright alignjustify | ' +
-            'bullist numlist outdent indent | link image | print preview media fullscreen | ' +
-            'forecolor backcolor emoticons | help',
-        menu: {
-            favs: {
-                title: 'My Favorites',
-                items: 'code visualaid | searchreplace | emoticons'
+<script>
+    const initArtikelEditor = () => {
+        if (!window.tinymce) return;
+        if (tinymce.get('editor-create')) return;
+
+        tinymce.init({
+            selector: '#editor-create',
+            height: 300,
+            menubar: false,
+            plugins: 'lists link image table code',
+            toolbar: `
+            undo redo |
+            bold italic underline |
+            alignleft aligncenter alignright |
+            bullist numlist |
+            link table |
+            code
+        `,
+            branding: false,
+            setup: editor => {
+                editor.on('change', () => editor.save());
             }
-        },
-        menubar: 'favs file edit view insert format tools table help',
-    });
+        });
+    };
+
+    const destroyArtikelEditor = () => {
+        if (window.tinymce && tinymce.get('editor-create')) {
+            tinymce.remove('#editor-create');
+        }
+    };
+
+    const modalArtikel = document.getElementById('buatArtikel');
+    modalArtikel.addEventListener('shown.bs.modal', initArtikelEditor);
+    modalArtikel.addEventListener('hidden.bs.modal', destroyArtikelEditor);
 </script>
 
-<script type="text/javascript">
-    tinymce.init({
-        selector: '#editor-edit',
-        plugins: [
-            'advlist', 'autolink', 'link', 'image', 'lists', 'charmap', 'preview', 'anchor', 'pagebreak',
-            'searchreplace', 'wordcount', 'visualblocks', 'visualchars', 'code', 'fullscreen', 'insertdatetime',
-            'media', 'table', 'emoticons', 'help'
-        ],
-        toolbar: 'undo redo | styles | bold italic | alignleft aligncenter alignright alignjustify | ' +
-            'bullist numlist outdent indent | link image | print preview media fullscreen | ' +
-            'forecolor backcolor emoticons | help',
-        menu: {
-            favs: {
-                title: 'My Favorites',
-                items: 'code visualaid | searchreplace | emoticons'
+<script>
+    $(document).ready(function() {
+
+        // ======= TinyMCE =======
+        const initTinyMCE = (editorId) => {
+            if (!window.tinymce) return;
+            if (tinymce.get(editorId)) return;
+
+            tinymce.init({
+                selector: `#${editorId}`,
+                height: 300,
+                menubar: false,
+                plugins: 'lists link table code image',
+                toolbar: 'undo redo | bold italic underline | alignleft aligncenter alignright | bullist numlist | link table | code',
+                branding: false,
+                setup: editor => {
+                    editor.on('change', () => editor.save());
+                }
+            });
+        };
+
+        const destroyTinyMCE = (editorId) => {
+            if (window.tinymce && tinymce.get(editorId)) {
+                tinymce.remove(`#${editorId}`);
             }
-        },
-        menubar: 'favs file edit view insert format tools table help',
+        };
+
+        // ======= Dropify =======
+        const initDropify = (selector) => {
+            if (!$(selector).hasClass('dropify-initialized')) {
+                $(selector).dropify({
+                    messages: {
+                        default: 'Drag or drop your image',
+                        replace: 'Drag or drop to replace',
+                        remove: 'Remove image',
+                        error: 'Oops, invalid file!'
+                    }
+                });
+                $(selector).addClass('dropify-initialized');
+            }
+        };
+
+        const resetDropify = (selector, defaultFile = '') => {
+            let drEvent = $(selector).data('dropify');
+            if (drEvent) {
+                drEvent.resetPreview();
+                drEvent.clearElement();
+                drEvent.settings.defaultFile = defaultFile;
+                drEvent.init();
+            }
+        };
+
+        // ======= Tombol Edit Artikel =======
+        $('.btn-edit-artikel').on('click', function() {
+            let artikel = $(this).data('artikel');
+
+            // Set form action
+            $('#formEditArtikel').attr('action', '/dashboard/artikel/' + artikel.id);
+
+            // Fill input
+            $('#edit_artikel_id').val(artikel.id);
+            $('#edit_judul').val(artikel.judul);
+            $('#edit_deskripsi').val(artikel.deskripsi);
+            $('#edit_kategori').val(artikel.kategori);
+
+            // Set gambar lama
+            let defaultFile = artikel.gambar ? "{{ url('/') }}/" + artikel.gambar : '';
+            let dropifyInput = $('#edit_gambar');
+            // Hancurkan Dropify lama jika ada
+            let dr = dropifyInput.data('dropify');
+            if (dr) dr.destroy();
+            dropifyInput.attr('data-default-file', defaultFile);
+            dropifyInput.dropify();
+
+            // Tampilkan modal
+            $('#modalEditArtikel').modal('show');
+        });
+
+        // ======= Reset saat modal ditutup =======
+        $('#modalEditArtikel').on('hidden.bs.modal', function() {
+            destroyTinyMCE('edit_deskripsi');
+            resetDropify('#edit_gambar', '');
+            $('#formEditArtikel')[0].reset();
+        });
+
     });
 </script>
 

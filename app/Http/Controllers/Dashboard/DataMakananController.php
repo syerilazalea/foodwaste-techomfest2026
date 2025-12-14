@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
+use Carbon\Carbon;
 
 class DataMakananController extends Controller
 {
@@ -22,7 +23,33 @@ class DataMakananController extends Controller
         $expiredMakanan = DataMakanan::where('batas_waktu', '<', $now)->get();
 
         DB::transaction(function () use ($expiredMakanan, $now) {
+
+            $targetDir = public_path('img/dataDaurUlang');
+
+            if (!File::exists($targetDir)) {
+                File::makeDirectory($targetDir, 0755, true);
+            }
+
             foreach ($expiredMakanan as $makanan) {
+
+                // DEFAULT path lama
+                $newImagePath = null;
+
+                if ($makanan->gambar && File::exists(public_path($makanan->gambar))) {
+
+                    $oldPath = public_path($makanan->gambar);
+
+                    $filename = basename($makanan->gambar);
+
+                    $newPath = 'img/dataDaurUlang/' . $filename;
+
+                    // pindahkan file
+                    File::move($oldPath, public_path($newPath));
+
+                    $newImagePath = $newPath;
+                }
+
+                // simpan ke daur ulang
                 DataDaurUlang::create([
                     'user_id' => $makanan->user_id,
                     'data_makanan_id' => $makanan->id,
@@ -32,23 +59,25 @@ class DataMakananController extends Controller
                     'alamat' => $makanan->alamat,
                     'berat' => $makanan->porsi,
                     'batas_waktu' => $makanan->batas_waktu,
-                    'gambar' => $makanan->gambar,
+                    'gambar' => $newImagePath, // PATH BARU
                 ]);
 
+                // simpan ke expired
                 DataExpired::create([
                     'user_id' => $makanan->user_id,
                     'data_makanan_id' => $makanan->id,
                     'expired_at' => $now,
                 ]);
 
+                // hapus data makanan (file sudah dipindah)
                 $makanan->delete();
             }
         });
 
-        // Ambil data makanan yang masih tersisa
         $user = Auth::user();
+
         $dataMakanan = DataMakanan::where('user_id', $user->id)
-            ->orderBy('created_at', 'desc')
+            ->latest()
             ->paginate(10);
 
         return view('dashboard.dashboard-makanan', compact('user', 'dataMakanan'));
@@ -85,30 +114,37 @@ class DataMakananController extends Controller
             'penyedia' => 'required|string|max:255',
             'kategori' => 'required|in:UMKM,Restoran,Hotel,Rumah Tangga',
             'porsi' => 'required|integer|min:1',
-            'batas_waktu' => 'required|date',
+            'batas_waktu' => [
+                'required',
+                'date',
+                function ($attr, $value, $fail) {
+                    if (Carbon::parse($value)->lessThanOrEqualTo(now())) {
+                        $fail('Batas waktu harus lebih besar dari waktu sekarang.');
+                    }
+                }
+            ],
             'gambar' => 'required|image|mimes:jpeg,png,jpg,gif|max:5120',
         ]);
 
         $user = Auth::user();
 
+        $path = null;
         if ($request->hasFile('gambar')) {
             $file = $request->file('gambar');
             $filename = Str::slug($request->nama) . '_' . time() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('img/dataMakanan'), $filename);
             $path = 'img/dataMakanan/' . $filename;
-            $file->move(public_path('img/dataMakanan'), $filename); // simpan di public/img/dataMakanan
-        } else {
-            $path = null;
         }
 
-        dataMakanan::create([
+        DataMakanan::create([
             'user_id' => $user->id,
             'nama' => $request->nama,
             'penyedia' => $request->penyedia,
             'kategori' => $request->kategori,
             'alamat' => $user->alamat,
             'porsi' => $request->porsi,
-            'batas_waktu' => $request->batas_waktu,
-            'gambar' => $path, // path lengkap relatif public/
+            'batas_waktu' => Carbon::parse($request->batas_waktu),
+            'gambar' => $path,
         ]);
 
         return redirect()->back()->with('success', 'Item berhasil ditambahkan!');
@@ -122,13 +158,20 @@ class DataMakananController extends Controller
             abort(403, 'Anda tidak memiliki izin untuk mengubah data ini.');
         }
 
-        // VALIDASI MANUAL
         $validator = Validator::make($request->all(), [
             'nama' => 'required|string|max:255',
             'penyedia' => 'required|string|max:255',
             'kategori' => 'required|in:UMKM,Restoran,Hotel,Rumah Tangga',
             'porsi' => 'required|integer|min:1',
-            'batas_waktu' => 'required',
+            'batas_waktu' => [
+                'required',
+                'date',
+                function ($attr, $value, $fail) {
+                    if (Carbon::parse($value)->lessThanOrEqualTo(now())) {
+                        $fail('Batas waktu harus lebih besar dari waktu sekarang.');
+                    }
+                }
+            ],
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120',
         ]);
 
@@ -139,17 +182,18 @@ class DataMakananController extends Controller
                 ->withInput();
         }
 
-        // Jika ada file baru
+        // ===== GAMBAR =====
+        $path = $dataMakanan->gambar;
+
         if ($request->hasFile('gambar')) {
             if ($dataMakanan->gambar && File::exists(public_path($dataMakanan->gambar))) {
                 File::delete(public_path($dataMakanan->gambar));
             }
+
             $file = $request->file('gambar');
             $filename = Str::slug($request->nama) . '_' . time() . '.' . $file->getClientOriginalExtension();
-            $path = 'img/dataMakanan/' . $filename;
             $file->move(public_path('img/dataMakanan'), $filename);
-        } else {
-            $path = $dataMakanan->gambar;
+            $path = 'img/dataMakanan/' . $filename;
         }
 
         $dataMakanan->update([
@@ -158,11 +202,12 @@ class DataMakananController extends Controller
             'kategori' => $request->kategori,
             'alamat' => $user->alamat,
             'porsi' => $request->porsi,
-            'batas_waktu' => $request->batas_waktu,
+            'batas_waktu' => Carbon::parse($request->batas_waktu),
             'gambar' => $path,
         ]);
 
-        return redirect()->route('dashboard.dataMakanan.index')
+        return redirect()
+            ->route('dashboard.dataMakanan.index')
             ->with('success', 'Item berhasil diperbarui!');
     }
 

@@ -105,7 +105,7 @@
         @auth
         <div class="user-container d-flex">
             <a href="#" class="d-flex user position-relative" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <img class="profile" src="{{ asset(auth()->user()->gambar ?: 'default.png') }}" alt="profile" />
+                <img class="profile" src="{{ auth()->user()->gambar ? asset(auth()->user()->gambar) : asset('img/user/default.png') }}" alt="{{ auth()->user()->name }}" />
                 <div class="name">
                     <div class="name">{{ auth()->user()->name }}</div>
                 </div>

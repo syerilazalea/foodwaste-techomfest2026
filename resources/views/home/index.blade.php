@@ -296,7 +296,18 @@ $noScripts = true; // set true supaya scripts tidak dijalankan
                                 </div>
                                 <div class="d-flex align-items-center">
                                     <i data-acorn-icon="clock" class="text-primary me-1"></i>
-                                    <span class="align-middle countdown" data-time="{{ $item->batas_waktu }}"></span>
+
+                                    @if($item instanceof \App\Models\DataDaurUlang)
+                                    <span class="countdown"
+                                        data-time="{{ \Carbon\Carbon::parse($item->batas_waktu)->toIso8601String() }}"
+                                        data-type="daur-ulang">
+                                    </span>
+                                    @else
+                                    <span class="countdown"
+                                        data-time="{{ \Carbon\Carbon::parse($item->batas_waktu)->toIso8601String() }}"
+                                        data-type="makanan">
+                                    </span>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -704,33 +715,40 @@ $noScripts = true; // set true supaya scripts tidak dijalankan
 
         // Countdown HH:MM:SS
         document.querySelectorAll('.countdown').forEach(el => {
-            const timeData = el.dataset.time;
 
-            function getTargetDate() {
-                const now = new Date();
-                const parts = timeData.split(":").map(Number);
-                let target = new Date();
-                target.setHours(parts[0]);
-                target.setMinutes(parts[1] || 0);
-                target.setSeconds(parts[2] || 0);
-                target.setMilliseconds(0);
-                if (target < now) target.setDate(target.getDate() + 1);
-                return target;
+            let endTime = new Date(el.dataset.time).getTime();
+
+            if (isNaN(endTime)) {
+                el.textContent = 'Waktu tidak valid';
+                return;
             }
-            const targetTime = getTargetDate();
+
+            // ==========================
+            // TAMBAHAN LOGIC +6 JAM
+            // ==========================
+            if (el.dataset.type === 'daur-ulang') {
+                endTime += 6 * 60 * 60 * 1000; // +6 jam
+            }
 
             function updateCountdown() {
-                const now = new Date().getTime();
-                const distance = targetTime.getTime() - now;
-                if (distance <= 0) {
-                    el.textContent = "00:00:00";
+                const now = Date.now();
+                const diff = endTime - now;
+
+                if (diff <= 0) {
+                    el.textContent = '00:00:00';
                     return;
                 }
-                const hh = String(Math.floor(distance / (1000 * 60 * 60))).padStart(2, '0');
-                const mm = String(Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, '0');
-                const ss = String(Math.floor((distance % (1000 * 60)) / 1000)).padStart(2, '0');
-                el.textContent = `${hh}:${mm}:${ss}`;
+
+                const hours = Math.floor(diff / (1000 * 60 * 60));
+                const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+                el.textContent =
+                    String(hours).padStart(2, '0') + ':' +
+                    String(minutes).padStart(2, '0') + ':' +
+                    String(seconds).padStart(2, '0');
             }
+
             updateCountdown();
             setInterval(updateCountdown, 1000);
         });

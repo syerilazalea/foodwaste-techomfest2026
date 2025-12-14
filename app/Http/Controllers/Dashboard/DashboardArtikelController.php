@@ -52,11 +52,11 @@ class DashboardArtikelController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'gambar' => 'nullable|image|max:2048',
             'judul' => 'required|string|max:255',
             'deskripsi' => 'nullable|string',
             'kategori' => 'required|string|max:100',
             'status' => 'required|in:Published,Draft',
+            'gambar' => 'nullable|image|mimes:jpg,png,jpeg,webp|max:2048',
         ]);
 
         $path = null;
@@ -68,61 +68,59 @@ class DashboardArtikelController extends Controller
             $path = 'img/artikel/' . $filename;
         }
 
-        $data['deskripsi'] = Purifier::clean($request->deskripsi);
-        $data['gambar'] = $path;
-        $data['slug'] = Str::slug($request->judul);
-        $data['user_id'] = Auth::id();
+        Artikel::create([
+            'judul' => $data['judul'],
+            'slug' => Str::slug($data['judul']),
+            'deskripsi' => Purifier::clean($data['deskripsi']),
+            'kategori' => $data['kategori'],
+            'status' => $data['status'],
+            'gambar' => $path,
+            'user_id' => Auth::id(),
+        ]);
 
-        Artikel::create($data);
-
-        return redirect()->route('dashboard.artikel.index')->with('success', 'Artikel berhasil dibuat.');
+        return redirect()
+            ->route('dashboard.artikel.index')
+            ->with('success', 'Artikel berhasil dibuat.');
     }
 
     public function update(Request $request, Artikel $artikel)
     {
         $data = $request->validate([
-            'gambar' => 'nullable|image|max:2048',
             'judul' => 'required|string|max:255',
             'deskripsi' => 'nullable|string',
             'kategori' => 'required|string|max:100',
+            'gambar' => 'nullable|image|mimes:jpg,png,jpeg,webp|max:2048',
         ]);
 
-        // Default path tetap gambar lama
+        // ===== GAMBAR =====
         $path = $artikel->gambar;
 
-        // Debug: cek apakah file gambar dikirim
         if ($request->hasFile('gambar')) {
-            $file = $request->file('gambar');
-
-            // Debug: info file
-            info('File uploaded: ' . $file->getClientOriginalName());
-            info('File type: ' . $file->getClientMimeType());
-            info('File size: ' . $file->getSize());
-
-            // Hapus file lama jika ada
+            // Hapus gambar lama
             if ($artikel->gambar && File::exists(public_path($artikel->gambar))) {
                 File::delete(public_path($artikel->gambar));
-                info('Old file deleted: ' . $artikel->gambar);
             }
 
+            $file = $request->file('gambar');
             $filename = Str::slug($request->judul) . '_' . time() . '.' . $file->getClientOriginalExtension();
             $file->move(public_path('img/artikel'), $filename);
 
             $path = 'img/artikel/' . $filename;
-
-            // Debug: path baru
-            info('New file path: ' . $path);
-        } else {
-            info('No new file uploaded');
         }
 
-        $data['deskripsi'] = Purifier::clean($request->deskripsi);
-        $data['gambar'] = $path;
-        $data['slug'] = Str::slug($request->judul);
+        // ===== UPDATE DATA =====
+        $artikel->update([
+            'judul' => $data['judul'],
+            'slug' => Str::slug($data['judul']),
+            'deskripsi' => Purifier::clean($data['deskripsi']),
+            'kategori' => $data['kategori'],
+            'gambar' => $path,
+            'user_id' => Auth::id(),
+        ]);
 
-        $artikel->update($data);
-
-        return redirect()->route('dashboard.artikel.index')->with('success', 'Artikel berhasil diupdate.');
+        return redirect()
+            ->route('dashboard.artikel.index')
+            ->with('success', 'Artikel berhasil diupdate.');
     }
 
     public function destroy($slug)

@@ -158,6 +158,113 @@ class DashboardController extends Controller
         ));
     }
 
+    public function searchPesananMakanan(Request $request)
+    {
+        $user = Auth::user();
+        $filter = $request->input('filter');
+
+        $query = PengambilMakanan::with('makanan')
+            ->where('user_id', $user->id);
+
+        // Mapping filter ke status
+        if ($filter === 'belum') {
+            $query->whereIn('status', ['menunggu', 'perjalanan']);
+        } elseif ($filter === 'diambil') {
+            $query->where('status', 'diambil');
+        } else {
+            $query->whereIn('status', ['menunggu', 'perjalanan', 'diambil']);
+        }
+
+        $pesananMakanan = $query
+            ->orderBy('created_at', 'desc')
+            ->paginate(4)
+            ->appends([
+                'filter' => $filter
+            ]);
+
+        return view('dashboard.partials.pesanan-makanan-list', compact('pesananMakanan'));
+    }
+    public function searchDipesanMakanan(Request $request)
+    {
+        $user = Auth::user();
+        $filter = $request->input('filter');
+
+        $query = PengambilMakanan::with('makanan')
+            ->where('user_id', $user->id);
+
+        // Mapping filter ke status
+        if ($filter === 'belum') {
+            $query->whereIn('status', ['menunggu', 'perjalanan']);
+        } elseif ($filter === 'diambil') {
+            $query->where('status', 'diambil');
+        } else {
+            $query->whereIn('status', ['menunggu', 'perjalanan', 'diambil']);
+        }
+
+        $dipesanMakanan = $query
+            ->orderBy('created_at', 'desc')
+            ->paginate(4)
+            ->appends([
+                'filter' => $filter
+            ]);
+
+        return view('dashboard.partials.dipesan-makanan-list', compact('dipesanMakanan'));
+    }
+
+    public function searchPesananDaurUlang(Request $request)
+    {
+        $user = Auth::user();
+        $filter = $request->input('filter');
+
+        $query = PengambilDaurUlang::with('daurUlang')
+            ->where('user_id', $user->id);
+
+        // Mapping filter ke status
+        if ($filter === 'belum') {
+            $query->whereIn('status', ['menunggu', 'perjalanan']);
+        } elseif ($filter === 'diambil') {
+            $query->where('status', 'diambil');
+        } else {
+            $query->whereIn('status', ['menunggu', 'perjalanan', 'diambil']);
+        }
+
+        $pesananDaurUlang = $query
+            ->orderBy('created_at', 'desc')
+            ->paginate(4)
+            ->appends([
+                'filter' => $filter
+            ]);
+
+        return view('dashboard.partials.pesanan-daur-ulang-list', compact('pesananDaurUlang'));
+    }
+
+    public function searchDipesanDaurUlang(Request $request)
+    {
+        $user = Auth::user();
+        $filter = $request->input('filter');
+
+        $query = PengambilDaurUlang::with('daurUlang')
+            ->where('user_id', $user->id);
+
+        // Mapping filter ke status
+        if ($filter === 'belum') {
+            $query->whereIn('status', ['menunggu', 'perjalanan']);
+        } elseif ($filter === 'diambil') {
+            $query->where('status', 'diambil');
+        } else {
+            $query->whereIn('status', ['menunggu', 'perjalanan', 'diambil']);
+        }
+
+        $dipesanDaurUlang = $query
+            ->orderBy('created_at', 'desc')
+            ->paginate(4)
+            ->appends([
+                'filter' => $filter
+            ]);
+
+        return view('dashboard.partials.dipesan-daur-ulang-list', compact('dipesanDaurUlang'));
+    }
+
     public function mulaiPengambilanMakanan($id)
     {
         $item = \App\Models\PengambilMakanan::findOrFail($id);
@@ -203,7 +310,7 @@ class DashboardController extends Controller
 
         // Hanya jika status perjalanan saat ini 
         if ($item->status === 'perjalanan') {
-            $item->status = 'diambil';  
+            $item->status = 'diambil';
             $item->save();
         }
 

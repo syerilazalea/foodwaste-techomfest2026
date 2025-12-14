@@ -20,7 +20,6 @@
         <div class="row">
             <div class="col-12">
                 <div class="page-title-container">
-                    <h1 class="mb-0 pb-0 display-4" id="title">Tabel Data Makanan</h1>
                 </div>
             </div>
         </div>
@@ -82,12 +81,13 @@
                                         <td class="text-nowrap">
                                             <button
                                                 type="button"
-                                                class="btn btn-sm btn-icon btn-icon-only btn-outline-secondary"
-                                                onclick='setEdit(@json($item))'>
+                                                class="btn btn-sm btn-icon btn-icon-only btn-outline-secondary btn-edit-makanan"
+                                                data-makanan='@json($item)'>
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
                                                     <path d="M12.854.146a.5.5 0 0 1 .646.058l2.292 2.292a.5.5 0 0 1-.058.646L4.207 14.793 1 15l.207-3.207L12.854.146z" />
                                                 </svg>
                                             </button>
+
 
                                             <button class="btn btn-sm btn-icon btn-icon-only btn-outline-danger"
                                                 data-bs-toggle="modal" data-bs-target="#modalDelete"
@@ -160,8 +160,8 @@
     </div>
 </div>
 
-<!-- MODAL INPUT Edit Data Produk Daur Ulang / KOMPOS -->
-<div class="modal fade" id="modalEdit" tabindex="-1" aria-hidden="true">
+<!-- Modal Edit Makanan -->
+<div class="modal fade" id="modalEditMakanan" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-xl modal-dialog-centered">
         <div class="modal-content border-0 shadow">
             <div class="modal-header">
@@ -172,15 +172,14 @@
             <div class="modal-body">
                 <form id="formEditMakanan" action="" method="POST" enctype="multipart/form-data">
                     @csrf
-                    @method('PUT') <!-- untuk update -->
+                    @method('PUT')
 
-                    <input type="hidden" name="id" id="id">
+                    <input type="hidden" name="id" id="edit_id">
 
                     <div class="row mb-4">
                         <div class="col-12">
                             <label class="form-label fw-semibold">Foto Produk Daur Ulang</label>
-                            <input type="file" class="form-control" name="gambar" id="edit_gambar" accept="image/*">
-                            <img id="preview_edit_gambar" src="" class="mt-2 rounded sw-5 sh-5" style="display:none;">
+                            <input type="file" class="form-control dropify-edit" name="gambar" id="edit_gambar" accept="image/*">
                         </div>
                     </div>
 
@@ -227,7 +226,14 @@
                             </div>
                             <div class="mb-3">
                                 <label class="form-label fw-semibold">Batas Waktu Pengambilan</label>
-                                <input type="datetime-local" class="form-control" name="batas_waktu" id="edit_batas_waktu" required>
+                                <input type="datetime-local"
+                                    class="form-control"
+                                    name="batas_waktu"
+                                    id="edit_batas_waktu"
+                                    required>
+                                <small class="text-danger d-none" id="error-edit-batas-waktu">
+                                    Batas waktu tidak boleh kurang dari waktu sekarang.
+                                </small>
                             </div>
                         </div>
                     </div>
@@ -306,7 +312,14 @@
                             </div>
                             <div class="mb-3">
                                 <label class="form-label fw-semibold">Batas Waktu Pengambilan</label>
-                                <input type="datetime-local" class="form-control" name="batas_waktu" id="batas_waktu" required>
+                                <input type="datetime-local"
+                                    class="form-control"
+                                    name="batas_waktu"
+                                    id="batas_waktu"
+                                    required>
+                                <small class="text-danger d-none" id="error-batas-waktu">
+                                    Batas waktu tidak boleh kurang dari waktu sekarang.
+                                </small>
                             </div>
                         </div>
                     </div>
@@ -436,9 +449,67 @@
     });
 </script>
 
+<!-- Script Edit Makanan dengan Dropify -->
+<script>
+    $(document).ready(function() {
+
+        // ======= Fungsi Init Dropify =======
+        const initDropify = selector => {
+            $(selector).dropify({
+                messages: {
+                    default: 'Drag or drop your image',
+                    replace: 'Drag or drop to replace',
+                    remove: 'Remove image',
+                    error: 'Oops, invalid file!'
+                }
+            });
+        };
+
+        // ======= Tombol Edit Makanan =======
+        $('.btn-edit-makanan').on('click', function() {
+            const data = $(this).data('makanan');
+
+            // Set form action
+            // Gunakan route helper Blade + replace id
+            let action = '{{ route("dashboard.dataMakanan.update", ":id") }}'.replace(':id', data.id);
+            $('#formEditMakanan').attr('action', action);
+
+            // Set hidden id
+            $('#user_id').val(data.id);
+
+            // Set input teks
+            $('#edit_nama').val(data.nama);
+            $('#edit_penyedia').val(data.penyedia);
+            $('#edit_alamat').val(data.alamat);
+            $('#edit_porsi').val(data.porsi);
+            $('#edit_batas_waktu').val(data.batas_waktu);
+
+            // Set radio kategori
+            $(`input[name="kategori"][value="${data.kategori}"]`).prop('checked', true);
+
+            // ======= Set Dropify gambar lama =======
+            let dr = $('#edit_gambar').data('dropify');
+            if (dr) dr.destroy(); // hancurkan Dropify lama
+            const defaultFile = data.gambar ? '{{ url("/") }}/' + data.gambar : '';
+            $('#edit_gambar').attr('data-default-file', defaultFile);
+            initDropify('#edit_gambar');
+
+            // Tampilkan modal
+            $('#modalEditMakanan').modal('show');
+        });
+
+        // ======= Reset saat modal ditutup =======
+        $('#modalEditMakanan').on('hidden.bs.modal', function() {
+            $('#formEditMakanan')[0].reset();
+            let dr = $('#edit_gambar').data('dropify');
+            if (dr) dr.resetPreview();
+        });
+
+    });
+</script>
 
 {{-- =============== SCRIPT SET EDIT =============== --}}
-<script>
+<!-- <script>
     function setEdit(data) {
 
         const form = document.getElementById('formEditMakanan');
@@ -468,11 +539,11 @@
         const modal = new bootstrap.Modal(document.getElementById('modalEdit'));
         modal.show();
     }
-</script>
+</script> -->
 
 
 {{-- =============== VALIDASI EDIT =============== --}}
-<script>
+<!-- <script>
     document.addEventListener("DOMContentLoaded", function() {
 
         const form = document.getElementById("formEditMakanan");
@@ -497,7 +568,7 @@
         });
 
     });
-</script>
+</script> -->
 
 <script>
     //untuk delete
@@ -514,6 +585,73 @@
         // update action sesuai route
         form.action = `/dashboard/data-makanan/delete/${deleteId}`;
         form.submit();
+    });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const input = document.getElementById('batas_waktu');
+        const error = document.getElementById('error-batas-waktu');
+
+        function getNowLocal() {
+            const now = new Date();
+            now.setSeconds(0, 0);
+            return now;
+        }
+
+        function toDatetimeLocal(date) {
+            return date.toISOString().slice(0, 16);
+        }
+
+        // Set minimal datetime = sekarang
+        input.min = toDatetimeLocal(getNowLocal());
+
+        input.addEventListener('change', function() {
+            const selected = new Date(this.value);
+            const now = getNowLocal();
+
+            if (selected < now) {
+                error.classList.remove('d-none');
+                this.value = '';
+            } else {
+                error.classList.add('d-none');
+            }
+        });
+    });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const input = document.getElementById('edit_batas_waktu');
+        const error = document.getElementById('error-edit-batas-waktu');
+
+        function nowLocal() {
+            const now = new Date();
+            now.setSeconds(0, 0);
+            return now;
+        }
+
+        function toDatetimeLocal(date) {
+            return date.toISOString().slice(0, 16);
+        }
+
+        function setMinDatetime() {
+            input.min = toDatetimeLocal(nowLocal());
+        }
+
+        setMinDatetime();
+
+        input.addEventListener('change', function() {
+            const selected = new Date(this.value);
+            const now = nowLocal();
+
+            if (selected < now) {
+                error.classList.remove('d-none');
+                this.value = '';
+            } else {
+                error.classList.add('d-none');
+            }
+        });
     });
 </script>
 

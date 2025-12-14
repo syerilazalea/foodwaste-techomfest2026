@@ -49,7 +49,7 @@
                 <div class="card mb-5">
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center mb-3">
-                            <h5 class="mb-0 fw-bold">Daftar Artikel</h5>
+                            <h5 class="mb-0 fw-bold">Daftar Agenda</h5>
                             <div class="d-flex gap-2 mb-3">
                                 <!-- Input Text Search -->
                                 <div class="input-group" style="width: 250px;">
@@ -124,9 +124,8 @@
                                         </td>
                                         <td class="text-nowrap">
                                             <!-- Tombol Edit -->
-                                            <button class="btn btn-sm btn-icon btn-icon-only btn-outline-secondary me-1"
-                                                data-bs-toggle="modal"
-                                                data-bs-target="#modalEditAgenda{{ $agenda->id }}">
+                                            <button class="btn btn-sm btn-icon btn-icon-only btn-outline-secondary me-1 btn-edit-agenda"
+                                                data-agenda='@json($agenda)'>
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
                                                     <path d="M12.854.146a.5.5 0 0 1 .646.058l2.292 2.292a.5.5 0 0 1-.058.646L4.207 14.793 1 15l.207-3.207L12.854.146z" />
                                                 </svg>
@@ -144,71 +143,6 @@
                                             </button>
                                         </td>
                                     </tr>
-                                    <!-- Modal Edit khusus untuk agenda ini -->
-                                    <div class="modal fade" id="modalEditAgenda{{ $agenda->id }}" tabindex="-1" aria-hidden="true">
-                                        <div class="modal-dialog modal-lg">
-                                            <div class="modal-content">
-                                                <form action="{{ route('dashboard.agenda.update', $agenda->id) }}" method="POST" enctype="multipart/form-data">
-                                                    @csrf
-                                                    @method('PUT')
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title">Edit Agenda</h5>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <div class="mb-3">
-                                                            <label class="form-label">Judul Agenda</label>
-                                                            <input type="text" name="nama_kegiatan" class="form-control" value="{{ $agenda->nama_kegiatan }}" required>
-                                                        </div>
-                                                        <div class="mb-3">
-                                                            <label class="form-label">Konten Agenda</label>
-                                                            <textarea name="deskripsi" id="editor-edit" class="form-control" rows="6">{!! \Illuminate\Support\Str::limit(strip_tags($agenda->deskripsi), 100) !!}</textarea>
-                                                        </div>
-                                                        <div class="mb-3 row align-items-center">
-                                                            <div class="col-md-6">
-                                                                <label class="form-label">Gambar Utama</label>
-                                                                <input type="file" name="gambar" id="dropifyInput" class="form-control"
-                                                                    data-default-file="{{ $agenda->gambar ? asset($agenda->gambar) : '' }}"
-                                                                    accept="image/*">
-                                                            </div>
-                                                            <div class="col-md-6">
-                                                                <label class="form-label d-block">&nbsp;</label>
-                                                                <img src="{{ asset($agenda->gambar) }}" class="rounded img-thumbnail"
-                                                                    style="width: 200px; height: 200px; object-fit: cover;">
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="mb-3">
-                                                            <label class="form-label">Tanggal</label>
-                                                            <input type="date" name="tanggal" class="form-control" value="{{ $agenda->tanggal }}" required>
-                                                        </div>
-                                                        <div class="mb-3 d-flex gap-2">
-                                                            <div>
-                                                                <label class="form-label">Waktu Mulai</label>
-                                                                <input type="time" name="waktu_mulai" class="form-control" value="{{ $agenda->waktu_mulai }}" required>
-                                                            </div>
-                                                            <div>
-                                                                <label class="form-label">Waktu Selesai</label>
-                                                                <input type="time" name="waktu_selesai" class="form-control" value="{{ $agenda->waktu_selesai }}" required>
-                                                            </div>
-                                                        </div>
-                                                        <div class="mb-3">
-                                                            <label class="form-label">Lokasi</label>
-                                                            <input type="text" name="lokasi" class="form-control" value="{{ $agenda->lokasi }}" required>
-                                                        </div>
-                                                        <div class="mb-3">
-                                                            <label class="form-label">Kuota</label>
-                                                            <input type="number" name="kuota" class="form-control" value="{{ $agenda->kuota }}" required>
-                                                        </div>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                                                        <button type="submit" class="btn btn-primary">Update Agenda</button>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
                                     @endforeach
                                 </tbody>
                             </table>
@@ -229,11 +163,79 @@
     </div>
 </main>
 
+<!-- Modal Edit Agenda -->
+<div class="modal fade" id="modalEditAgenda" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form id="formEditAgenda" method="POST" enctype="multipart/form-data">
+                @csrf
+                @method('PUT')
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Agenda</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Hidden ID -->
+                    <input type="hidden" id="edit_agenda_id" name="agenda_id">
+
+                    <div class="mb-3">
+                        <label class="form-label">Judul Agenda</label>
+                        <input type="text" id="edit_nama_kegiatan" name="nama_kegiatan" class="form-control" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Konten Agenda</label>
+                        <textarea id="edit_deskripsi" name="deskripsi" class="form-control" rows="6" required></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Gambar Agenda</label>
+                        <input type="file" id="edit_gambar" name="gambar" class="form-control dropify-edit" data-default-file="" accept="image/*">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Tanggal</label>
+                        <input type="date" id="edit_tanggal" name="tanggal" class="form-control" required>
+                        <small class="text-danger d-none" id="timeError"></small>
+                    </div>
+
+                    <div class="mb-3 d-flex gap-2">
+                        <div>
+                            <label class="form-label">Waktu Mulai</label>
+                            <input type="time" id="edit_waktu_mulai" name="waktu_mulai" class="form-control" required>
+                        </div>
+                        <div>
+                            <label class="form-label">Waktu Selesai</label>
+                            <input type="time" id="edit_waktu_selesai" name="waktu_selesai" class="form-control" required>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Lokasi</label>
+                        <input type="text" id="edit_lokasi" name="lokasi" class="form-control" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Kuota</label>
+                        <input type="number" id="edit_kuota" name="kuota" class="form-control" required>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-primary">Update Agenda</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
 <!-- Modal Buat Artikel -->
 <div class="modal fade" id="buatAgenda" tabindex="-1" aria-labelledby="buatAgendaLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <form action="{{ route('dashboard.agenda.store') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('dashboard.agenda.store') }}" method="POST" enctype="multipart/form-data" required>
                 @csrf
                 <div class="modal-header">
                     <h5 class="modal-title" id="buatAgendaLabel">Buat Agenda Baru</h5>
@@ -248,27 +250,30 @@
 
                     <div class="mb-3">
                         <label class="form-label">Konten Agenda</label>
-                        <textarea name="deskripsi" id="editor-create" class="form-control" rows="6" placeholder="Tulis konten agenda di sini..."></textarea>
+                        <textarea name="deskripsi" id="editor-create" class="form-control" rows="6" placeholder="Tulis konten agenda di sini..." required></textarea>
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label">Gambar</label>
-                        <input type="file" class="form-control dropify" name="gambar" id="gambar" accept="image/*">
+                        <input type="file" class="form-control dropify" name="gambar" id="gambar" accept="image/*" required>
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label">Tanggal</label>
                         <input type="date" name="tanggal" class="form-control" required>
+                        <small class="text-danger d-none" id="timeError"></small>
                     </div>
 
                     <div class="mb-3 d-flex gap-2">
                         <div>
                             <label class="form-label">Waktu Mulai</label>
                             <input type="time" name="waktu_mulai" class="form-control" required>
+                            <small class="text-danger d-none" id="timeError"></small>
                         </div>
                         <div>
                             <label class="form-label">Waktu Selesai</label>
                             <input type="time" name="waktu_selesai" class="form-control" required>
+                            <small class="text-danger d-none" id="timeError"></small>
                         </div>
                     </div>
 
@@ -284,7 +289,7 @@
 
                     <div class="mb-3">
                         <label class="form-label">Status</label>
-                        <select name="status" class="form-select">
+                        <select name="status" class="form-select" required>
                             <option value="Aktif" selected>Aktif</option>
                             <option value="Nonaktif">Nonaktif</option>
                         </select>
@@ -420,46 +425,172 @@
     });
 </script>
 
-<script type="text/javascript">
-    tinymce.init({
-        selector: '#editor-create',
-        plugins: [
-            'advlist', 'autolink', 'link', 'image', 'lists', 'charmap', 'preview', 'anchor', 'pagebreak',
-            'searchreplace', 'wordcount', 'visualblocks', 'visualchars', 'code', 'fullscreen', 'insertdatetime',
-            'media', 'table', 'emoticons', 'help'
-        ],
-        toolbar: 'undo redo | styles | bold italic | alignleft aligncenter alignright alignjustify | ' +
-            'bullist numlist outdent indent | link image | print preview media fullscreen | ' +
-            'forecolor backcolor emoticons | help',
-        menu: {
-            favs: {
-                title: 'My Favorites',
-                items: 'code visualaid | searchreplace | emoticons'
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const tanggalInput = document.querySelector('input[name="tanggal"]');
+        const waktuMulai = document.querySelector('input[name="waktu_mulai"]');
+        const waktuSelesai = document.querySelector('input[name="waktu_selesai"]');
+        const errorEl = document.getElementById('timeError');
+
+        function validateTime() {
+            errorEl.classList.add('d-none');
+            waktuMulai.classList.remove('is-invalid');
+
+            if (!tanggalInput.value || !waktuMulai.value) return;
+
+            const today = new Date();
+            const selectedDate = new Date(tanggalInput.value);
+
+            // Jika tanggal hari ini
+            if (selectedDate.toDateString() === today.toDateString()) {
+                const nowTime = today.toTimeString().slice(0, 5);
+
+                if (waktuMulai.value < nowTime) {
+                    errorEl.textContent = 'Waktu mulai tidak boleh kurang dari waktu sekarang';
+                    errorEl.classList.remove('d-none');
+                    waktuMulai.classList.add('is-invalid');
+                }
             }
-        },
-        menubar: 'favs file edit view insert format tools table help',
+        }
+
+        tanggalInput.addEventListener('change', validateTime);
+        waktuMulai.addEventListener('input', validateTime);
     });
 </script>
 
-<script type="text/javascript">
-    tinymce.init({
-        selector: '#editor-edit',
-        plugins: [
-            'advlist', 'autolink', 'link', 'image', 'lists', 'charmap', 'preview', 'anchor', 'pagebreak',
-            'searchreplace', 'wordcount', 'visualblocks', 'visualchars', 'code', 'fullscreen', 'insertdatetime',
-            'media', 'table', 'emoticons', 'help'
-        ],
-        toolbar: 'undo redo | styles | bold italic | alignleft aligncenter alignright alignjustify | ' +
-            'bullist numlist outdent indent | link image | print preview media fullscreen | ' +
-            'forecolor backcolor emoticons | help',
-        menu: {
-            favs: {
-                title: 'My Favorites',
-                items: 'code visualaid | searchreplace | emoticons'
+<script>
+    const initAgendaEditor = () => {
+        if (!window.tinymce) return;
+        if (tinymce.get('editor-create')) return;
+
+        tinymce.init({
+            selector: '#editor-create',
+            height: 300,
+            menubar: false,
+            plugins: 'lists link image table code',
+            toolbar: `
+                undo redo |
+                bold italic underline |
+                alignleft aligncenter alignright |
+                bullist numlist |
+                link table |
+                code
+                        `,
+            branding: false,
+            setup: editor => {
+                editor.on('change', () => editor.save());
             }
-        },
-        menubar: 'favs file edit view insert format tools table help',
-    });
+        });
+    };
+
+    const destroyAgendaEditor = () => {
+        if (window.tinymce && tinymce.get('editor-create')) {
+            tinymce.remove('#editor-create');
+        }
+    };
+
+    const modal = document.getElementById('buatAgenda');
+    modal.addEventListener('shown.bs.modal', initAgendaEditor);
+    modal.addEventListener('hidden.bs.modal', destroyAgendaEditor);
 </script>
 
+<script>
+    $(document).ready(function() {
+
+        // ===== TinyMCE =====
+        const initTinyMCE = (editorId) => {
+            if (!window.tinymce) return;
+            if (tinymce.get(editorId)) return;
+            tinymce.init({
+                selector: `#${editorId}`,
+                height: 300,
+                menubar: false,
+                plugins: 'lists link table code image',
+                toolbar: 'undo redo | bold italic underline | alignleft aligncenter alignright | bullist numlist | link table | code',
+                branding: false,
+                setup: editor => editor.on('change', () => editor.save())
+            });
+        };
+
+        const destroyTinyMCE = (editorId) => {
+            if (window.tinymce && tinymce.get(editorId)) tinymce.remove(`#${editorId}`);
+        };
+
+        // ===== Dropify =====
+        const initDropify = (selector) => {
+            let $input = $(selector);
+            if (!$input.hasClass('dropify-initialized')) {
+                $input.dropify({
+                    messages: {
+                        default: 'Drag or drop your image',
+                        replace: 'Drag or drop to replace',
+                        remove: 'Remove image',
+                        error: 'Oops, invalid file!'
+                    }
+                    
+                });
+                $input.addClass('dropify-initialized');
+            }
+        };
+
+        const resetDropify = (selector, defaultFile = '') => {
+            let $input = $(selector);
+            let dr = $input.data('dropify');
+            if (dr) {
+                dr.destroy();
+            }
+            $input.attr('data-default-file', defaultFile);
+            $input.dropify();
+            $input.data('dropify').resetPreview();
+        };
+
+        // ===== Tombol Edit =====
+        $('.btn-edit-agenda').on('click', function() {
+            let agenda = $(this).data('agenda');
+
+            // Set form action
+            $('#formEditAgenda').attr('action', '/dashboard/agenda/' + agenda.id);
+
+            // Fill input
+            $('#edit_agenda_id').val(agenda.id);
+            $('#edit_nama_kegiatan').val(agenda.nama_kegiatan);
+            $('#edit_deskripsi').val(agenda.deskripsi);
+            $('#edit_tanggal').val(agenda.tanggal);
+            $('#edit_waktu_mulai').val(agenda.waktu_mulai);
+            $('#edit_waktu_selesai').val(agenda.waktu_selesai);
+            $('#edit_lokasi').val(agenda.lokasi);
+            $('#edit_kuota').val(agenda.kuota);
+
+            // Destroy Dropify lama
+            let dr = $('#edit_gambar').data('dropify');
+            if (dr) dr.destroy();
+
+            // Set default file yang absolut & init Dropify
+            let defaultFile = agenda.gambar ? "{{ url('/') }}/" + agenda.gambar : '';
+            $('#edit_gambar').attr('data-default-file', defaultFile).dropify();
+
+            // TinyMCE
+            if (tinymce.get('edit_deskripsi')) tinymce.get('edit_deskripsi').remove();
+            tinymce.init({
+                selector: '#edit_deskripsi',
+                height: 300,
+                menubar: false,
+                plugins: 'lists link table code image',
+                toolbar: 'undo redo | bold italic underline | alignleft aligncenter alignright | bullist numlist | link table | code',
+                setup: editor => editor.on('change', () => editor.save())
+            });
+
+            // Tampilkan modal
+            $('#modalEditAgenda').modal('show');
+        });
+
+        // ===== Reset saat modal ditutup =====
+        $('#modalEditAgenda').on('hidden.bs.modal', function() {
+            destroyTinyMCE('edit_deskripsi');
+            resetDropify('#edit_gambar', '');
+            $('#formEditAgenda')[0].reset();
+        });
+
+    });
+</script>
 @endpush

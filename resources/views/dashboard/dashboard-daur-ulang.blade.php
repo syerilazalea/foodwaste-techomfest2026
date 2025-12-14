@@ -81,9 +81,8 @@
                                         <td>{{ $item->berat }} kg</td>
                                         <td>{{ $item->batas_waktu }}</td>
                                         <td class="text-nowrap">
-                                            <button class="btn btn-sm btn-icon btn-icon-only btn-outline-secondary"
-                                                data-bs-toggle="modal" data-bs-target="#modalEdit"
-                                                onclick='setEdit(@json($item))'>
+                                            <button class="btn btn-sm btn-icon btn-icon-only btn-outline-secondary btn-edit-produk"
+                                                data-produk='@json($item)'>
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
                                                     <path d="M12.854.146a.5.5 0 0 1 .646.058l2.292 2.292a.5.5 0 0 1-.058.646L4.207 14.793 1 15l.207-3.207L12.854.146z" />
                                                 </svg>
@@ -227,7 +226,10 @@
                             </div>
                             <div class="mb-3">
                                 <label class="form-label fw-semibold">Batas Waktu Pengambilan</label>
-                                <input type="time" class="form-control" name="batas_waktu" id="edit_batas_waktu" required>
+                                <input type="dateTime-local" class="form-control" name="batas_waktu" id="edit_batas_waktu" required>
+                                <small class="text-danger d-none" id="error-edit-batas-waktu">
+                                    Batas waktu tidak boleh kurang dari waktu sekarang.
+                                </small>
                             </div>
                         </div>
                     </div>
@@ -271,7 +273,7 @@
                             </div>
                             <div class="mb-3">
                                 <label class="form-label fw-semibold">Nama Penyedia / Instansi</label>
-                                <input type="text" class="form-control" name="penyedia" id="penyedia" placeholder="Contoh: RM Sederhana, Hotel Kenanga, Ibu Sari" required>
+                                <input type="text" class="form-control" name="penyedia" id="penyedia" value="{{ Auth::user()->name }}" placeholder="Contoh: RM Sederhana, Hotel Kenanga, Ibu Sari" required>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label fw-semibold">Alamat</label>
@@ -306,7 +308,14 @@
                             </div>
                             <div class="mb-3">
                                 <label class="form-label fw-semibold">Batas Waktu Pengambilan</label>
-                                <input type="time" class="form-control" name="batas_waktu" id="batas_waktu" required>
+                                <input type="datetime-local"
+                                    class="form-control"
+                                    name="batas_waktu"
+                                    id="batas_waktu"
+                                    required>
+                                <small class="text-danger d-none" id="error-batas-waktu">
+                                    Batas waktu tidak boleh kurang dari waktu sekarang.
+                                </small>
                             </div>
                         </div>
                     </div>
@@ -422,32 +431,64 @@
 </script>
 
 <script>
-    //untuk edit
-    function setEdit(data) {
-        const form = document.getElementById('formEditProduk');
-        form.action = `/dashboard/dataDaurUlang/${data.id}`;
-        form.querySelector('input[name="id"]').value = data.id;
-        form.querySelector('input[name="nama"]').value = data.nama;
-        form.querySelector('input[name="penyedia"]').value = data.penyedia;
-        form.querySelector('input[name="alamat"]').value = data.alamat;
-        form.querySelector('input[name="berat"]').value = data.berat;
-        form.querySelector('input[name="batas_waktu"]').value = data.batas_waktu;
+    $(document).ready(function() {
 
-        const radios = form.querySelectorAll('input[name="kategori"]');
-        radios.forEach(radio => radio.checked = (radio.value === data.kategori));
-
-        const preview = document.getElementById('preview_edit_gambar');
-        if (data.gambar) {
-            preview.src = '/' + data.gambar;
-            preview.style.display = 'block';
-            preview.style.width = "120px";
-        } else {
-            preview.style.display = 'none';
+    // ======= Inisialisasi Dropify =======
+    const initDropify = (selector) => {
+        if (!$(selector).hasClass('dropify-initialized')) {
+            $(selector).dropify({
+                messages: {
+                    default: 'Drag or drop your image',
+                    replace: 'Drag or drop to replace',
+                    remove: 'Remove image',
+                    error: 'Oops, invalid file!'
+                }
+            });
+            $(selector).addClass('dropify-initialized');
         }
+    };
 
-        const modal = new bootstrap.Modal(document.getElementById('modalEdit'));
-        modal.show();
-    }
+    // ======= Tombol Edit Produk =======
+    $('.btn-edit-produk').on('click', function() {
+        const data = $(this).data('produk');
+
+        // Set form action ke route update
+        let action = '{{ route("dashboard.dataDaurUlang.update", ":id") }}'.replace(':id', data.id);
+        $('#formEditProduk').attr('action', action);
+
+        // Set hidden id
+        $('#id').val(data.id);
+
+        // Set input teks
+        $('#edit_nama').val(data.nama);
+        $('#edit_penyedia').val(data.penyedia);
+        $('#edit_alamat').val(data.alamat);
+        $('#edit_berat').val(data.berat);
+        $('#edit_batas_waktu').val(data.batas_waktu);
+
+        // Set kategori radio
+        $(`input[name="kategori"][value="${data.kategori}"]`).prop('checked', true);
+
+        // ======= Dropify gambar =======
+        let dr = $('#edit_gambar').data('dropify');
+        if (dr) dr.destroy(); // hancurkan Dropify lama
+        const defaultFile = data.gambar ? '{{ url("/") }}/' + data.gambar : '';
+        $('#edit_gambar').attr('data-default-file', defaultFile);
+        initDropify('#edit_gambar');
+
+        // Tampilkan modal
+        $('#modalEdit').modal('show');
+    });
+
+    // ======= Reset modal saat ditutup =======
+    $('#modalEdit').on('hidden.bs.modal', function() {
+        $('#formEditProduk')[0].reset();
+        let dr = $('#edit_gambar').data('dropify');
+        if (dr) dr.resetPreview();
+    });
+
+});
+
 </script>
 
 <script>
@@ -468,4 +509,70 @@
     });
 </script>
 
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const input = document.getElementById('batas_waktu');
+        const error = document.getElementById('error-batas-waktu');
+
+        function getNowLocal() {
+            const now = new Date();
+            now.setSeconds(0, 0);
+            return now;
+        }
+
+        function toDatetimeLocal(date) {
+            return date.toISOString().slice(0, 16);
+        }
+
+        // Set minimal datetime = sekarang
+        input.min = toDatetimeLocal(getNowLocal());
+
+        input.addEventListener('change', function() {
+            const selected = new Date(this.value);
+            const now = getNowLocal();
+
+            if (selected < now) {
+                error.classList.remove('d-none');
+                this.value = '';
+            } else {
+                error.classList.add('d-none');
+            }
+        });
+    });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const input = document.getElementById('edit_batas_waktu');
+        const error = document.getElementById('error-edit-batas-waktu');
+
+        function nowLocal() {
+            const now = new Date();
+            now.setSeconds(0, 0);
+            return now;
+        }
+
+        function toDatetimeLocal(date) {
+            return date.toISOString().slice(0, 16);
+        }
+
+        function setMinDatetime() {
+            input.min = toDatetimeLocal(nowLocal());
+        }
+
+        setMinDatetime();
+
+        input.addEventListener('change', function() {
+            const selected = new Date(this.value);
+            const now = nowLocal();
+
+            if (selected < now) {
+                error.classList.remove('d-none');
+                this.value = '';
+            } else {
+                error.classList.add('d-none');
+            }
+        });
+    });
+</script>
 @endpush

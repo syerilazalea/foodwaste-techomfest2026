@@ -35,17 +35,30 @@ class RegisterController extends Controller
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        // ==== Handle gambar dengan Storage ====
-        if ($request->hasFile('gambar')) {
-            $file = $request->file('gambar');
-            $filename = Str::slug($request->name) . '_' . time() . '.' . $file->getClientOriginalExtension();
-            // Simpan ke storage/app/public/img/user
-            $file->storeAs('public/img/user', $filename);
-            $gambar = 'img/user/' . $filename; // path untuk DB
-        } else {
-            $gambar = 'img/user/default.png'; // default image
+        // ===== Pastikan default image ADA di storage =====
+        $defaultImage = 'img/user/default.png';
+
+        if (!Storage::disk('public')->exists($defaultImage)) {
+            // copy dari public/img/user/default.png ke storage
+            Storage::disk('public')->put(
+                $defaultImage,
+                file_get_contents(public_path('img/user/default.png'))
+            );
         }
 
+        // ===== Handle gambar =====
+        if ($request->hasFile('gambar')) {
+
+            $file = $request->file('gambar');
+            $filename = Str::slug($request->name) . '-' . time() . '.' . $file->getClientOriginalExtension();
+
+            // Simpan ke storage/app/public/img/user
+            $path = $file->storeAs('img/user', $filename, 'public');
+
+            $gambar = $path;
+        } else {
+            $gambar = $defaultImage;
+        }
 
         // === Generate iframe maps untuk role USER ===
         $iframe = null;

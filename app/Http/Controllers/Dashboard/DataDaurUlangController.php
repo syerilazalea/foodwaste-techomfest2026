@@ -16,14 +16,14 @@ class DataDaurUlangController extends Controller
 {
     public function index()
     {
-        // Hapus data 6jam
-        $expiredDaurUlang = DataDaurUlang::where('batas_waktu', '<', Carbon::now()->subHours(6))->get();
+        $expiredDaurUlang = DataDaurUlang::where(
+            'batas_waktu',
+            '<',
+            Carbon::now()->subHours(6)
+        )->get();
 
         foreach ($expiredDaurUlang as $item) {
-            if ($item->gambar && File::exists(public_path($item->gambar))) {
-                File::delete(public_path($item->gambar));
-            }
-            $item->delete();
+            $item->delete(); // gambar otomatis ikut terhapus
         }
 
         $user = Auth::user();
@@ -65,19 +65,26 @@ class DataDaurUlangController extends Controller
             'penyedia' => 'required|string|max:255',
             'kategori' => 'required|in:UMKM,Restoran,Hotel,Rumah Tangga',
             'berat' => 'required|numeric|min:0.1',
-            'batas_waktu' => 'required',
+            'batas_waktu' => [
+                'required',
+                'date',
+                function ($attr, $value, $fail) {
+                    if (Carbon::parse($value)->lessThanOrEqualTo(now())) {
+                        $fail('Batas waktu harus lebih besar dari waktu sekarang.');
+                    }
+                }
+            ],
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120',
         ]);
 
         $user = Auth::user();
 
+        $path = null;
         if ($request->hasFile('gambar')) {
             $file = $request->file('gambar');
             $filename = Str::slug($request->nama) . '_' . time() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('img/dataDaurUlang'), $filename);
             $path = 'img/dataDaurUlang/' . $filename;
-            $file->move(public_path('img/dataDaurUlang'), $filename); // simpan di public/img/dataDaurUlang
-        } else {
-            $path = null;
         }
 
         DataDaurUlang::create([
@@ -87,12 +94,13 @@ class DataDaurUlangController extends Controller
             'kategori' => $request->kategori,
             'alamat' => $user->alamat,
             'berat' => $request->berat,
-            'batas_waktu' => $request->batas_waktu,
-            'gambar' => $path, // path lengkap relatif public/
+            'batas_waktu' => Carbon::parse($request->batas_waktu),
+            'gambar' => $path,
         ]);
 
         return redirect()->back()->with('success', 'Item berhasil ditambahkan!');
     }
+
 
     public function update(Request $request, DataDaurUlang $dataDaurUlang)
     {
@@ -152,11 +160,7 @@ class DataDaurUlangController extends Controller
             abort(403, 'Anda tidak memiliki izin untuk menghapus data ini.');
         }
 
-        if ($dataDaurUlang->gambar && File::exists(public_path($dataDaurUlang->gambar))) {
-            File::delete(public_path($dataDaurUlang->gambar));
-        }
-
-        $dataDaurUlang->delete();
+        $dataDaurUlang->delete(); // gambar ikut terhapus via model
 
         return redirect()->back()->with('success', 'Item berhasil dihapus!');
     }

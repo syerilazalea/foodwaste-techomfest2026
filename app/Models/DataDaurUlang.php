@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\File;
 
 class DataDaurUlang extends Model
 {
@@ -35,5 +36,14 @@ class DataDaurUlang extends Model
     public function dataMakanan()
     {
         return $this->hasMany(DataMakanan::class, 'data_makanan_id');
+    }
+
+    protected static function booted()
+    {
+        static::deleting(function ($item) {
+            if ($item->gambar && File::exists(public_path($item->gambar))) {
+                File::delete(public_path($item->gambar));
+            }
+        });
     }
 }

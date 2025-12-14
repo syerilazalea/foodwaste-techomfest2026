@@ -78,4 +78,12 @@ class User extends Authenticatable
             ->withPivot('last_read_at')
             ->withTimestamps();
     }
+    protected static function booted()
+    {
+        static::creating(function ($user) {
+            if (empty($user->gambar)) {
+                $user->gambar = 'img/user/default.png';
+            }
+        });
+    }
 }
