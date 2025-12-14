@@ -10,20 +10,52 @@
     .is-invalid~.invalid-feedback {
         display: block;
     }
+
+    /* Hanya untuk tampilan < 992px */
+@media (max-width: 991.98px) {
+    /* Wrapper agar flex center vertical & horizontal */
+    .col-12.col-lg-auto {
+        display: flex !important;
+        justify-content: center;
+        align-items: center;
+        height: 100vh !important; /* full height layar */
+        padding: 0 !important;
+    }
+
+    /* Card utama */
+    .login-card {
+        min-height: auto !important;
+        width: 90% !important;      /* sesuaikan lebar card di mobile */
+        max-width: 360px;            /* tetap compact */
+        justify-content: center !important;
+        align-items: center !important;
+        padding: 0 !important;
+        margin: 0 auto !important;
+        background-color: #fff;      /* background card utama */
+        box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15);
+        border-radius: 1rem !important;         /* tambahkan border radius untuk semua sudut */
+    }
+
+    /* Inner wrapper */
+    .login-card-inner {
+        width: 100% !important;       /* full width sesuai parent */
+        padding: 1.5rem;
+        background-color: transparent !important; /* hilangkan card putih tambahan */
+        border-radius: inherit;        /* mengikuti border-radius parent */
+    }
+}
+
 </style>
 
 @endpush
 
 @section('content')
-
 <div class="container-fluid p-0 h-100 position-relative">
     <div class="row g-0 h-100">
-
-        <!-- Hero Section (Desktop Only >=992px) -->
-        <div class="d-none d-lg-flex col-lg min-h-100">
-            <!-- [UBAH] d-none d-lg-flex supaya hero hilang di mobile -->
-            <div class="min-h-100 d-flex align-items-center justify-content-center px-5">
-                <div class="w-100 w-lg-75 w-xxl-50 text-white">
+        <!-- Desktop Left Content -->
+        <div class="offset-0 col-12 d-none d-lg-flex offset-md-1 col-lg h-lg-100">
+            <div class="min-h-100 d-flex align-items-center">
+                <div class="w-100 w-lg-75 w-xxl-50">
                     <div class="mb-5">
                         <h1 class="display-3 text-white">Econect</h1>
                         <h1 class="display-6 text-white">Reduce Food Waste Together</h1>
@@ -41,45 +73,30 @@
             </div>
         </div>
 
-        <!-- Login Card (Always Visible) -->
-        <div class="col-12 col-lg-auto h-100 justify-content-center align-items-center pb-2 px-4 pt-0 p-lg-0 d-flex">
-            <!-- [UBAH] Center card di mobile dengan padding -->
-            <div
-                class="sw-lg-70 bg-foreground justify-content-center align-items-center d-flex shadow-deep py-5 h-min-100 h-lg-100"
-                style="max-width:480px; width:100%; padding:2rem; border-radius:12px;">
-
-                <!-- [UBAH] max-width & padding agar proporsional di mobile -->
-                <div class="w-100">
+        <!-- Login Card -->
+        <div class="col-12 col-lg-auto h-100 pb-2 px-4 pt-0 p-lg-0">
+            <div class="sw-lg-70 min-h-100 bg-foreground d-flex justify-content-center align-items-center shadow-deep py-5 full-page-content-right-border login-card">
+                <div class="sw-lg-50 w-100 login-card-inner">
                     <form id="loginForm" class="tooltip-end-bottom" method="POST" action="{{ route('auth.login.store') }}">
                         @csrf
                         <!-- Title -->
-                        <div class="mb-5 text-center">
-                            <h2 class="display-5 fw-bold">Masuk ke Econect</h2>
-                            <p class="text-muted mt-2">Akses akun Anda untuk melanjutkan</p>
+                        <div class="mb-4 text-center">
+                            <h2 class="display-6 fw-bold">Masuk ke Econect</h2>
+                            <p class="text-muted mt-1">Akses akun Anda untuk melanjutkan</p>
                         </div>
 
                         <!-- Email -->
                         <div class="mb-3 filled form-group tooltip-end-top">
                             <i data-acorn-icon="email"></i>
-                            <input class="form-control" placeholder="Email" name="email" type="email" id="emailInput" />
+                            <input class="form-control" placeholder="Email" name="email" type="email" id="emailInput" required/>
                             <div class="invalid-feedback">Email wajib diisi.</div>
                         </div>
 
                         <!-- Password -->
                         <div class="mb-3 filled form-group tooltip-end-top">
                             <i data-acorn-icon="lock-on"></i>
-                            <input class="form-control" name="password" type="password" placeholder="Password"
-                                id="passwordInput" />
+                            <input class="form-control" name="password" type="password" placeholder="Password" id="passwordInput" required />
                             <div class="invalid-feedback">Password wajib diisi.</div>
-                        </div>
-
-                        <!-- Remember me -->
-                        <div class="mb-3 position-relative form-group">
-                            <div class="form-check">
-                                <input type="checkbox" class="form-check-input" id="rememberCheck"
-                                    name="rememberCheck" />
-                                <label class="form-check-label" for="rememberCheck">Ingat saya</label>
-                            </div>
                         </div>
 
                         <!-- Login Button -->
@@ -89,14 +106,12 @@
                         </button>
 
                         <!-- Register Link -->
-                        <div class="text-center mt-4">
+                        <div class="text-center mt-3">
                             <p class="text-muted mb-0">
                                 Belum punya akun?
-                                <a href="{{route ('auth.register')}}" class="text-primary text-decoration-none">Daftar
-                                    di sini</a>
+                                <a href="{{route ('auth.register')}}" class="text-primary text-decoration-none">Daftar di sini</a>
                             </p>
                         </div>
-
                     </form>
                 </div>
             </div>
@@ -105,88 +120,27 @@
     </div>
 </div>
 
-
 @endsection
-
 @push('scripts')
-
-<!-- untuk register berhasil atau tidak -->
-@if (session('success'))
 <script>
-    Swal.fire({
-        icon: 'success',
-        title: 'Berhasil!',
-        text: "{{ session('success') }}",
-        timer: 1800,
-        showConfirmButton: false
+    document.addEventListener("DOMContentLoaded", function() {
+
+        const form = document.getElementById("loginForm");
+
+        form.addEventListener("submit", async function(e) {
+            e.preventDefault();
+
+            const email = form.querySelector("input[name='email']");
+            const password = form.querySelector("input[name='password']");
+
+            // Delay sedikit agar UI loading tampil halus
+            setTimeout(() => {
+                form.submit();
+            }, 800);
+
+        });
+
     });
-</script>
-@endif
-
-@if (session('error'))
-<script>
-    Swal.fire({
-        icon: 'error',
-        title: 'Gagal',
-        text: "{{ session('error') }}",
-    });
-</script>
-@endif
-
-<script>
-    < script >
-        document.addEventListener("DOMContentLoaded", function() {
-
-            const form = document.getElementById("loginForm");
-
-            form.addEventListener("submit", async function(e) {
-                e.preventDefault();
-
-                const email = form.querySelector("input[name='email']");
-                const password = form.querySelector("input[name='password']");
-
-                // --- VALIDASI EMAIL KOSONG ---
-                if (!email.value.trim()) {
-                    Swal.fire({
-                        icon: "error",
-                        title: "Email wajib diisi",
-                        text: "Silakan masukkan email Anda.",
-                        confirmButtonColor: "#3085d6",
-                    });
-                    return;
-                }
-
-                // --- VALIDASI PASSWORD KOSONG ---
-                if (!password.value.trim()) {
-                    Swal.fire({
-                        icon: "error",
-                        title: "Password wajib diisi",
-                        text: "Silakan masukkan password Anda.",
-                        confirmButtonColor: "#3085d6",
-                    });
-                    return;
-                }
-
-                // --- LOADING SAAT SUBMIT ---
-                Swal.fire({
-                    title: "Sedang memproses...",
-                    text: "Mohon tunggu sebentar",
-                    allowOutsideClick: false,
-                    allowEscapeKey: false,
-                    didOpen: () => {
-                        Swal.showLoading();
-                    }
-                });
-
-                // Delay sedikit agar UI loading tampil halus
-                setTimeout(() => {
-                    form.submit();
-                }, 800);
-
-            });
-
-        }); <
-    />
 </script>
 
 @endpush

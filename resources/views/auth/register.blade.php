@@ -1,15 +1,57 @@
 @extends('auth.layouts.app')
 
+@push('styles')
+
+<style>
+/* Desktop tetap seperti sekarang */
+@media (min-width: 992px) {
+    .login-card {
+        min-height: 100vh;
+    }
+}
+
+/* Mobile */
+@media (max-width: 991.98px) {
+    .col-12.col-lg-auto {
+        display: block !important;        /* hilangkan flex vertical center */
+        padding: 2rem 1rem;
+        height: auto !important;
+    }
+
+    .login-card {
+        width: 50%;
+        max-height: 90vh;                  /* maksimal 90% tinggi layar */
+        margin: 3px auto !important;
+        padding: 1.5rem;
+        background-color: #fff;
+        border-radius: 1rem !important;
+        box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15);
+        overflow-y: auto;                  /* scrollable */
+        display: block;
+    }
+
+    .login-card-inner {
+        width: 100%;
+        background-color: transparent;
+        border-radius: inherit;
+    }
+
+       #mapPreview {
+        display: none !important;
+    }
+    }
+</style>
+
+@endpush
+
 @section('content')
 
 <div class="container-fluid p-0 h-100 position-relative">
     <div class="row g-0 h-100">
-
-        <!-- Hero Section (Desktop Only >=992px) -->
-        <div class="d-none d-lg-flex col-lg min-h-100">
-            <!-- [UBAH] d-none d-lg-flex supaya hero hilang di mobile -->
-            <div class="min-h-100 d-flex align-items-center justify-content-center px-5">
-                <div class="w-100 w-lg-75 w-xxl-50 text-white">
+        <!-- Desktop Left Content -->
+        <div class="offset-0 col-12 d-none d-lg-flex offset-md-1 col-lg h-lg-100">
+            <div class="min-h-100 d-flex align-items-center">
+                <div class="w-100 w-lg-75 w-xxl-50">
                     <div class="mb-5">
                         <h1 class="display-3 text-white">Econect</h1>
                         <h1 class="display-6 text-white">Reduce Food Waste Together</h1>
@@ -29,18 +71,13 @@
         <!-- Left Side End -->
 
         <!-- Right Side Start -->
-        <div class="col-12 col-lg-auto h-100 justify-content-center align-items-center pb-2 px-4 pt-0 p-lg-0 d-flex">
-            <!-- [UBAH] Center card di mobile dengan padding -->
-            <div
-                class="sw-lg-70 bg-foreground justify-content-center align-items-center d-flex shadow-deep py-5 h-min-100 h-lg-100"
-                style="max-width:480px; width:100%; padding:2rem; border-radius:12px;">
-
-                <!-- [UBAH] max-width & padding agar proporsional di mobile -->
-                <div class="w-100">
+        <div class="col-12 col-lg-auto h-100 pb-2 px-4 pt-0 p-lg-0">
+            <div class="sw-lg-70 min-h-100 bg-foreground d-flex justify-content-center align-items-center shadow-deep py-5 full-page-content-right-border login-card">
+                <div class="sw-lg-50 w-100 login-card-inner">
                     <form id="FormRegister" class="tooltip-end-bottom" method="POST" action="{{ route('auth.register.store') }}" novalidate>
                         @csrf
                         <!-- Role Selection -->
-                        <div class>
+                        <div>
                             <label class="form-label fw-bold justify-center">Daftar Sebagai</label>
                             <!-- User -->
                             <div class="mb-3 filled custom-control-container">
@@ -119,10 +156,10 @@
                             </div>
                         </div>
 
-                        <button type="submit" class="btn btn-lg btn-primary w-100 mb-3">Daftar Sekarang</button>
+                        <button type="submit" class="btn btn-lg btn-primary w-100">Daftar Sekarang</button>
 
                         <!-- Login Link -->
-                        <div class="text-center mt-4">
+                        <div class="text-center mt-3">
                             <p class="text-muted mb-0">
                                 Sudah punya akun?
                                 <a href="{{ route('auth.login') }}" class="text-primary text-decoration-none">Masuk di sini</a>
@@ -131,12 +168,10 @@
                     </form>
 
                 </div>
-            </div> 
+            </div>
         </div>
     </div>
     <!-- Right Side End -->
-</div>
-</div>
 </div>
 
 @endsection
@@ -154,35 +189,36 @@
 
             if (address.length < 3) {
                 mapPreview.src = "";
+                mapPreview.style.display = "none";
                 return;
             }
 
-            let encoded = encodeURIComponent(address);
+            mapPreview.src = "https://www.google.com/maps?q=" + encodeURIComponent(address) + "&output=embed";
+            mapPreview.style.display = "block";
 
-            mapPreview.src =
-                "https://www.google.com/maps?q=" + encoded + "&output=embed";
+            // Jangan scroll otomatis → biarkan user scroll sendiri
         });
+
     });
 </script>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-
-        // Elements
+    document.addEventListener("DOMContentLoaded", function() {
+        const alamatInput = document.getElementById('alamatInput');
+        const mapPreview = document.getElementById('mapPreview');
         const radios = document.querySelectorAll('input[name="role"]');
         const userRoleInput = document.getElementById('userRole');
         const aktivisFields = document.getElementById('aktivisFields');
         const userFields = document.getElementById('userFields');
         const roleError = document.getElementById('roleError');
         const registerForm = document.getElementById('FormRegister');
-        const googleSignInBtn = document.getElementById('googleSignIn');
 
-        // ============================
-        // ROLE SELECTION
-        // ============================
+        // Hide iframe awal
+        if (mapPreview) mapPreview.style.display = "none";
+
+        // Role Selection
         radios.forEach(radio => {
             radio.addEventListener('change', function() {
-
                 roleError.textContent = "";
                 userRoleInput.value = this.value;
 
@@ -196,13 +232,29 @@
             });
         });
 
-        // ============================
-        // FORM SUBMIT VALIDATION + SWEETALERT
-        // ============================
+        // Alamat input -> map
+        if (alamatInput) {
+            alamatInput.addEventListener('input', function() {
+                let address = alamatInput.value.trim();
+
+                if (address.length < 3) {
+                    mapPreview.src = "";
+                    mapPreview.style.display = "none";
+                    return;
+                }
+
+                mapPreview.src = "https://www.google.com/maps?q=" + encodeURIComponent(address) + "&output=embed";
+                mapPreview.style.display = "block";
+
+                // Jangan scroll otomatis → biarkan user scroll sendiri
+            });
+
+        }
+
+        // Form submit validation
         registerForm.addEventListener('submit', function(e) {
             e.preventDefault();
 
-            // ROLE validation
             if (!userRoleInput.value) {
                 Swal.fire({
                     icon: 'warning',
@@ -212,12 +264,11 @@
                 return;
             }
 
-            // INPUT VALIDATION
-            let name = registerForm.querySelector("input[name='name']").value.trim();
-            let email = registerForm.querySelector("input[name='email']").value.trim();
-            let phone = registerForm.querySelector("input[name='phone']").value.trim();
-            let password = registerForm.querySelector("input[name='password']").value.trim();
-            let confirmPassword = registerForm.querySelector("input[name='password_confirmation']").value.trim();
+            const name = registerForm.querySelector("input[name='name']").value.trim();
+            const email = registerForm.querySelector("input[name='email']").value.trim();
+            const phone = registerForm.querySelector("input[name='phone']").value.trim();
+            const password = registerForm.querySelector("input[name='password']").value.trim();
+            const confirmPassword = registerForm.querySelector("input[name='password_confirmation']").value.trim();
 
             if (name === "" || email === "" || phone === "" || password === "" || confirmPassword === "") {
                 Swal.fire({
@@ -228,7 +279,6 @@
                 return;
             }
 
-            // Password not match
             if (password !== confirmPassword) {
                 Swal.fire({
                     icon: 'error',
@@ -238,9 +288,7 @@
                 return;
             }
 
-            // Terms & Conditions
-            const termsCheck = document.getElementById('registerCheck');
-            if (!termsCheck.checked) {
+            if (!document.getElementById('registerCheck').checked) {
                 Swal.fire({
                     icon: 'warning',
                     title: 'Syarat dan Ketentuan!',
@@ -249,51 +297,16 @@
                 return;
             }
 
-            // If all good → Show Loading
             Swal.fire({
                 title: 'Memproses...',
                 text: 'Mohon tunggu sebentar.',
                 allowOutsideClick: false,
                 allowEscapeKey: false,
-                didOpen: () => {
-                    Swal.showLoading();
-                }
+                didOpen: () => Swal.showLoading()
             });
 
-            // Submit after loading
             registerForm.submit();
         });
-
-        // ============================
-        // GOOGLE SIGN IN VALIDATION
-        // ============================
-        if (googleSignInBtn) {
-            googleSignInBtn.addEventListener('click', function() {
-                if (!userRoleInput.value) {
-                    Swal.fire({
-                        icon: 'warning',
-                        title: 'Perhatian!',
-                        text: 'Silakan pilih peran sebelum mendaftar dengan Google.'
-                    });
-                    return;
-                }
-                initGoogleSignIn();
-            });
-        }
-
-        function initGoogleSignIn() {
-            const role = userRoleInput.value;
-            const roleName = role === 'aktivis' ? 'Aktivis Lingkungan' : 'Kontributor';
-
-            Swal.fire({
-                icon: 'info',
-                title: 'Menghubungkan...',
-                text: `Mengarahkan ke Google Sign In untuk mendaftar sebagai ${roleName}.`,
-                timer: 2000,
-                showConfirmButton: false
-            });
-        }
-
     });
 </script>
 <!-- Page Specific Scripts End -->

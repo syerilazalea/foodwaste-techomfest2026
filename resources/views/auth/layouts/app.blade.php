@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html data-color="light-green" lang="en">
 
 @include('auth.layouts.head')
 

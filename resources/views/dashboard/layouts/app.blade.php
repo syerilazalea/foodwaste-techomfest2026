@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-footer="true">
+<html lang="en" data-color="light-green" data-footer="true">
 <meta http-equiv="content-type" content="text/html;charset=utf-8" />
 
 
