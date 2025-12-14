@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" data-color="lime-light" data-footer="true">
+<html lang="en" data-color="light-lime" data-footer="true">
 <meta http-equiv="content-type" content="text/html;charset=utf-8" />
-
 
 @include('dashboard.layouts.head')
 
