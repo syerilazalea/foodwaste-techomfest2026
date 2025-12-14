@@ -18,17 +18,14 @@ class DataMakananController extends Controller
     public function index()
     {
         $now = now();
-        $nowTime = $now->format('H:i:s');
 
-        // Ambil makanan yang sudah lewat batas waktu
-        $expiredMakanan = DataMakanan::whereTime('batas_waktu', '<', $nowTime)->get();
+        $expiredMakanan = DataMakanan::where('batas_waktu', '<', $now)->get();
 
         DB::transaction(function () use ($expiredMakanan, $now) {
             foreach ($expiredMakanan as $makanan) {
-                // Simpan data ke tabel daur ulang
                 DataDaurUlang::create([
                     'user_id' => $makanan->user_id,
-                    'data_makanan_id' => $makanan->id, // tetap disimpan
+                    'data_makanan_id' => $makanan->id,
                     'nama' => $makanan->nama,
                     'penyedia' => $makanan->penyedia,
                     'kategori' => $makanan->kategori,
@@ -38,14 +35,12 @@ class DataMakananController extends Controller
                     'gambar' => $makanan->gambar,
                 ]);
 
-                // Simpan data ke tabel expired
                 DataExpired::create([
                     'user_id' => $makanan->user_id,
-                    'data_makanan_id' => $makanan->id, // tetap disimpan
+                    'data_makanan_id' => $makanan->id,
                     'expired_at' => $now,
                 ]);
 
-                // Hapus data makanan dari tabel utama
                 $makanan->delete();
             }
         });
@@ -90,7 +85,7 @@ class DataMakananController extends Controller
             'penyedia' => 'required|string|max:255',
             'kategori' => 'required|in:UMKM,Restoran,Hotel,Rumah Tangga',
             'porsi' => 'required|integer|min:1',
-            'batas_waktu' => 'required',
+            'batas_waktu' => 'required|date',
             'gambar' => 'required|image|mimes:jpeg,png,jpg,gif|max:5120',
         ]);
 

@@ -34,7 +34,7 @@ class Settings {
         behaviour: 'pinned',
         layout: 'fluid',
         radius: 'rounded',
-        color: 'light-green',
+        color: 'lime-light',
         navcolor: 'default',
       },
       storagePrefix: 'acorn-standard-',

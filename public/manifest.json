@@ -5,8 +5,8 @@
     "display": "standalone",
     "orientation": "portrait",
     "status_bar": "black-translucent",
-    "theme_color": "#1ea863",
-    "background_color": "#1ea863",
+    "theme_color": "#75ab38",
+    "background_color": "#75ab38",
     "dir": "auto",
     "lang": "en-US",
     "icons": [{

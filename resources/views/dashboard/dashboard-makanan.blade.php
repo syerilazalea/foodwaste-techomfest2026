@@ -227,7 +227,7 @@
                             </div>
                             <div class="mb-3">
                                 <label class="form-label fw-semibold">Batas Waktu Pengambilan</label>
-                                <input type="time" class="form-control" name="batas_waktu" id="edit_batas_waktu" required>
+                                <input type="datetime-local" class="form-control" name="batas_waktu" id="edit_batas_waktu" required>
                             </div>
                         </div>
                     </div>
@@ -306,7 +306,7 @@
                             </div>
                             <div class="mb-3">
                                 <label class="form-label fw-semibold">Batas Waktu Pengambilan</label>
-                                <input type="time" class="form-control" name="batas_waktu" id="batas_waktu" required>
+                                <input type="datetime-local" class="form-control" name="batas_waktu" id="batas_waktu" required>
                             </div>
                         </div>
                     </div>
