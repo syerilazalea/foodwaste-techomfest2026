@@ -47,7 +47,7 @@
     const chatJsonUrl = "{{ asset('json/chat.json') }}";
 </script>
 <!-- TinyMCE API -->
-<script src="{{ asset('js/tinymce2/tinymce.min.js') }}"></script>
+<script src="{{ asset('js/tinymce/tinymce.min.js') }}"></script>
 
 <!-- Dropify JS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Dropify/0.2.2/js/dropify.min.js"></script>
