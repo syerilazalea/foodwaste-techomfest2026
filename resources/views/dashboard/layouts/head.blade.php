@@ -16,7 +16,7 @@
     <!-- Web Application Manifest -->
     <link rel="manifest" href="{{asset ('manifest.json')}}">
     <!-- Chrome for Android theme color -->
-    <meta name="theme-color" content="##20acec"> <!-- sesuai header app -->
+    <meta name="theme-color" content="##1ea863"> <!-- sesuai header app -->
     <!-- Add to homescreen for Chrome on Android -->
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="application-name" content="Econect">

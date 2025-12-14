@@ -5,7 +5,7 @@
     <!-- Favicon -->
     <link rel="icon" href="{{ asset('logo/favicon.svg') }}" type="image/svg+xml">
     <link rel="apple-touch-icon" href="{{ asset('logo/favicon.svg') }}" type="image/svg+xml">
-    <link rel="manifest" href="/manifest.json">
+    <link rel="manifest" href="{{asset ('manifest.json')}}">
     <!-- Favicon -->
 
     <!-- Font Tags Start -->

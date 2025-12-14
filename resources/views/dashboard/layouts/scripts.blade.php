@@ -46,7 +46,6 @@
 <script>
     const chatJsonUrl = "{{ asset('json/chat.json') }}";
 </script>
-
 <!-- TinyMCE API -->
 <script>
     document.addEventListener('DOMContentLoaded', () => {

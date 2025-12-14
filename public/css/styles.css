@@ -4078,7 +4078,7 @@ html[data-color=light-blue] {
 * Theme variables.
 *
 */
-html[data-color=light-green] {
+html[data-color="light-green"] {
   --primary: #1ca35e;
   --secondary: #64e564;
   --tertiary: #b2e33c;
@@ -15488,7 +15488,7 @@ html[data-navcolor=dark] .nav-container .menu-container .menu a.active, html[dat
 
 html[data-color=light-blue] .logo .img,
 html[data-color=light-lime] .logo .img,
-html[data-color=light-green] .logo .img,
+html[data-color="light-green"] .logo .img,
 html[data-color=light-red] .logo .img,
 html[data-color=light-pink] .logo .img,
 html[data-color=light-purple] .logo .img,
@@ -15528,7 +15528,7 @@ html[data-color=light-blue] .logo-default {
   height: 100%;
 }
 
-html[data-color=light-green] .logo-default {
+html[data-color="light-green"] .logo-default {
   background-image: url(../logo/logo-mobile.svg);
   background-size: contain;     /* menyesuaikan container */
   background-position: center;  /* pusatkan logo */
@@ -15669,9 +15669,9 @@ html[data-color=dark-blue][data-navcolor=light] .logo .img {
   background-image: url(../img/logo/logo-blue-light.svg);
 }
 
-html[data-color=light-green][data-navcolor=light] .logo .img,
+html[data-color="light-green"][data-navcolor=light] .logo .img,
 html[data-color=dark-green][data-navcolor=light] .logo .img {
-  background-image: url(../img/logo/logo-green-light.svg);
+  background-image: url(../img/logo/logo-tablet.svg);
 }
 
 html[data-color=light-red][data-navcolor=light] .logo .img,
@@ -15699,9 +15699,9 @@ html[data-color=dark-blue][data-navcolor=dark] .logo .img {
   background-image: url(../img/logo/logo-blue-dark.svg);
 }
 
-html[data-color=light-green][data-navcolor=dark] .logo .img,
+html[data-color="light-green"][data-navcolor=dark] .logo .img,
 html[data-color=dark-green][data-navcolor=dark] .logo .img {
-  background-image: url(../img/logo/logo-green-dark.svg);
+  background-image: url(../img/logo/logo-tablet.svg);
 }
 
 html[data-color=light-red][data-navcolor=dark] .logo .img,
