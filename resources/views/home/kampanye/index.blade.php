@@ -35,9 +35,10 @@
             </ul>
             <div class="tab-content">
                 <!-- Tab Artikel -->
-                <div class="tab-pane fade active show" id="artikelTab" role="tabpanel">
+                <div class="tab-pane fade @if($artikels->count()) active show @endif" id="artikelTab" role="tabpanel">
+                    @if($artikels->count())
                     <div class="row row-cols-1 row-cols-sm-2 row-cols-xxl-3 g-2 mb-5" id="artikelContainer">
-                        @forelse($artikels as $artikel)
+                        @foreach($artikels as $artikel)
                         <div class="col">
                             <a href="{{ route('home.artikel.show', $artikel->slug) }}" class="text-decoration-none">
                                 <div class="card m-2 h-100">
@@ -72,22 +73,26 @@
                                 </div>
                             </a>
                         </div>
-                        @empty
-                        <div class="col">
-                            <p class="text-center text-muted">Belum ada artikel tersedia.</p>
-                        </div>
-                        @endforelse
+                        @endforeach
                     </div>
 
                     <div class="text-center">
                         <button id="loadMoreArtikel" class="btn btn-xl btn-outline-primary sw-30" data-skip="4" @if($totalArtikel <=4) style="display:none" @endif>Muat Lebih Banyak</button>
                     </div>
+                    @else
+                    <div class="d-flex flex-column justify-content-center align-items-center text-center" style="min-height: 300px;">
+                        <img src="{{ asset('img/page/no-data.svg') }}" class="img-fluid mb-3" style="max-height: 160px;" alt="Tidak ada artikel">
+                        <h5 class="text-muted">Belum ada artikel tersedia</h5>
+                        <p class="text-muted mb-0">Artikel akan muncul setelah tersedia.</p>
+                    </div>
+                    @endif
                 </div>
 
                 <!-- Tab Agenda -->
-                <div class="tab-pane fade" id="agendaTab" role="tabpanel">
+                <div class="tab-pane fade @if($agendas->count()) @else active show @endif" id="agendaTab" role="tabpanel">
+                    @if($agendas->count())
                     <div class="row row-cols-1 row-cols-sm-2 row-cols-xxl-3 g-2 mb-5" id="agendaContainer">
-                        @forelse($agendas as $agenda)
+                        @foreach($agendas as $agenda)
                         <div class="col">
                             <div class="card sh-35 hover-img-scale-up hover-reveal">
                                 @if($agenda->gambar)
@@ -119,15 +124,19 @@
                                 </div>
                             </div>
                         </div>
-                        @empty
-                        <div class="col">
-                            <p class="text-center text-muted">Belum ada agenda tersedia.</p>
-                        </div>
-                        @endforelse
+                        @endforeach
                     </div>
                     <div class="text-center">
                         <button id="loadMoreAgenda" class="btn btn-xl btn-outline-primary sw-30" data-skip="4" @if($totalAgenda <=4) style="display:none" @endif>Muat Lebih Banyak</button>
                     </div>
+                    @else
+                    <!-- EMPTY STATE FULL WIDTH -->
+                    <div class="d-flex flex-column justify-content-center align-items-center text-center" style="min-height: 300px;">
+                        <img src="{{ asset('img/page/no-data.svg') }}" class="img-fluid mb-3" style="max-height: 160px;" alt="Tidak ada artikel">
+                        <h5 class="text-muted">Belum ada agenda tersedia</h5>
+                        <p class="text-muted mb-0">Agenda akan muncul setelah tersedia.</p>
+                    </div>
+                    @endif
                 </div>
             </div>
         </div>

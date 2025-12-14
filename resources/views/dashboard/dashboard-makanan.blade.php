@@ -277,7 +277,7 @@
                             </div>
                             <div class="mb-3">
                                 <label class="form-label fw-semibold">Nama Penyedia / Instansi</label>
-                                <input type="text" class="form-control" name="penyedia" id="penyedia" placeholder="Contoh: RM Sederhana, Hotel Kenanga, Ibu Sari" required>
+                                <input type="text" class="form-control" name="penyedia" id="penyedia" value="{{ Auth::user()->name }}" placeholder="Contoh: RM Sederhana, Hotel Kenanga, Ibu Sari" required>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label fw-semibold">Alamat</label>
